@@ -76,11 +76,11 @@ static int cmd_info(char *args){
   }
   int n = strlen(args);
   if (n == 1){
-     printf("%c", args[0]);
-    /*switch(args[0]){
-      case "r": isa_reg_display();
+     printf("%c\n", args[0]);
+    switch(args[0]){
+      case 114: isa_reg_display();
       default: break;
-    }*/
+    }
   }
   return 0;
 }
