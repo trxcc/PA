@@ -56,12 +56,13 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   //printf("%ld %s\n", strlen(args), args);
+  char *arg = strtok(NULL, " ");
   int ans = 0;
-  if (args == NULL) ans = 1;
+  if (arg == NULL) ans = 1;
   else{ 
-    int n = strlen(args); ans = 0;
+    int n = strlen(arg); ans = 0;
     for (int i = 0; i < n; i++){ 
-      ans = ans * 10 + (args[i] - '0');
+      ans = ans * 10 + (arg[i] - '0');
     }
   }
   //Log("%d\n", ans);
@@ -70,15 +71,16 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-  if(args == NULL){
+  char *arg = strtok(NULL, " ");
+  if(arg == NULL){
     Log("Necessary arguments required. Type 'help' for more information."); 
     return 0; 
   }
-  int n = strlen(args);
+  int n = strlen(arg);
   if (n == 1){
     //printf("%c\n", args[0]);
-    switch(args[0]){
-      case 114: isa_reg_display();    // 114 is the ASCII code of "r"
+    switch(*arg){
+      case 'r': isa_reg_display();    // 114 is the ASCII code of "r"
       default: break;
     }
   }
