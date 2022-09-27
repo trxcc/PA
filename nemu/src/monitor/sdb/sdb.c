@@ -76,9 +76,9 @@ static int cmd_info(char *args){
   }
   int n = strlen(args);
   if (n == 1){
-     printf("%c\n", args[0]);
+    //printf("%c\n", args[0]);
     switch(args[0]){
-      case 114: isa_reg_display();
+      case 114: isa_reg_display();    // 114 is the ASCII code of "r"
       default: break;
     }
   }
