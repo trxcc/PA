@@ -18,8 +18,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
-#include <memory/vaddr.h>
+// #include <memory/vaddr.h>
 
+extern uint32_t vaddr_read(vaddr_t addr, int len);
 static int is_batch_mode = false;
 
 void init_regex();
