@@ -55,6 +55,11 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
+  Log("%s\n", args);
+  int n = strlen(args), ans = 0;
+  for (int i = 0; i < n; i++) 
+    ans = ans * 10 + (args[i] - '0' + 1);
+  Log("%d\n", ans);
   return 0; 
 }
 
