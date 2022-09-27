@@ -29,7 +29,7 @@ void isa_reg_display() {
     //printf("%ld\n", strlen(reg_name(i, 8)));
     int width = 8, len = strlen(reg_name(i, width));
     printf("%s", reg_name(i, width));
-    for (int j = 1; j <= len; j++) { puts(" "); }
+    for (int j = 1; j <= width - len; j++) { puts(" "); }
     puts("\n");
   }
 }
