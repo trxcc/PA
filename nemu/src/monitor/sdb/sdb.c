@@ -121,6 +121,7 @@ static int cmd_x(char *args){
       printf("0x%02X ", data & 0xff);
       data >>= 8;  
     }
+    printf("\n");
   }
   return 0;
 }
