@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/vaddr.h>
 
 static int is_batch_mode = false;
 
@@ -84,8 +85,41 @@ static int cmd_info(char *args){
   if (n == 1){
     //printf("%c\n", args[0]);
     switch(*arg){
-      case 'r': isa_reg_display();    // 114 is the ASCII code of "r"
+      case 'r': isa_reg_display(); break;    // 114 is the ASCII code of "r"
+      case 'w': 
       default: break;
+    }
+  }
+  return 0;
+}
+
+static int cmd_x(char *args){
+  void print(){
+    printf("Necessary arguments required. Type 'help' for more information.\n");
+    return;
+  }
+  if (args == NULL) { print(); return 0; }
+  char *arg = strtok(args, " ");
+  if (arg == NULL) { print(); return 0; }
+
+  int N = 0;
+  for (int i = 0; i < strlen(arg); i++){
+    if (arg[i] <= '0' && arg[i] >= '9') {
+      printf("Illegal input\n");
+      return 0;
+    }
+    N = N * 10 + arg[i] - '0';
+  } 
+  
+  char *EXPR = strtok(NULL, " ");
+  char *str;
+  vaddr_t addr = strtol(EXPR, &str, 16);
+  for (int i = 0; i < N; i++){
+    uint32_t data = vaddr_read(addr + i*4, 4);
+    printf("0x%08X:   ", addr + i*4);
+    for (int j = 0; j < 4; ++j){
+      printf("0x%02X ", data & 0xff);
+      data >>= 8;  
     }
   }
   return 0;
@@ -101,6 +135,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute for a single step", cmd_si},
   { "info", "Display information about the memories or registers", cmd_info },
+  { "x", "Scan and print the value of the memories", cmd_x },
   /* TODO: Add more commands */
 
 };
