@@ -63,7 +63,7 @@ static int cmd_si(char *args){
     int n = strlen(arg); ans = 0;
     for (int i = 0; i < n; i++){
       if (arg[i] <= '0' || arg[i] >= '9') {
-        printf("Illegal input. 'si' shoule be followed by numbers.");
+        printf("Illegal input. 'si' shoule be followed by numbers.\n");
         return 0;
       } 
       ans = ans * 10 + (arg[i] - '0');
