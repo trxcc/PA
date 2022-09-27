@@ -58,7 +58,7 @@ static int cmd_si(char *args){
   Log("%s\n", args);
   int n = strlen(args), ans = 0;
   for (int i = n - 1; i >= 0; i--){ 
-    ans = ans * 10 + (args[i] - '0' + 1);
+    ans = ans * 10 + (args[i] - '0');
   }
   Log("%d\n", ans);
   return 0; 
