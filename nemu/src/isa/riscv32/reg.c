@@ -25,6 +25,10 @@ const char *regs[] = {
 
 void isa_reg_display() {
   Log("hhh");
+  for (int i = 0; i < 32; i++){
+    printf("%s", reg_name(i, 8));
+    puts("\n");
+  }
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
