@@ -69,6 +69,22 @@ static int cmd_si(char *args){
   return 0; 
 }
 
+static int cmd_info(char *args){
+  if(args == NULL){
+    Log("Necessary arguments required. Type 'help' for more information."); 
+    return 0; 
+  }
+  int n = strlen(args);
+  if (n == 1){
+     printf("%c", args[0]);
+    /*switch(args[0]){
+      case "r": isa_reg_display();
+      default: break;
+    }*/
+  }
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -78,6 +94,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Execute for a single step", cmd_si},
+  { "info", "Display information about the memories or registers", cmd_info },
   /* TODO: Add more commands */
 
 };
