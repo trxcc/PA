@@ -55,7 +55,7 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
-  //Log("%s\n", args);
+  printf("%ld %s\n", strlen(args), args);
   int n = strlen(args), ans = 0;
   if (n == 0) ans = 1;
   else for (int i = 0; i < n; i++){ 
