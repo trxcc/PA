@@ -121,7 +121,8 @@ static bool make_token(char *e) {
           case TK_HEX: case TK_AND: case TK_OR:
           case TK_NUM:
             if (substr_len > 32){
-              printf("Too long token! Please check again!\n"); break;
+              printf("Too long token in position %d! Please check again!\n", position-substr_len);
+              return false;
             }
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
             printf("%d\n", tokens[--nr_token].type);
@@ -143,6 +144,55 @@ static bool make_token(char *e) {
   return true;
 }
 
+static bool check_parentheses(int p, int q){
+  if (tokens[p].type != '(' || tokens[q].type != ')') { return false; }
+  int cnt = 1, i = p + 1;
+  bool flag = true;
+  for (; i < p; i++){
+    if (tokens[i].type == '(') ++cnt;
+    else if (tokens[i].type == ')') --cnt;
+    if (cnt == 0) { flag = false; }
+  }
+  if (cnt != 1) { printf("Invalid expression.\n"); assert(0); }
+  return flag;
+}
+
+static int get_op_type(int p, int q){
+  int ans = 0; bool flag = true;
+  for (int i = p; i <= q; i++) {
+    if (tokens[i].type == 1 || tokens[i].type == 5) { continue; }
+    else if (flag == false && tokens[i].type == ')') { flag = true; }
+    else if (flag == false) { continue; }
+    else if (tokens[i].type == '(') { flag = false; }
+    else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
+      if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
+      else if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
+    }
+    else if (tokens[ans].type == '*' || tokens[ans].type == '/') { ans = i; }
+  }
+  return ans;
+}
+
+word_t eval(int p, int q) {
+  if (p > q) { printf("Invalid expression.\n"); assert(0); }
+  else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
+  else if (check_parentheses(p, q) == true) {
+    return eval(p + 1, q - 1);
+  }
+  else {
+    //op = the position of the main operation in the token expression.
+    int op = get_op_type(p, q);
+    word_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
+    
+    switch(tokens[op].type){
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': return val1 / val2;
+      default: assert(0);
+    }
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
