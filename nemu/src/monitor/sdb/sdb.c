@@ -112,7 +112,7 @@ static int cmd_x(char *args){
     N = N * 10 + arg[i] - '0';
   } 
   
-  char *EXPR = strtok(NULL, " ");
+  char *EXPR = strtok(NULL, "\n");
   printf("%s\n%s\n%s\n", arg, args, EXPR);
   assert(0);
   /*char *str;*/ bool *tmp = false;
