@@ -113,9 +113,9 @@ static int cmd_x(char *args){
   } 
   
   char *EXPR = strtok(NULL, "\n");
-  /*char *str;*/ bool *tmp = false;
+  /*char *str;*/ bool tmp = true;
   //vaddr_t addr = strtol(EXPR, &str, 16);
-  vaddr_t addr = expr(EXPR, tmp);
+  vaddr_t addr = expr(EXPR, &tmp);
   for (int i = 0; i < N; i++){
     uint32_t data = vaddr_read(addr + i*4, 4);
     printf("0x%08X:   ", addr + i*4);
