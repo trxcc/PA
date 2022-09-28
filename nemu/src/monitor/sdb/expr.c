@@ -167,7 +167,7 @@ static int get_op_type(int p, int q){
     }
     else if (flag == false) { continue; }
     else if (tokens[i].type == '(') { flag = false; ++cnt; }
-    else if (ans == -1) { ans = i; }
+    else if (ans == -1) { printf("%d\n", cnt); ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
       if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
       else if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
