@@ -199,7 +199,9 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+  *success = true;
+  word_t ans = eval(0, strlen(e) - 1);
+  printf("%u\n", ans);
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
 
