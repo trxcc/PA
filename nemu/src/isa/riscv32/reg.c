@@ -28,7 +28,7 @@ void isa_reg_display() {
   for (int i = 0; i < 32; i++){
     printf("%s    ", reg_name(i, 8));
     if(strlen(reg_name(i, 8)) == 2) printf(" ");
-    printf("%d\n", cpu.gpr[i]);
+    printf("0x%08X\n", cpu.gpr[i]);
   }
   printf("-------------------------------------------\n");
 }
