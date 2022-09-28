@@ -45,7 +45,7 @@ static struct rule {
   {"/^([\\$rsgta])(1?)([ap0-9])$/", TK_REG}, // register
   {"/^\b[0-9]+\b/", TK_NUM},  // number
   {"[A-Za-z]+", TK_VAR},    // variable
-  {"0[xX][0-9]{7}", TK_HEX},   // hex_number
+  {"0[xX][0-9A-Fa-f]+", TK_HEX},   // hex_number
   {"\\&", TK_AND},          // and
   {"\\|", TK_OR},           // or
 
@@ -112,7 +112,7 @@ static bool make_token(char *e) {
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
             tokens[nr_token++].type = rules[i].token_type;
-            printf("%d\n", e[position]);     
+            printf("%s\n", e);     
           default: printf("%d\n", tokens[nr_token - 1].type); break;
         }
 
