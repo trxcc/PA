@@ -43,7 +43,7 @@ static struct rule {
   {"\\/", '/'},         // divide
   {"==", TK_EQ},        // equal
   {"/^([\\$rsgta])(1?)([ap0-9])$/", TK_REG}, // register
-  {"/^\b[0-9]+\b/", TK_NUM},  // number
+  {"\\b[0-9]+\\b", TK_NUM},  // number
   {"[A-Za-z]+", TK_VAR},    // variable
   {"0[xX][0-9A-Fa-f]+", TK_HEX},   // hex_number
   {"\\&", TK_AND},          // and
