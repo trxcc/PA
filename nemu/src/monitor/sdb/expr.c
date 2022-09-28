@@ -86,7 +86,7 @@ static inline void record_token(char *r, int len, int nr_token, int token_type){
   memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
   strncpy(tokens[nr_token].str, r, len);
   tokens[nr_token].type = token_type;
-  return;
+  return;   // record the token into tokens[nr_token].str
 }
 
 static bool make_token(char *e) {
@@ -120,11 +120,14 @@ static bool make_token(char *e) {
           case TK_REG: case TK_EQ: case TK_VAR: 
           case TK_HEX: case TK_AND: case TK_OR:
           case TK_NUM:
+            if (substr_len > 32){
+              printf("Too long token! Please check again!\n"); break;
+            }
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
             printf("%d\n", tokens[--nr_token].type);
             printf("%s\n", tokens[nr_token++].str);
             break; 
-          default: printf("Invalid input expression! Please check again!"); break;
+          default: printf("Invalid input expression! Please check again!\n"); break;
         }
 
         break;
