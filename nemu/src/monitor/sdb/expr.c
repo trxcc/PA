@@ -42,9 +42,9 @@ static struct rule {
   {"\\*", '*'},         // multiply
   {"\\/", '/'},         // divide
   {"==", TK_EQ},        // equal
-  {"/^([\\$rsgta])(1?)([ap0-9])$/", TK_REG}, // register
+  {"\\b([\\$rsgta])(1?)([ap0-9])\\b", TK_REG}, // register
   {"\\b[0-9]+\\b", TK_NUM},  // number
-  {"[A-Za-z]+", TK_VAR},    // variable
+  {"\\b[A-Za-z]+\\b", TK_VAR},    // variable
   {"0[xX][0-9A-Fa-f]+", TK_HEX},   // hex_number
   {"\\&", TK_AND},          // and
   {"\\|", TK_OR},           // or
@@ -121,8 +121,8 @@ static bool make_token(char *e) {
           case TK_HEX: case TK_AND: case TK_OR:
           case TK_NUM:
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
-            //printf("%d\n", tokens[--nr_token].type);
-            //printf("%s\n", tokens[nr_token++].str);
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
             break; 
           default: printf("Invalid input expression! Please check again!"); break;
         }
