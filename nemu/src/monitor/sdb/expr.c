@@ -151,6 +151,7 @@ static bool check_parentheses(int p, int q){
   for (; i < p; i++){
     if (tokens[i].type == '(') ++cnt;
     else if (tokens[i].type == ')') --cnt;
+    printf("cnt:%d\n", cnt);
     if (cnt == 0) { flag = false; }
   }
   if (cnt != 1) { printf("iiInvalid expression.\n"); assert(0); }
@@ -162,10 +163,10 @@ static int get_op_type(int p, int q){
   for (int i = p; i <= q; i++) {
     if (tokens[i].type == 1 || tokens[i].type == 5) { continue; }
     else if (tokens[i].type == ')') { 
-      --cnt; printf("mcnt:%d\n", cnt);
+      --cnt; 
       if (cnt == 0) { flag = true; }
     }
-    else if (tokens[i].type == '(') { flag = false; ++cnt; printf("pcnt:%d\n", cnt); }
+    else if (tokens[i].type == '(') { flag = false; ++cnt; }
     else if (flag == false) { continue; }
     else if (ans == -1) { printf("%d\n", cnt); ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
