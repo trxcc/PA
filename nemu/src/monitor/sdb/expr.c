@@ -82,6 +82,13 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
+static inline void record_token(char *r, int len, int nr_token, int token_type){
+  memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
+  strncpy(tokens[nr_token].str, r, len);
+  tokens[nr_token].type = token_type;
+  return;
+}
+
 static bool make_token(char *e) {
   int position = 0;
   int i;
@@ -115,11 +122,10 @@ static bool make_token(char *e) {
           case '(': 
           case ')': 
           case TK_NUM:
-            memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str)); 
-            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
-            tokens[nr_token++].type = rules[i].token_type;
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+            record_token(&e[position - substr_len], substr_len, nr_token, rules[i].token_type);
+            ++nr_token;
+            // printf("%d\n", tokens[--nr_token].type);
+            // printf("%s\n", tokens[nr_token++].str);
             break; 
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
