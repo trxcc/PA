@@ -113,6 +113,8 @@ static int cmd_x(char *args){
   } 
   
   char *EXPR = strtok(NULL, " ");
+  printf("%s\n", EXPR);
+  assert(0);
   /*char *str;*/ bool *tmp = false;
   //vaddr_t addr = strtol(EXPR, &str, 16);
   vaddr_t addr = expr(EXPR, tmp);
