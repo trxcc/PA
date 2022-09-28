@@ -107,8 +107,19 @@ static bool make_token(char *e) {
          */
         
         switch (rules[i].token_type) {
-          case TK_NOTYPE: break; case '+': case '-': case '*':
-          case '/': case '(': case ')': case TK_NUM: printf("hhh\n");
+          case TK_NOTYPE: break;
+          case '+':
+          case '-': 
+          case '*':
+          case '/': 
+          case '(': 
+          case ')': 
+          case TK_NUM:
+            memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str)); 
+            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            tokens[nr_token++].type = rules[i].token_type;
+            printf("%d\n", tokens[nr_token - 1].type);
+            break; 
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
             tokens[nr_token++].type = rules[i].token_type;
