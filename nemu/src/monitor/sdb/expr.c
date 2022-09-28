@@ -111,7 +111,7 @@ static bool make_token(char *e) {
           case '/': case '(': case ')': case TK_NUM: printf("hhh\n");
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
-            tokens[nr_token].type = rules[i].token_type;
+            tokens[nr_token++].type = rules[i].token_type;
             printf("%d\n", e[position]);     
           default: printf("%d\n", tokens[nr_token - 1].type); break;
         }
