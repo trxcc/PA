@@ -41,7 +41,12 @@ static struct rule {
   {"\\*", '*'},         // multiply
   {"\\/", '/'},         // divide
   {"==", TK_EQ},        // equal
-  //{"/^:/"}
+  {"/^([\\$rsgta])(1?)([ap0-9])$/", TK_REG}, // register
+  {"[1-9][0-9]+", TK_NUM},  // number
+  {"[A-Za-z]+", TK_VAR},    // variable
+
+  {"\\(", '('},
+  {"\\)", ')'},
 };
 
 #define NR_REGEX ARRLEN(rules)
