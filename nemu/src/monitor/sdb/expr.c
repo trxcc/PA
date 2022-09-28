@@ -118,8 +118,8 @@ static bool make_token(char *e) {
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str)); 
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
             tokens[nr_token++].type = rules[i].token_type;
-            //printf("%d\n", tokens[--nr_token].type);
-            //printf("%s\n", tokens[nr_token++].str);
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
             break; 
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
