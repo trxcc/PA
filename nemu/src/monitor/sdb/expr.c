@@ -151,7 +151,7 @@ static bool check_parentheses(int p, int q){
   for (; i < q; i++){
     if (tokens[i].type == '(') ++cnt;
     else if (tokens[i].type == ')') --cnt;
-    printf("cnt:%d\n", cnt);
+    //printf("cnt:%d\n", cnt);
     if (cnt == 0) { flag = false; }
   }
   if (cnt != 1) { printf("iiInvalid expression.\n"); assert(0); }
@@ -168,7 +168,7 @@ static int get_op_type(int p, int q){
     }
     else if (tokens[i].type == '(') { flag = false; ++cnt; }
     else if (flag == false) { continue; }
-    else if (ans == -1) { printf("%d\n", cnt); ans = i; }
+    else if (ans == -1) { /*printf("%d\n", cnt);*/ ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
       if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
       else if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
@@ -179,7 +179,7 @@ static int get_op_type(int p, int q){
 }
 
 word_t eval(int p, int q) {
-  printf("p:%d q:%d\n", p, q);
+  //printf("p:%d q:%d\n", p, q);
   if (p > q) { printf("opInvalid expression.\n"); assert(0); }
   else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
   else if (check_parentheses(p, q) == true) {
@@ -188,7 +188,7 @@ word_t eval(int p, int q) {
   else {
     //op = the position of the main operation in the token expression.
     int op = get_op_type(p, q);
-    printf("op:%d, %s \n", op, tokens[op].str);
+    //printf("op:%d, %s \n", op, tokens[op].str);
     word_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
     
     switch(tokens[op].type){
