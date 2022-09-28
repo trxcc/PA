@@ -148,7 +148,7 @@ static bool check_parentheses(int p, int q){
   if (tokens[p].type != '(' || tokens[q].type != ')') { return false; }
   int cnt = 1, i = p + 1;
   bool flag = true;
-  for (; i < p; i++){
+  for (; i < q; i++){
     if (tokens[i].type == '(') ++cnt;
     else if (tokens[i].type == ')') --cnt;
     printf("cnt:%d\n", cnt);
