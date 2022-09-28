@@ -153,7 +153,7 @@ static bool check_parentheses(int p, int q){
     else if (tokens[i].type == ')') --cnt;
     if (cnt == 0) { flag = false; }
   }
-  if (cnt != 1) { printf("Invalid expression.\n"); assert(0); }
+  if (cnt != 1) { printf("iiInvalid expression.\n"); assert(0); }
   return flag;
 }
 
