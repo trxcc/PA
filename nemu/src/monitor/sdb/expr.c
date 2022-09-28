@@ -124,8 +124,8 @@ static bool make_token(char *e) {
           case TK_NUM:
             record_token(&e[position - substr_len], substr_len, nr_token, rules[i].token_type);
             ++nr_token;
-            // printf("%d\n", tokens[--nr_token].type);
-            // printf("%s\n", tokens[nr_token++].str);
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
             break; 
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
