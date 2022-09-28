@@ -83,6 +83,7 @@ static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
+  printf("%s\n", e);
   int position = 0;
   int i;
   regmatch_t pmatch;
@@ -112,7 +113,7 @@ static bool make_token(char *e) {
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
             tokens[nr_token++].type = rules[i].token_type;
-            printf("%s\n", e);     
+            //printf("%s\n", e);     
           default: printf("%d\n", tokens[nr_token - 1].type); break;
         }
 
