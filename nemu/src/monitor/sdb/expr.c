@@ -158,12 +158,15 @@ static bool check_parentheses(int p, int q){
 }
 
 static int get_op_type(int p, int q){
-  int ans = -1; bool flag = true;
+  int ans = -1, cnt = 0; bool flag = true;
   for (int i = p; i <= q; i++) {
     if (tokens[i].type == 1 || tokens[i].type == 5) { continue; }
-    else if (flag == false && tokens[i].type == ')') { flag = true; }
+    else if (tokens[i].type == ')') { 
+      --cnt;
+      if (cnt == 0) { flag = true; }
+    }
     else if (flag == false) { continue; }
-    else if (tokens[i].type == '(') { flag = false; }
+    else if (tokens[i].type == '(') { flag = false; ++cnt; }
     else if (ans == -1) { ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
       if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
