@@ -165,8 +165,8 @@ static int get_op_type(int p, int q){
       --cnt; printf("mcnt:%d\n", cnt);
       if (cnt == 0) { flag = true; }
     }
-    else if (flag == false) { continue; }
     else if (tokens[i].type == '(') { flag = false; ++cnt; printf("pcnt:%d\n", cnt); }
+    else if (flag == false) { continue; }
     else if (ans == -1) { printf("%d\n", cnt); ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
       if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
