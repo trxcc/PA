@@ -116,7 +116,8 @@ static int cmd_x(char *args){
   /*char *str;*/ bool tmp = true;
   //vaddr_t addr = strtol(EXPR, &str, 16);
   vaddr_t addr = expr(EXPR, &tmp);
-  for (int i = 0; i < N; i++){
+  printf("%d\n", addr);
+  /*for (int i = 0; i < N; i++){
     uint32_t data = vaddr_read(addr + i*4, 4);
     printf("0x%08X:   ", addr + i*4);
     for (int j = 0; j < 4; ++j){
@@ -124,7 +125,7 @@ static int cmd_x(char *args){
       data >>= 8;  
     }
     printf("\n");
-  }
+  }*/
   return 0;
 }
 

@@ -175,7 +175,7 @@ static int get_op_type(int p, int q){
 }
 
 word_t eval(int p, int q) {
-  printf("p:%d q:%d\n", p, q);
+  //printf("p:%d q:%d\n", p, q);
   if (p > q) { printf("opInvalid expression.\n"); assert(0); }
   else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
   else if (check_parentheses(p, q) == true) {
@@ -184,7 +184,7 @@ word_t eval(int p, int q) {
   else {
     //op = the position of the main operation in the token expression.
     int op = get_op_type(p, q);
-    printf("op:%d\n", op);
+    //printf("op:%d\n", op);
     word_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
     
     switch(tokens[op].type){
