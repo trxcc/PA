@@ -174,6 +174,7 @@ static int get_op_type(int p, int q){
 }
 
 word_t eval(int p, int q) {
+  printf("p:%d q:%d\n", p, q);
   if (p > q) { printf("opInvalid expression.\n"); assert(0); }
   else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
   else if (check_parentheses(p, q) == true) {
