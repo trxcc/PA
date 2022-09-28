@@ -82,10 +82,10 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-static inline void record_token(char *r, int len, int nr_token, int token_type){
-  memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
-  strncpy(tokens[nr_token].str, r, len);
-  tokens[nr_token].type = token_type;
+static inline void record_token(char *r, int len, int Nr_token, int token_type){
+  memset(tokens[Nr_token].str, '\0', sizeof(tokens[Nr_token].str));
+  strncpy(tokens[Nr_token].str, r, len);
+  tokens[Nr_token].type = token_type;
   return;   // record the token into tokens[nr_token].str
 }
 
@@ -201,7 +201,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
-  word_t ans = eval(0, strlen(e) - 1);
+  word_t ans = eval(0, nr_token - 1);
   printf("%u\n", ans);
   /* TODO: Insert codes to evaluate the expression. */
   TODO();
