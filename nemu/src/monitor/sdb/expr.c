@@ -184,7 +184,7 @@ word_t eval(int p, int q) {
   else {
     //op = the position of the main operation in the token expression.
     int op = get_op_type(p, q);
-    printf("op:%d\n", op);
+    printf("op:%d, %s \n", op, tokens[op].str);
     word_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
     
     switch(tokens[op].type){
