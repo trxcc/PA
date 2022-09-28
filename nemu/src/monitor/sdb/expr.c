@@ -99,7 +99,7 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-        printf("%d\n", position);
+        //printf("%d\n", position);
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
@@ -118,14 +118,12 @@ static bool make_token(char *e) {
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str)); 
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
             tokens[nr_token++].type = rules[i].token_type;
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+            //printf("%d\n", tokens[--nr_token].type);
+            //printf("%s\n", tokens[nr_token++].str);
             break; 
           case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
           case TK_AND: case TK_OR:
-            tokens[nr_token++].type = rules[i].token_type;
-            printf("%c\n", e[position]);     
-          default: printf("%d\n", tokens[nr_token - 1].type); break;
+          default:/* printf("%d\n", tokens[nr_token - 1].type);*/ break;
         }
 
         break;
