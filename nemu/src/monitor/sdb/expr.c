@@ -21,7 +21,8 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_NUM = 1, TK_EQ = 2, TK_REG = 3, TK_VAR = 4, 
+  TK_NOTYPE = 256, TK_NUM = 1, TK_EQ = 2, TK_REG = 3, TK_VAR = 4, TK_HEX = 5,
+  TK_AND = 6, TK_OR = 7, 
   /* TODO: Add more token types */
 
 };
@@ -44,6 +45,9 @@ static struct rule {
   {"/^([\\$rsgta])(1?)([ap0-9])$/", TK_REG}, // register
   {"[1-9][0-9]+", TK_NUM},  // number
   {"[A-Za-z]+", TK_VAR},    // variable
+  {"0[xX][0-9]{7}", TK_HEX},   // hex_number
+  {"\\&", TK_AND},          // and
+  {"\\|", TK_OR},           // or
 
   {"\\(", '('},
   {"\\)", ')'},
@@ -101,9 +105,13 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+        
         switch (rules[i].token_type) {
-          default: TODO();
+          case TK_NOTYPE: break;/* case '+': case '-': case '*':
+          case '/': case '(': case ')': case TK_NUM:
+          case TK_REG: case TK_EQ: case TK_VAR: case TK_HEX:
+          case TK_AND: case TK_OR: tokens[nr_token++].type = rules*/
+          default: TODO(); break;
         }
 
         break;
