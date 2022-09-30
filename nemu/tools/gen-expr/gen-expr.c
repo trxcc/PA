@@ -39,7 +39,7 @@ static uint32_t choose(uint32_t n) {
 }
 
 static void gen_num() {
-  int num = rand() % 3500, rec = num;
+  int num = rand() % 3000, rec = num;
   char tmp[5], e[5]; int i = 0; 
   do{
     tmp[i++] = (char)((num % 10) + '0');
@@ -77,6 +77,11 @@ static int chk(){
         else for (int j = i; j < pos-1; j++) { buf[j] = buf[j+1]; }
         buf[pos-1] = '\0'; --pos; --i;
       }
+    }
+    else if((buf[i] < '0' || buf[i] > '9') && buf[i] != ' ' && buf[i] != '(' && buf[i] != ')') {
+      if (i == pos - 1) { buf[i] == '\0';}
+      for (int j = i; j < pos - 1; j ++) { buf[j] = buf[j+1]; }
+      buf[pos-1] = '\0'; --pos; --i;
     }
     //if (buf[i] == '/') printf("%c %c %d\n", buf[i], buf[i+1], i == pos-1);
   }
@@ -125,7 +130,7 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     gen_rand_expr(1);
     assert(buf[0] != '\0');
-    printf("%s\n", buf);
+  //  printf("%s\n", buf);
     sprintf(code_buf, code_format, buf);
 
     FILE *fp = fopen("/tmp/.code.c", "w");

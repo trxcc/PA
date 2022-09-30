@@ -195,7 +195,7 @@ word_t eval(int p, int q) {
       case '+': return val1 + val2;
       case '-': return val1 - val2;
       case '*': return val1 * val2;
-      case '/': return val1 / val2;
+      case '/': if (val2 == 0) { printf("Divide 0 error occured!\n"); return -1;}return val1 / val2;
       default: assert(0);
     }
   }
