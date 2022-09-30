@@ -67,7 +67,7 @@ static void gen_rand_op(){
 }
 
 static int chk(){
-  printf("%s\n", buf);
+//  printf("%s\n", buf);
   for (int i = 0; i < pos; i++){
     if (buf[i] == '/' || buf[i] == '*' || buf[i] == '+' || buf[i] == '-') {
       int k = i + 1;
