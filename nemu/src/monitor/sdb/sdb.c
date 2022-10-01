@@ -50,6 +50,14 @@ static int cmd_c(char *args) {
 }
 
 
+static int cmd_p(char *args) {
+  char *arg = strtok(NULL, " ");
+  bool flag = true;
+  word_t ans = expr(arg, &flag);
+  Log("%u\n", ans);
+  return 0;  
+}
+
 static int cmd_q(char *args) {
   return -1;
 }
@@ -140,6 +148,7 @@ static struct {
   { "si", "Execute for a single step", cmd_si},
   { "info", "Display information about the memories or registers", cmd_info },
   { "x", "Scan and print the value of the memories", cmd_x },
+  { "p", "Print the value of expression", cmd_p},
   /* TODO: Add more commands */
 
 };

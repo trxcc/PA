@@ -112,13 +112,13 @@ static void gen_rand_expr(int flag) {
       memset(buf, '\0', sizeof(buf));
       pos = 0, token_len = 0;
       switch (choose(3)) {
-        case 0: printf("cc:0\n");gen_space(); gen_num(); gen_space();printf("uh\n"); ++token_len;
+        case 0: gen_space(); gen_num(); gen_space(); ++token_len;
           if (pos > 65535) { pos = 65537; break;}
           break;
-        case 1: printf("cc:1\n");gen_space(); gen('('); gen_space(); gen_rand_expr(0); gen_space(); gen(')'); gen_space(); token_len += 2;printf("uh\n");
+        case 1: gen_space(); gen('('); gen_space(); gen_rand_expr(0); gen_space(); gen(')'); gen_space(); token_len += 2;
           if (pos > 65535) { pos = 65537; break;}  
           break; 
-        default: printf("cc:2\n");gen_space(); gen_rand_expr(0); gen_space(); gen_rand_op(); gen_space(); gen_rand_expr(0); gen_space(); ++token_len;printf("uh\n");
+        default: gen_space(); gen_rand_expr(0); gen_space(); gen_rand_op(); gen_space(); gen_rand_expr(0); gen_space(); ++token_len;
           if (pos > 65535) { pos = 65537; break; }
           break;
       }
@@ -126,13 +126,13 @@ static void gen_rand_expr(int flag) {
   }
   else {
     switch(choose(3)){
-      case 0: gen_num();/*printf("tmp:%s\n", buf);*/ ++token_len;printf("%d\n", pos); 
+      case 0: gen_num();/*printf("tmp:%s\n", buf);*/ ++token_len;
         if (pos > 65535) { pos = 65537; break;}
         break;
-      case 1: gen('('); gen_rand_expr(0); gen(')');/*printf("tmp:%s\n", buf);*/ token_len += 2;printf("%d\n", pos); 
+      case 1: gen('('); gen_rand_expr(0); gen(')');/*printf("tmp:%s\n", buf);*/ token_len += 2; 
         if (pos > 65535) { pos = 65537; break;}
         break;
-      default: gen_rand_expr(0); gen_rand_op(); gen_rand_expr(0);/*printf("tmp:%s\n", buf);*/ ++token_len;printf("%d\n", pos); 
+      default: gen_rand_expr(0); gen_rand_op(); gen_rand_expr(0);/*printf("tmp:%s\n", buf);*/ ++token_len; 
         if (pos > 65535) { pos = 65537; break;}
         break;
     }
@@ -152,11 +152,11 @@ int main(int argc, char *argv[]) {
   for (i = 0; i < loop; i ++) {
     memset(buf, '\0', sizeof(buf));
     pos = 0;
-    printf("dd\n");
+    //printf("dd\n");
     gen_rand_expr(1);
-    printf("hh\n");
+    //printf("hh\n");
     assert(buf[0] != '\0');
-    printf("%s\n", buf);
+    //printf("%s\n", buf);
     sprintf(code_buf, code_format, buf);
     //printf("done\n");
     FILE *fp = fopen("/tmp/.code.c", "w");
