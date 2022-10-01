@@ -26,7 +26,7 @@ static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = (unsigned)%s; "
+"  unsigned result = %s; "
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}" ;
@@ -39,7 +39,7 @@ static uint32_t choose(uint32_t n) {
 }
 
 static void gen_num() {
-  int num = rand() % 3000, rec = num;
+  uint32_t num = rand() % 100000, rec = num;
   char tmp[5], e[5]; int i = 0; 
   do{
     tmp[i++] = (char)((num % 10) + '0');
@@ -51,6 +51,7 @@ static void gen_num() {
   strncpy(&buf[pos], &e[0], strlen(e));
   //printf("%d - %ld  %s\n", pos, pos+strlen(e), e);
   pos += strlen(e);
+  buf[pos++] = 'U';
 }
 
 static void gen(char ch){
@@ -72,13 +73,13 @@ static int chk(){
     if (buf[i] == '/' || buf[i] == '*' || buf[i] == '+' || buf[i] == '-') {
       int k = i + 1;
       while(buf[k] == ' ') ++k;
-      if (i == pos - 1 || buf[k] == '\0' || buf[k] == ')' || buf[k] == '+' || buf[k] == '-' || buf[k] == '*' || buf[k] == '/') { 
+      if (i == pos - 1 || buf[k] == '\0' || buf[k] == ')' || buf[k] == '+' || buf[k] == '-' || buf[k] == '*' || buf[k] == '/' || buf[k] == 'U') { 
         if (i == pos-1) { buf[i] = '\0'; }
         else for (int j = i; j < pos-1; j++) { buf[j] = buf[j+1]; }
         buf[pos-1] = '\0'; --pos; --i;
       }
     }
-    else if((buf[i] < '0' || buf[i] > '9') && buf[i] != ' ' && buf[i] != '(' && buf[i] != ')') {
+    else if((buf[i] < '0' || buf[i] > '9') && buf[i] != 'U' && buf[i] != ' ' && buf[i] != '(' && buf[i] != ')') {
       if (i == pos - 1) { buf[i] == '\0';}
       for (int j = i; j < pos - 1; j ++) { buf[j] = buf[j+1]; }
       buf[pos-1] = '\0'; --pos; --i;
@@ -89,10 +90,19 @@ static int chk(){
 }
 
 static void gen_space(){
-  int num = rand() % 4;
+  uint32_t num = rand() % 4;
   for (int i = 0; i < num; i++) { buf[pos+i] = ' ';/* printf("%d is space \n", pos+i);*/ }
   pos += num;
   return;
+}
+
+static void clear_u() {
+  for (int i = 0; i < pos; i++){
+    if (buf[i] == 'U') {
+      for (int j = i; j < pos-1; j++) { buf[j] = buf[j+1]; }
+      buf[pos-1] = '\0'; --pos; --i;
+    }
+  }
 }
 
 static void gen_rand_expr(int flag) {
@@ -102,17 +112,29 @@ static void gen_rand_expr(int flag) {
       memset(buf, '\0', sizeof(buf));
       pos = 0, token_len = 0;
       switch (choose(3)) {
-        case 0: gen_space(); gen_num(); gen_space(); ++token_len; break;
-        case 1: gen_space(); gen('('); gen_space(); gen_rand_expr(0); gen_space(); gen(')'); gen_space(); token_len += 2; break; 
-        default: gen_space(); gen_rand_expr(0); gen_space(); gen_rand_op(); gen_space(); gen_rand_expr(0); gen_space(); ++token_len; break;
+        case 0: printf("cc:0\n");gen_space(); gen_num(); gen_space();printf("uh\n"); ++token_len;
+          if (pos > 65535) { pos = 65537; break;}
+          break;
+        case 1: printf("cc:1\n");gen_space(); gen('('); gen_space(); gen_rand_expr(0); gen_space(); gen(')'); gen_space(); token_len += 2;printf("uh\n");
+          if (pos > 65535) { pos = 65537; break;}  
+          break; 
+        default: printf("cc:2\n");gen_space(); gen_rand_expr(0); gen_space(); gen_rand_op(); gen_space(); gen_rand_expr(0); gen_space(); ++token_len;printf("uh\n");
+          if (pos > 65535) { pos = 65537; break; }
+          break;
       }
     } while(token_len > 32 || pos > 65535 || !chk());
   }
   else {
     switch(choose(3)){
-      case 0: gen_num(); ++token_len; break;
-      case 1: gen('('); gen_rand_expr(0); gen(')'); token_len += 2; break;
-      default: gen_rand_expr(0); gen_rand_op(); gen_rand_expr(0); ++token_len; break;
+      case 0: gen_num();/*printf("tmp:%s\n", buf);*/ ++token_len;printf("%d\n", pos); 
+        if (pos > 65535) { pos = 65537; break;}
+        break;
+      case 1: gen('('); gen_rand_expr(0); gen(')');/*printf("tmp:%s\n", buf);*/ token_len += 2;printf("%d\n", pos); 
+        if (pos > 65535) { pos = 65537; break;}
+        break;
+      default: gen_rand_expr(0); gen_rand_op(); gen_rand_expr(0);/*printf("tmp:%s\n", buf);*/ ++token_len;printf("%d\n", pos); 
+        if (pos > 65535) { pos = 65537; break;}
+        break;
     }
   }
   return;
@@ -122,17 +144,21 @@ int main(int argc, char *argv[]) {
   int seed = time(0);
   srand(seed);
   int loop = 1;
-  buf[0] = '\0';
+  memset(buf, '\0', sizeof(buf));
   if (argc > 1) {
     sscanf(argv[1], "%d", &loop);
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    memset(buf, '\0', sizeof(buf));
+    pos = 0;
+    printf("dd\n");
     gen_rand_expr(1);
+    printf("hh\n");
     assert(buf[0] != '\0');
-  //  printf("%s\n", buf);
+    printf("%s\n", buf);
     sprintf(code_buf, code_format, buf);
-
+    //printf("done\n");
     FILE *fp = fopen("/tmp/.code.c", "w");
     assert(fp != NULL);
     fputs(code_buf, fp);
@@ -147,7 +173,8 @@ int main(int argc, char *argv[]) {
     int result;
     fscanf(fp, "%d", &result);
     pclose(fp);
-
+    
+    clear_u();
     printf("%u %s\n", result, buf);
   }
   return 0;
