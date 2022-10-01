@@ -12,7 +12,6 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-
 #include <common.h>
 
 void init_monitor(int, char *[]);
@@ -20,10 +19,23 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
+char *FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/input_k";
+
 extern word_t expr(char *e, bool success);
+
+void compare(){
+  FILE *fp = fopen(FILEPATH, "r");
+  assert(fp != NULL);
+  char *e; word_t ans;
+  bool flag = true;
+  fscanf(fp, "%u%s", &ans, e);
+  printf("%u\n", expr(e, flag));
+  
+}
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
+  compare();
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
