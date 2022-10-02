@@ -26,18 +26,18 @@ extern word_t expr(char *e, bool *success);
 static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
-  char e[65535]; word_t ans = 0; 
-  int f = fscanf(fp, "%u", &ans);
-  printf("%d\n", f);
-  assert(fgets(e, 65535, fp) != NULL);
-  bool flag = true;
-  //assert(e[0] != '\0');
-  int n = strlen(e);
-  if (e[n-1] == '\n') { e[n-1] = '\0'; } 
-  word_t cal = expr(&e[0], &flag);
-  printf("%u\n", cal);
-  printf("%s = %u\n", e, cal);
-  if(cal == ans) printf("yes\n");
+  char e[65535]; word_t ans = 0; int cnt = 0;
+  while(fscanf(fp, "%u", &ans) == 1) {
+    assert(fgets(e, 65535, fp) != NULL);
+    bool flag = true;
+    int n = strlen(e);
+    if (e[n-1] == '\n') { e[n-1] = '\0'; } 
+    word_t cal = expr(&e[0], &flag);
+  //printf("%u\n", cal);
+  //printf("%s = %u\n", e, cal);
+    if(cal == ans) ++cnt;
+  }
+  printf("%d\n", cnt);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
   //assert(fgets(tmp, 65535, fp) != NULL);
