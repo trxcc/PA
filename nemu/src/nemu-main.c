@@ -43,7 +43,7 @@ static void compare(){
   }
   printf("%d\n", cnt);
   for (int i = 0; i < ind; i++)
-    printf("%s = %u, cal = %u", rec[i], rec1[i], rec2[i]);
+    printf("%s = %u, cal = %u\n", rec[i], rec1[i], rec2[i]);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
   //assert(fgets(tmp, 65535, fp) != NULL);
