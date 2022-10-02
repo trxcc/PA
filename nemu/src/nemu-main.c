@@ -27,6 +27,7 @@ static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
   char e[65535]; word_t ans = 0; int cnt = 0;
+  char *rec[10]; word_t rec1[10], rec2[10]; int ind = 0;
   while(fscanf(fp, "%u", &ans) == 1) {
     assert(fgets(e, 65535, fp) != NULL);
     bool flag = true;
@@ -36,9 +37,13 @@ static void compare(){
   //printf("%u\n", cal);
   //printf("%s = %u\n", e, cal);
     if(cal == ans) ++cnt;
-    else printf("%s = %u, cal = %u\n", e, ans, cal);
+    else {
+      rec[ind] = e, rec1[ind] = ans, rec2[ind++] = cal;
+    }
   }
   printf("%d\n", cnt);
+  for (int i = 0; i < ind; i++)
+    printf("%s = %u, cal = %u", rec[i], rec1[i], rec2[i]);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
   //assert(fgets(tmp, 65535, fp) != NULL);
