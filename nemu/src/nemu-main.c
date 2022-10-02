@@ -35,6 +35,7 @@ static void compare(){
   int n = strlen(e);
   if (e[n-1] == '\n') { e[n-1] = '\0'; } 
   word_t cal = expr(&e[0], flag);
+  printf("%u\n", cal);
   printf("%s = %u\n", e, cal);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
