@@ -29,7 +29,6 @@ void compare(){
   char *tmp;// word_t ans;
   //bool flag = true;
   char *l = fgets(tmp, 65535, fp);
-  assert(tmp != NULL);
   assert(l != NULL);
   printf("hh\n");
   //printf("%u\n", expr(e, flag));
