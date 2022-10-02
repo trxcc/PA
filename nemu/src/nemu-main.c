@@ -23,7 +23,7 @@ char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
 
 extern word_t expr(char *e, bool success);
 
-void compare(){
+static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
   char *tmp = NULL; 
