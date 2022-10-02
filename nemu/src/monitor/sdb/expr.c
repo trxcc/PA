@@ -139,7 +139,6 @@ static bool make_token(char *e) {
       return false;
     }
   }
-  assert(0);
   return true;
 }
 
