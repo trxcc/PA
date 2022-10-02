@@ -19,7 +19,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-char *FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/input_k";
+char *FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
 
 extern word_t expr(char *e, bool success);
 
