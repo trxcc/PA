@@ -106,7 +106,6 @@ static bool make_token(char *e) {
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
-        //printf("%d\n", position);
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
@@ -207,6 +206,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
+  printf("%s\n", e);
   word_t ans = eval(0, nr_token - 1);
   printf("%u\n", ans);
   /* TODO: Insert codes to evaluate the expression. */
