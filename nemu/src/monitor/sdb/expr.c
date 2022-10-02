@@ -205,7 +205,7 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   printf("dsafa\n");
-  *success = true;
+//  *success = true;
   printf("%s\n", e);
   word_t ans = eval(0, nr_token - 1);
   printf("%u\n", ans);

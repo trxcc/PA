@@ -21,7 +21,7 @@ int is_exit_status_bad();
 
 char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
 
-extern word_t expr(char *e, bool success);
+extern word_t expr(char *e, bool *success);
 
 static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
@@ -34,7 +34,7 @@ static void compare(){
   //assert(e[0] != '\0');
   int n = strlen(e);
   if (e[n-1] == '\n') { e[n-1] = '\0'; } 
-  word_t cal = expr(&e[0], flag);
+  word_t cal = expr(&e[0], &flag);
   printf("%u\n", cal);
   printf("%s = %u\n", e, cal);
   //if(!tmp) perror("hh"); 
