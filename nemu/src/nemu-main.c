@@ -31,10 +31,10 @@ static void compare(){
   printf("%d\n", f);
   assert(fgets(e, 65535, fp) != NULL);
   bool flag = true;
-  assert(e[0] != '\0');
+  printf("%c\n", e[0]);
+  //assert(e[0] != '\0');
   int n = strlen(e);
   if (e[n-1] == '\n') { e[n-1] = '\0'; } 
-  printf("%c\n", e[0]); 
   word_t cal = expr(&e[0], flag);
   assert(cal == -1);
   printf("%s = %u\n", e, ans);
