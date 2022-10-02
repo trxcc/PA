@@ -37,12 +37,6 @@ static void compare(){
   //printf("%u\n", cal);
   //printf("%s = %u\n", e, cal);
     if(cal == ans) ++cnt;
-    else {
-      FILE* fp = fopen("home/trxcc/ics2022/nemu/src/input", "w");
-      fprintf(fp, "%s = %u, cal = %u\n", e, ans, cal);
-      fclose(fp);
-      rec[ind] = e, rec1[ind] = ans, rec2[ind++] = cal;
-    }
   }
   printf("%d\n", cnt);
   for (int i = 0; i < ind; i++)
