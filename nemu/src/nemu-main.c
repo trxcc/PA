@@ -29,6 +29,7 @@ void compare(){
   char *tmp = NULL;// word_t ans;
   //bool flag = true;
   int f = fscanf(fp, "%s", tmp);
+  assert(tmp != NULL);
   printf("%d\n", f);
   //printf("%u\n", expr(e, flag));
   printf("%s\n", tmp);
