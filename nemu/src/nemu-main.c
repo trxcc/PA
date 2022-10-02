@@ -19,7 +19,7 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/gen-expr.c";
+char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
 
 extern word_t expr(char *e, bool success);
 
@@ -29,7 +29,7 @@ void compare(){
   char *tmp = NULL;// word_t ans;
   //bool flag = true;
   int f = fscanf(fp, "%s", tmp);
-  assert(f > 0);
+  printf("%d\n", f);
   //printf("%u\n", expr(e, flag));
   printf("%s\n", tmp);
   fclose(fp);
