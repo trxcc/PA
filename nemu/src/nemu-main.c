@@ -30,7 +30,7 @@ void compare(){
   //bool flag = true;
   assert(fgets(tmp, sizeof(tmp), fp) != NULL);
   printf("%s\n", strtok(tmp, " "));
-  //printf("%u\n", expr(e, flag));
+  printf("%s\n", strtok(NULL, " "));
   printf("%s\n", tmp);
   fclose(fp);
 }
