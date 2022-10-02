@@ -19,13 +19,15 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-char* FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/gen-expr.c";
+char *FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/gen-expr.c";
 
 extern word_t expr(char *e, bool success);
 
 void compare(){
   FILE *fp = fopen(FILEPATH, "r");
-  assert(fp != NULL);
+  if (fp == NULL)
+    {perror("whatever");exit(0);}
+  //assert(fp != NULL);
   char *tmp = NULL;// word_t ans;
   //bool flag = true;
   int f = fscanf(fp, "%s", tmp);
