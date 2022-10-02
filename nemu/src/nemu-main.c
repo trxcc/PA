@@ -29,9 +29,11 @@ void compare(){
   char tmp[65535];  
   //bool flag = true;
   assert(fgets(tmp, sizeof(tmp), fp) != NULL);
-  printf("%s\n", strtok(tmp, " "));
-  printf("%s\n", strtok(NULL, " "));
-  printf("%s\n", tmp);
+  char *e = strtok(NULL, " ");
+  printf("%s\n", e);
+  //printf("%s\n", strtok(tmp, " "));
+  //printf("%u\n", expr(strtok(NULL, " ")), flag);
+  //printf("%u\n", strtoul(tmp));
   fclose(fp);
 }
 
