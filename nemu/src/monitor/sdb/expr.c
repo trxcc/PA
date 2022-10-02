@@ -124,8 +124,8 @@ static bool make_token(char *e) {
               return false;
             }
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+            //printf("%d\n", tokens[--nr_token].type);
+            //printf("%s\n", tokens[nr_token++].str);
             break; 
           default: printf("Invalid input expression! Please check again!\n"); break;
         }
@@ -204,11 +204,8 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  printf("dsafa\n");
 //  *success = true;
-  printf("%s\n", e);
   word_t ans = eval(0, nr_token - 1);
-  printf("%uhhhh\n", ans);
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
   return ans;

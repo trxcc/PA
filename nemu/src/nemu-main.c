@@ -37,6 +37,7 @@ static void compare(){
   word_t cal = expr(&e[0], &flag);
   printf("%u\n", cal);
   printf("%s = %u\n", e, cal);
+  if(cal == ans) printf("yes\n");
   //if(!tmp) perror("hh"); 
   //bool flag = true;
   //assert(fgets(tmp, 65535, fp) != NULL);
