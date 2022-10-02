@@ -100,10 +100,8 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     for (i = 0; i < NR_REGEX; i ++) {
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-        assert(0);
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
-        assert(0);
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
@@ -204,12 +202,10 @@ word_t eval(int p, int q) {
 }
 
 word_t expr(char *e, bool *success) {
-  printf("%s\n", e);
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-  printf("%s\n", e);
   *success = true;
   word_t ans = eval(0, nr_token - 1);
   printf("%u\n", ans);
