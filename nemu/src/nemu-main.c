@@ -31,6 +31,7 @@ static void compare(){
   printf("%d\n", f);
   assert(fgets(e, 65535, fp) != NULL);
   bool flag = true;
+  assert(e[0] != '\n');
   int n = strlen(e);
   if (e[n-1] == '\n') { e[n-1] = '\0'; } 
   printf("%c\n", e[0]); 
