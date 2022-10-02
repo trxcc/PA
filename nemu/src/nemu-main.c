@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 #include <common.h>
+#include <unistd.h>
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
@@ -29,9 +30,10 @@ void compare(){
   char *tmp = NULL;// word_t ans;
   //bool flag = true;
   int f = fscanf(fp, "%s", tmp);
-  assert(f == 1);
+  assert(f > 0);
   //printf("%u\n", expr(e, flag));
   printf("%s\n", tmp);
+  fclose(fp);
 }
 
 int main(int argc, char *argv[]) {
