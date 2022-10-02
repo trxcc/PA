@@ -31,7 +31,6 @@ static void compare(){
   printf("%d\n", f);
   assert(fgets(e, 65535, fp) != NULL);
   bool flag = true;
-  printf("%c\n", e[0]);
   //assert(e[0] != '\0');
   int n = strlen(e);
   if (e[n-1] == '\n') { e[n-1] = '\0'; } 
@@ -50,7 +49,6 @@ static void compare(){
 
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
-  compare();
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
@@ -59,6 +57,6 @@ int main(int argc, char *argv[]) {
 
   /* Start engine. */
   engine_start();
-
+  compare();
   return is_exit_status_bad();
 }
