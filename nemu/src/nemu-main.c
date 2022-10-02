@@ -28,7 +28,8 @@ static void compare(){
   assert(fp != NULL);
   char *tmp = NULL; 
   int f = fscanf(fp, "%s", tmp);
-  printf("%d\n", f); 
+  printf("%d\n", f);
+  if(!f) perror("hh"); 
   //bool flag = true;
   //assert(fgets(tmp, 65535, fp) != NULL);
   //char *e = strtok(NULL, " ");
