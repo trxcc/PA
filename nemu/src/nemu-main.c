@@ -13,14 +13,13 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 #include <common.h>
-#include <unistd.h>
 
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-char *FILEPATH = "home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
+char FILEPATH[] = "home/trxcc/ics2022/nemu/tools/gen-expr/input_cc";
 
 extern word_t expr(char *e, bool success);
 
