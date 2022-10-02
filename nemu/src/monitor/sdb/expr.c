@@ -208,9 +208,9 @@ word_t expr(char *e, bool *success) {
 //  *success = true;
   printf("%s\n", e);
   word_t ans = eval(0, nr_token - 1);
-  printf("%u\n", ans);
+  printf("%uhhhh\n", ans);
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  //TODO();
+  return ans;
+  //return 0;
 }
