@@ -31,6 +31,7 @@ void compare(){
   char *l = fgets(tmp, 65535, fp);
   assert(tmp != NULL);
   assert(l != NULL);
+  printf("hh\n");
   //printf("%u\n", expr(e, flag));
   printf("%s\n", tmp);
   fclose(fp);
