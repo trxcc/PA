@@ -36,6 +36,7 @@ static void compare(){
   //printf("%u\n", cal);
   //printf("%s = %u\n", e, cal);
     if(cal == ans) ++cnt;
+    else printf("%s = %u, cal = %u\n", e, ans, cal);
   }
   printf("%d\n", cnt);
   //if(!tmp) perror("hh"); 
