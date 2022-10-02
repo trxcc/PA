@@ -92,6 +92,7 @@ static inline void record_token(char *r, int len, int Nr_token, int token_type){
 static bool make_token(char *e) {
   int position = 0;
   int i;
+  printf("%s\n", e);
   regmatch_t pmatch;
 
   nr_token = 0;
