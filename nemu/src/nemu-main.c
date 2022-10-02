@@ -26,8 +26,8 @@ extern word_t expr(char *e, bool success);
 static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
-  char *tmp = NULL; 
-  int f = fscanf(fp, "%s", &tmp[0]);
+  char tmp[65535]; 
+  int f = fscanf(fp, "%s", tmp);
   printf("%d\n", f);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
