@@ -30,7 +30,7 @@ static void compare(){
   int f = fscanf(fp, "%u", &ans);
   printf("%d\n", f);
   assert(fgets(e, 65535, fp) != NULL);
-  word_t cal = expr(e, true);
+  word_t cal = expr(&e[0], true);
   assert(cal == -1);
   printf("%s = %u\n", e, ans);
   //if(!tmp) perror("hh"); 
