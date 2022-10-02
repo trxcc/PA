@@ -27,7 +27,7 @@ static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
   char *tmp = NULL; 
-  int f = scanf("%s", tmp);
+  int f = fscanf(fp, "%s", &tmp[0]);
   printf("%d\n", f);
   //if(!tmp) perror("hh"); 
   //bool flag = true;
