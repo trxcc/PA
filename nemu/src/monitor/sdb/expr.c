@@ -92,7 +92,7 @@ static inline void record_token(char *r, int len, int Nr_token, int token_type){
 static bool make_token(char *e) {
   int position = 0;
   int i;
-  printf("%s\n", e);
+  //printf("%s\n", e);
   regmatch_t pmatch;
 
   nr_token = 0;
@@ -113,7 +113,7 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        
+        assert(0);
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
           case '+': case '-': case '*':
