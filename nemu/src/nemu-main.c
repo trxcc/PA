@@ -26,11 +26,11 @@ extern word_t expr(char *e, bool success);
 void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
-  char tmp[65535];// word_t ans;
-  //bool flag = true;
-  assert(fgets(tmp, 65535, fp ) != NULL);
-  printf("hh\n");
-  //printf("%u\n", expr(e, flag));
+  char tmp[65535];  
+  bool flag = true;
+  assert(fgets(tmp, sizeof(tmp), fp) != NULL);
+  char *e = strtok(tmp, " ");
+  printf("%u\n", expr(e, flag));
   printf("%s\n", tmp);
   fclose(fp);
 }
