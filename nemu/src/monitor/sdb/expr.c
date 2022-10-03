@@ -22,7 +22,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_NUM = 1, TK_EQ = 2, TK_REG = 3, TK_VAR = 4, TK_HEX = 5,
-  TK_AND = 6, TK_OR = 7, TK_POINTER = 8, TK_NEQ = 9,
+  TK_AND = 6, TK_OR = 7, TK_POINTER = 8, TK_NEQ = 9, TK_MINUS = 10,
   /* TODO: Add more token types */
 
 };
@@ -208,7 +208,9 @@ static int get_op_type(int p, int q){
       if (tokens[i].type == TK_POINTER) { continue; }
       ans = i;
     }
-    else if (tokens[ans].type == TK_POINTER) { ans = i; }
+    else if (tokens[ans].type == TK_POINTER || tokens[ans].type == TK_MINUS) {
+      if (tokens[i-1].type == TK_POINTER || tokens[ans].type == TK_MINUS) {ans = i;}
+    }
   }
   return ans;
 }
@@ -217,7 +219,7 @@ extern uint32_t vaddr_read(vaddr_t addr, int len);
 
 word_t eval(int p, int q) {
   //printf("p:%d q:%d\n", p, q);
-  if (p > q && tokens[p].type == TK_POINTER) { return 0; } 
+  if (p > q && (tokens[p].type == TK_POINTER || tokens[p].type == TK_MINUS)) { return 0; } 
   if (p > q) { printf("opInvalid expression.\n"); assert(0); }
   else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
   else if (check_parentheses(p, q) == true) {
@@ -238,6 +240,7 @@ word_t eval(int p, int q) {
       case TK_NEQ: return val1 != val2;
       case TK_AND: return val1 && val2;
       case TK_POINTER: return vaddr_read(val2, 1);
+      case TK_MINUS: return 0-val2;
       default: assert(0);
     }
   }
@@ -269,11 +272,12 @@ word_t expr(char *e, bool *success) {
   }
   
   for(int i = 0; i < nr_token; i++){
-    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != TK_HEX)))
+    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != TK_HEX && tokens[i-1].type != TK_REG)))
       { tokens[i].type = TK_POINTER;}
+    else if (tokens[i].type == '-' && (i == 0 || (tokens[i-1].type != TK_NUM && tokens[i-1].type != TK_HEX && tokens[i-1].type != TK_REG)))
+      { tokens[i].type = TK_MINUS; }
   }
   
-  //dereference();
 
   *success = true;
   word_t ans = eval(0, nr_token - 1);
