@@ -110,7 +110,7 @@ void delete_wp(int ind) {
 
 void add_wp(char *e){
   WP* temp = new_wp();
-  temp->EXPR = e;
+  strcpy(temp->EXPR, e);
   bool success = true;
   temp->val = expr(e, &success);
   printf("%s = %u\n", head->EXPR, head->val);
