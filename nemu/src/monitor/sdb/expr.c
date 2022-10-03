@@ -209,7 +209,8 @@ static int get_op_type(int p, int q){
       ans = i;
     }
     else if (tokens[ans].type == TK_POINTER || tokens[ans].type == TK_MINUS) {
-      if (tokens[i-1].type == TK_POINTER || tokens[i-1].type == TK_MINUS) {ans = i;}
+      if (tokens[i-1].type == TK_POINTER || tokens[i-1].type == TK_MINUS) {continue;}
+      ans = i;
     }
   }
   return ans;
