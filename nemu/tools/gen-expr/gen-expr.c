@@ -122,7 +122,7 @@ static void gen_rand_expr(int flag) {
           if (pos > 65535) { pos = 65537; break; }
           break;
       }
-    } while(token_len > 32 || pos > 65535 || !chk());
+    } while(token_len > 320 || pos > 65535 || !chk());
   }
   else {
     switch(choose(3)){

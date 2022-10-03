@@ -79,7 +79,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[320] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static inline void record_token(char *r, int len, int Nr_token, int token_type){
@@ -205,7 +205,6 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
   *success = true;
-  printf("%d\n", nr_token);
   word_t ans = eval(0, nr_token - 1);
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
