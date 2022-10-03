@@ -123,6 +123,7 @@ void print_wp(){
     return;
   }
   else while (temp != NULL) {
+    printf("%s\n", temp->EXPR);
     printf("Watchpoint %d: %s = %u\n", temp->NO, temp->EXPR, temp->val);
     temp = temp->next;
   }
