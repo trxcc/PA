@@ -75,5 +75,9 @@ void free_wp(WP *wp){
   wp->val = 0;
   wp->EXPR[0] = '\0';
 }
+
+bool check_wp(){return true;}
+
+
 /* TODO: Implement the functionality of watchpoint */
 
