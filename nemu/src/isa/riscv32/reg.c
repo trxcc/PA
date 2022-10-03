@@ -35,8 +35,12 @@ void isa_reg_display() {
 
 static int reg_index(const char *s){
   for (int i = 0; i < 32; i++) {
-    printf("%s\n", regs[i]);
-    if (s == regs[i]) return i;
+    bool flag = true;
+    if (strlen(s) != strlen(regs[i])) {continue;} 
+    for (int j = 0; j < strlen(s); j++){
+      if (s[j] != regs[i][j]) {flag = false; break;}
+    }
+    if (flag) return i;
   }
   return -1; 
 }
