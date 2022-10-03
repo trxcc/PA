@@ -43,7 +43,7 @@ static struct rule {
   {"\\/", '/'},         // divide
   {"==", TK_EQ},        // equal
   {"!=", TK_NEQ},
-  {"\\b([\\$rsgta])(1?)([ap0-9])\\b", TK_REG}, // register
+  {"\\b\\$([\\$rsgta])(1?)([ap0-9])\\b", TK_REG}, // register
   {"\\b[0-9]+\\b", TK_NUM},  // number
   {"\\b[A-Za-z]+\\b", TK_VAR},    // variable
   {"0[xX][0-9A-Fa-f]+", TK_HEX},   // hex_number
@@ -90,6 +90,8 @@ static inline void record_token(char *r, int len, int Nr_token, int token_type){
   return;   // record the token into tokens[nr_token].str
 }
 
+extern word_t isa_reg_str2val(const char *s, bool *success);
+
 static bool make_token(char *e) {
   int position = 0;
   int i;
@@ -115,15 +117,36 @@ static bool make_token(char *e) {
         
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
-          case '+': case '-': case '*':
-          case '/': case '(': case ')': 
           case TK_REG:
-            record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
+            record_token(&e[position-substr_len+1], substr_len-1, nr_token, rules[i].token_type);
+            bool flag = true;
+            word_t ans = isa_reg_str2val(tokens[nr_token].str, &flag);
+            if (!flag) { printf("Invalid addr.\n"); assert(0); }
+            memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
+            sprintf(tokens[nr_token].str, "%u", ans);
+            ++nr_token;
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
+            break; 
+          case TK_HEX:
+            if (substr_len > 32) {
+              printf("Too long token in position %d! Please check again!\n", position-substr_len);       
+              return false;
+          }
+            char tmp_str[32]; memset(tmp_str, '\0', sizeof(tmp_str));
+            strncpy(tmp_str, &e[position-substr_len+2], substr_len-2);
+            int a;
+            sscanf(tmp_str, "%x", &a);
+            sprintf(tokens[nr_token].str, "%d", a);
+            tokens[nr_token].type = TK_HEX;
+            ++nr_token;
             printf("%d\n", tokens[--nr_token].type);
             printf("%s\n", tokens[nr_token++].str);
             break;
+          case '+': case '-': case '*':
+          case '/': case '(': case ')': 
           case TK_EQ: case TK_VAR: 
-          case TK_HEX: case TK_AND: case TK_OR:
+          case TK_AND: case TK_OR:
           case TK_NEQ:
           case TK_NUM:
             if (substr_len > 32){
@@ -131,8 +154,8 @@ static bool make_token(char *e) {
               return false;
             }
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
-            //printf("%d\n", tokens[--nr_token].type);
-            //printf("%s\n", tokens[nr_token++].str);
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
             break; 
           default: printf("Invalid input expression! Please check again!\n"); break;
         }
@@ -166,7 +189,7 @@ static bool check_parentheses(int p, int q){
 static int get_op_type(int p, int q){
   int ans = -1, cnt = 0; bool flag = true;
   for (int i = p; i <= q; i++) {
-    if (tokens[i].type == 1 || tokens[i].type == 5) { continue; }
+    if (tokens[i].type == TK_NUM || tokens[i].type == TK_HEX || tokens[i].type == TK_REG) { continue; }
     else if (tokens[i].type == ')') { 
       --cnt; 
       if (cnt == 0) { flag = true; }
@@ -175,10 +198,17 @@ static int get_op_type(int p, int q){
     else if (flag == false) { continue; }
     else if (ans == -1) { /*printf("%d\n", cnt);*/ ans = i; }
     else if (tokens[ans].type == '+' || tokens[ans].type == '-') {
-      if (tokens[i].type == '*' || tokens[i].type == '/') { continue; }
-      else if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
+      if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
     }
-    else if (tokens[ans].type == '*' || tokens[ans].type == '/') { ans = i; }
+    else if (tokens[ans].type == '*' || tokens[ans].type == '/') {
+      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND ||tokens[i].type == TK_POINTER) {continue;}
+      ans = i;
+    }
+    else if (tokens[ans].type == TK_EQ || tokens[ans].type == TK_NEQ || tokens[ans].type == TK_AND){
+      if (tokens[i].type == TK_POINTER) { continue; }
+      ans = i;
+    }
+    else if (tokens[ans].type == TK_POINTER) { ans = i; }
   }
   return ans;
 }
@@ -201,6 +231,10 @@ word_t eval(int p, int q) {
       case '-': return val1 - val2;
       case '*': return val1 * val2;
       case '/': if (val2 == 0) { printf("Divide 0 error occured!\n"); return 0;}return val1 / val2;
+      case TK_EQ: return val1 == val2;
+      case TK_NEQ: return val1 != val2;
+      case TK_AND: return val1 && val2;
+      case TK_POINTER: 
       default: assert(0);
     }
   }
