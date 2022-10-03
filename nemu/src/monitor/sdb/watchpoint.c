@@ -112,7 +112,7 @@ void add_wp(char *e){
   temp->EXPR = e;
   bool success = true;
   temp->val = expr(e, &success);
-  printf("%s = %u\n", temp->EXPR, temp->val);
+  printf("%s = %u\n", head->EXPR, head->val);
   return;
 }
 
