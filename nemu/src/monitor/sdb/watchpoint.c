@@ -99,7 +99,10 @@ bool check_wp(){
 void delete_wp(int ind) {
   WP* temp = head;
   while (temp != NULL) {
-    if (temp->NO == ind) { free_wp(temp); break; }
+    if (temp->NO == ind) {
+      free_wp(temp);
+      break; 
+    }
     temp = temp->next;
   }
   if (temp == NULL) {
