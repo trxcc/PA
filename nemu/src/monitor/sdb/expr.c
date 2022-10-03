@@ -125,8 +125,8 @@ static bool make_token(char *e) {
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
             sprintf(tokens[nr_token].str, "%u", ans);
             ++nr_token;
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+          //  printf("%d\n", tokens[--nr_token].type);
+          //  printf("%s\n", tokens[nr_token++].str);
             break; 
           case TK_HEX:
             if (substr_len > 32) {
@@ -140,8 +140,8 @@ static bool make_token(char *e) {
             sprintf(tokens[nr_token].str, "%d", a);
             tokens[nr_token].type = TK_HEX;
             ++nr_token;
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+        //    printf("%d\n", tokens[--nr_token].type);
+        //    printf("%s\n", tokens[nr_token++].str);
             break;
           case '+': case '-': case '*':
           case '/': case '(': case ')': 
@@ -154,8 +154,8 @@ static bool make_token(char *e) {
               return false;
             }
             record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
-            printf("%d\n", tokens[--nr_token].type);
-            printf("%s\n", tokens[nr_token++].str);
+      //      printf("%d\n", tokens[--nr_token].type);
+      //      printf("%s\n", tokens[nr_token++].str);
             break; 
           default: printf("Invalid input expression! Please check again!\n"); break;
         }
@@ -229,7 +229,7 @@ word_t eval(int p, int q) {
   else {
     //op = the position of the main operation in the token expression.
     int op = get_op_type(p, q);
-    printf("op:%d, %s \n", op, tokens[op].str);//hhh
+    //printf("op:%d, %s \n", op, tokens[op].str);//hhh
     word_t val1 = eval(p, op - 1), val2 = eval(op + 1, q);
     
     switch(tokens[op].type){
