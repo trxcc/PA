@@ -51,10 +51,10 @@ static int cmd_c(char *args) {
 
 
 static int cmd_p(char *args) {
-  char *arg = strtok(NULL, " ");
+  //char *arg = strtok(NULL, " ");
   bool flag = true;
-  printf("%s\n", arg);
-  word_t ans = expr(arg, &flag);
+  printf("%s\n", args);
+  word_t ans = expr(args, &flag);
   Log("%u\n", ans);
   return 0;  
 }
