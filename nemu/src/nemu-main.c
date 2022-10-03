@@ -19,10 +19,10 @@ void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
-char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/input_k";
+//char *FILEPATH = "/home/trxcc/ics2022/nemu/tools/gen-expr/input_k";
 
-extern word_t expr(char *e, bool *success);
-
+//extern word_t expr(char *e, bool *success);
+/*
 static void compare(){
   FILE *fp = fopen(FILEPATH, "r");
   assert(fp != NULL);
@@ -50,7 +50,7 @@ static void compare(){
   //printf("%u\n", strtoul(tmp));
   fclose(fp);
 }
-
+*/
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 #endif
 
   /* Start engine. */
-  compare();
+//  compare();
   engine_start();
   return is_exit_status_bad();
 }
