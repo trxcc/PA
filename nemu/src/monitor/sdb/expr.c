@@ -137,6 +137,7 @@ static bool make_token(char *e) {
             strncpy(tmp_str, &e[position-substr_len+2], substr_len-2);
             int a;
             sscanf(tmp_str, "%x", &a);
+            printf("%d\n", a);
             sprintf(tokens[nr_token].str, "%d", a);
             tokens[nr_token].type = TK_HEX;
             ++nr_token;
