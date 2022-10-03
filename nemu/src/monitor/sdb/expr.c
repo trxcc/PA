@@ -201,11 +201,11 @@ static int get_op_type(int p, int q){
       if (tokens[i].type == '+' || tokens[i].type == '-') { ans = i; }
     }
     else if (tokens[ans].type == '*' || tokens[ans].type == '/') {
-      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND ||tokens[i].type == TK_POINTER) {continue;}
+      if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND ||tokens[i].type == TK_POINTER || tokens[i].type == TK_MINUS) {continue;}
       ans = i;
     }
     else if (tokens[ans].type == TK_EQ || tokens[ans].type == TK_NEQ || tokens[ans].type == TK_AND){
-      if (tokens[i].type == TK_POINTER) { continue; }
+      if (tokens[i].type == TK_POINTER || tokens[i].type == TK_MINUS) { continue; }
       ans = i;
     }
     else if (tokens[ans].type == TK_POINTER || tokens[ans].type == TK_MINUS) {
