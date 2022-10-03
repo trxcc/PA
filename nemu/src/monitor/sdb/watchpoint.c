@@ -76,7 +76,23 @@ void free_wp(WP *wp){
   wp->EXPR[0] = '\0';
 }
 
-bool check_wp(){return true;}
+extern word_t expr(char *e, bool *success);
+
+bool check_wp(){
+  WP* temp = head;
+  bool flag = true, tmp_flag = true;
+  while (temp != NULL) {
+    word_t tmp_val = expr(temp->EXPR, &tmp_flag);
+    if (tmp_val != temp->val) {
+      flag = false;
+      printf("Watchpoint %d: %s\n", temp->NO, temp->EXPR);
+      printf("Old value is %d,\nNew value is %d\n", temp->val, tmp_val);
+      temp->val = tmp_val;
+      temp = temp->next;
+    }
+  }
+  return flag;
+}
 
 
 /* TODO: Implement the functionality of watchpoint */
