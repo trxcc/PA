@@ -114,12 +114,13 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-        
+        bool flag = true; 
+        char tmp_str[32];
+        int a;       
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
           case TK_REG:
             record_token(&e[position-substr_len+1], substr_len-1, nr_token, rules[i].token_type);
-            bool flag = true;
             word_t ans = isa_reg_str2val(tokens[nr_token].str, &flag);
             if (!flag) { printf("Invalid addr.\n"); assert(0); }
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
@@ -133,9 +134,8 @@ static bool make_token(char *e) {
               printf("Too long token in position %d! Please check again!\n", position-substr_len);       
               return false;
           }
-            char tmp_str[32]; memset(tmp_str, '\0', sizeof(tmp_str));
+            memset(tmp_str, '\0', sizeof(tmp_str));
             strncpy(tmp_str, &e[position-substr_len+2], substr_len-2);
-            int a;
             sscanf(tmp_str, "%x", &a);
             sprintf(tokens[nr_token].str, "%d", a);
             tokens[nr_token].type = TK_HEX;
