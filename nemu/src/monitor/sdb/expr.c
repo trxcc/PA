@@ -121,6 +121,7 @@ static bool make_token(char *e) {
             record_token(&e[position-substr_len+1], substr_len-1, nr_token, rules[i].token_type);
             bool flag = true;
             word_t ans = isa_reg_str2val(tokens[nr_token].str, &flag);
+            printf("%u\n", ans);
             if (!flag) { printf("Invalid addr.\n"); assert(0); }
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
             sprintf(tokens[nr_token].str, "%u", ans);
@@ -137,7 +138,6 @@ static bool make_token(char *e) {
             strncpy(tmp_str, &e[position-substr_len+2], substr_len-2);
             int a;
             sscanf(tmp_str, "%x", &a);
-            printf("%d\n", a);
             sprintf(tokens[nr_token].str, "%d", a);
             tokens[nr_token].type = TK_HEX;
             ++nr_token;
