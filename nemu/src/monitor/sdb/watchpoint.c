@@ -89,8 +89,8 @@ bool check_wp(){
       printf("Watchpoint %d: %s\n", temp->NO, temp->EXPR);
       printf("Old value is %u,\nNew value is %u\n", temp->val, tmp_val);
       temp->val = tmp_val;
-      temp = temp->next;
     }
+    temp = temp->next;
   }
   if(!head) printf("%s = %u\n", head->EXPR, head->val);
   return flag;
@@ -111,7 +111,6 @@ void delete_wp(int ind) {
 void add_wp(char *e){
   WP* temp = new_wp();
   assert(temp != NULL);
-  printf("%s\n", e);
   strcpy(temp->EXPR, e);
   bool success = true;
   temp->val = expr(e, &success);
