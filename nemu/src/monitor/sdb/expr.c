@@ -121,7 +121,6 @@ static bool make_token(char *e) {
             record_token(&e[position-substr_len+1], substr_len-1, nr_token, rules[i].token_type);
             bool flag = true;
             word_t ans = isa_reg_str2val(tokens[nr_token].str, &flag);
-            printf("%u\n", ans);
             if (!flag) { printf("Invalid addr.\n"); assert(0); }
             memset(tokens[nr_token].str, '\0', sizeof(tokens[nr_token].str));
             sprintf(tokens[nr_token].str, "%u", ans);
@@ -214,8 +213,11 @@ static int get_op_type(int p, int q){
   return ans;
 }
 
+extern uint32_t vaddr_read(vaddr_t addr, int len);
+
 word_t eval(int p, int q) {
   //printf("p:%d q:%d\n", p, q);
+  if (p > q && tokens[p].type == TK_POINTER) { return 0; } 
   if (p > q) { printf("opInvalid expression.\n"); assert(0); }
   else if (p == q) { int ans; sscanf(tokens[p].str, "%d", &ans); return ans; }
   else if (check_parentheses(p, q) == true) {
@@ -235,7 +237,7 @@ word_t eval(int p, int q) {
       case TK_EQ: return val1 == val2;
       case TK_NEQ: return val1 != val2;
       case TK_AND: return val1 && val2;
-      case TK_POINTER: 
+      case TK_POINTER: return vaddr_read(val2, 1);
       default: assert(0);
     }
   }
