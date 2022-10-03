@@ -53,6 +53,7 @@ static int cmd_c(char *args) {
 static int cmd_p(char *args) {
   char *arg = strtok(NULL, " ");
   bool flag = true;
+  printf("%s\n", arg);
   word_t ans = expr(arg, &flag);
   Log("%u\n", ans);
   return 0;  
