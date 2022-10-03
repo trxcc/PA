@@ -82,6 +82,7 @@ bool check_wp(){
   WP* temp = head;
   bool flag = true, tmp_flag = true;
   while (temp != NULL) {
+    printf("%s\n", temp->EXPR);
     word_t tmp_val = expr(temp->EXPR, &tmp_flag);
     if (tmp_val != temp->val) {
       flag = false;
