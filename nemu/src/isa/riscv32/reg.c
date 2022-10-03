@@ -43,5 +43,6 @@ static int reg_index(const char *s){
 word_t isa_reg_str2val(const char *s, bool *success) {
   int i = reg_index(s);
   if (i == -1) { success = false; return 0; }
+  *success = true;
   return cpu.gpr[i];
 }

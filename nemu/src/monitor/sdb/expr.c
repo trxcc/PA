@@ -22,7 +22,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_NUM = 1, TK_EQ = 2, TK_REG = 3, TK_VAR = 4, TK_HEX = 5,
-  TK_AND = 6, TK_OR = 7, 
+  TK_AND = 6, TK_OR = 7, TK_POINTER = 8, TK_NEQ = 9,
   /* TODO: Add more token types */
 
 };
@@ -42,12 +42,13 @@ static struct rule {
   {"\\*", '*'},         // multiply
   {"\\/", '/'},         // divide
   {"==", TK_EQ},        // equal
+  {"!=", TK_NEQ},
   {"\\b([\\$rsgta])(1?)([ap0-9])\\b", TK_REG}, // register
   {"\\b[0-9]+\\b", TK_NUM},  // number
   {"\\b[A-Za-z]+\\b", TK_VAR},    // variable
   {"0[xX][0-9A-Fa-f]+", TK_HEX},   // hex_number
-  {"\\&", TK_AND},          // and
-  {"\\|", TK_OR},           // or
+  {"\\&\\&", TK_AND},          // and
+  {"\\|\\|", TK_OR},           // or
 
   {"\\(", '('},
   {"\\)", ')'},
@@ -116,8 +117,14 @@ static bool make_token(char *e) {
           case TK_NOTYPE: break;
           case '+': case '-': case '*':
           case '/': case '(': case ')': 
-          case TK_REG: case TK_EQ: case TK_VAR: 
+          case TK_REG:
+            record_token(&e[position - substr_len], substr_len, nr_token++, rules[i].token_type);
+            printf("%d\n", tokens[--nr_token].type);
+            printf("%s\n", tokens[nr_token++].str);
+            break;
+          case TK_EQ: case TK_VAR: 
           case TK_HEX: case TK_AND: case TK_OR:
+          case TK_NEQ:
           case TK_NUM:
             if (substr_len > 32){
               printf("Too long token in position %d! Please check again!\n", position-substr_len);
@@ -199,11 +206,38 @@ word_t eval(int p, int q) {
   }
 }
 
+/*static void dereference() {
+  for(int i = 0; i < nr_token; i++) {
+    if (tokens[i].type == TK_POINTER) {
+      vaddr_t addr = 0;
+      memset(tokens[i].str, '\0', sizeof(tokens[i].str));
+      sscanf(tokens[i+1].str, "%d", &addr);
+      uint32_t data = vaddr_read(addr, 1);
+      sprintf(tokens[i].str, "%u", data); 
+      tokens[i].type = TK_NUM;
+ 
+      for (int j = i+1; j < nr_token-1; j++){
+        tokens[j].str = tokens[j+1].str, tokens[j].type = tokens[j+1].type;
+      }
+      tokens[nr_token-1].type = 0;
+      memset(tokens[nr_token-1].str, '\0', siezof(tokens[nr_tokens-1].str));
+      --nr_token;
+  }
+}
+*/
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
+  
+  for(int i = 0; i < nr_token; i++){
+    if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != TK_NUM && tokens[i - 1].type != TK_HEX)))
+      { tokens[i].type = TK_POINTER;}
+  }
+  
+  //dereference();
+
   *success = true;
   word_t ans = eval(0, nr_token - 1);
   /* TODO: Insert codes to evaluate the expression. */
