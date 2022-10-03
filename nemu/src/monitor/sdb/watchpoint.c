@@ -92,6 +92,7 @@ bool check_wp(){
       temp = temp->next;
     }
   }
+  if(!head) printf("%s = %u\n", head->EXPR, head->val);
   return flag;
 }
 
