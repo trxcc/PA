@@ -20,7 +20,7 @@
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
-  int val;
+  word_t val;
   char *EXPR;
   /* TODO: Add more members if necessary */
 
@@ -87,7 +87,7 @@ bool check_wp(){
     if (tmp_val != temp->val) {
       flag = false;
       printf("Watchpoint %d: %s\n", temp->NO, temp->EXPR);
-      printf("Old value is %d,\nNew value is %d\n", temp->val, tmp_val);
+      printf("Old value is %u,\nNew value is %u\n", temp->val, tmp_val);
       temp->val = tmp_val;
       temp = temp->next;
     }
@@ -123,7 +123,7 @@ void print_wp(){
     return;
   }
   else while (temp != NULL) {
-    printf("Watchpoint %d: %s = %d\n", temp->NO, temp->EXPR, temp->val);
+    printf("Watchpoint %d: %s = %u\n", temp->NO, temp->EXPR, temp->val);
     temp = temp->next;
   }
   return;
