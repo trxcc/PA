@@ -33,9 +33,14 @@ NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
 
 run-env: $(BINARY) $(DIFF_REF_SO)
 
+COUNT_L := $(shell find -name "*.[ch]" | xargs cat | wc -l)
+count:
+	@echo $(COUNT_L) lines in nemu
+
 run: run-env
 	$(call git_commit, "run NEMU")
 	$(NEMU_EXEC)
+
 
 gdb: run-env
 	$(call git_commit, "gdb NEMU")
