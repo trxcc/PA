@@ -110,6 +110,7 @@ void delete_wp(int ind) {
 
 void add_wp(char *e){
   WP* temp = new_wp();
+  assert(temp != NULL);
   strcpy(temp->EXPR, e);
   bool success = true;
   temp->val = expr(e, &success);
