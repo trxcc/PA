@@ -54,7 +54,7 @@ static int cmd_p(char *args) {
   //char *arg = strtok(NULL, " ");
   bool flag = true;
   word_t ans = expr(args, &flag);
-  Log("%u\n", ans);
+  printf("%u\n", ans);
   return 0;  
 }
 
@@ -84,6 +84,8 @@ static int cmd_si(char *args){
   return 0; 
 }
 
+extern void print_wp();
+
 static int cmd_info(char *args){
   char *arg = strtok(NULL, " ");
   if(arg == NULL){
@@ -95,7 +97,7 @@ static int cmd_info(char *args){
     //printf("%c\n", args[0]);
     switch(*arg){
       case 'r': isa_reg_display(); break;    // 114 is the ASCII code of "r"
-      case 'w': 
+      case 'w': print_wp(); break;
       default: break;
     }
   }
@@ -137,6 +139,22 @@ static int cmd_x(char *args){
   return 0;
 }
 
+extern void delete_wp(int ind);
+
+static int cmd_d(char *args) {
+  int ind;
+  assert(sscanf(args, "%d", &ind) == 1);
+  delete_wp(ind);
+  return 0;
+}
+
+extern void add_wp(char *e);
+
+static int cmd_w(char *args) {
+  add_wp(args);
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -148,7 +166,9 @@ static struct {
   { "si", "Execute for a single step", cmd_si},
   { "info", "Display information about the memories or registers", cmd_info },
   { "x", "Scan and print the value of the memories", cmd_x },
-  { "p", "Print the value of expression", cmd_p},
+  { "p", "Print the value of expression", cmd_p },
+  { "d", "Delete the value of the watchpoint", cmd_d },
+  { "w", "Set a new watchpoint", cmd_w },
   /* TODO: Add more commands */
 
 };

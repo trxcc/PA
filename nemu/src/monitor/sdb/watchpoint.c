@@ -94,6 +94,38 @@ bool check_wp(){
   return flag;
 }
 
+void delete_wp(int ind) {
+  WP* temp = head;
+  while (temp != NULL) {
+    if (temp->NO == ind) { free(temp); break; }
+    temp = temp->next;
+  }
+  if (temp == NULL) {
+    printf("Watchpoint %d doesn't exist!", ind);
+    assert(0);
+  }
+}
+
+void add_wp(char *e){
+  WP* temp = new_wp();
+  temp->EXPR = e;
+  bool success = true;
+  temp->val = expr(e, &success);
+  return;
+}
+
+void print_wp(){
+  WP* temp = head;
+  if (temp == NULL) {
+    printf("No watchpoint now!\n");
+    return;
+  }
+  else while (temp != NULL) {
+    printf("Watchpoint %d: %s = %d\n", temp->NO, temp->EXPR, temp->val);
+    temp = temp->next;
+  }
+  return;
+}
 
 /* TODO: Implement the functionality of watchpoint */
 
