@@ -81,7 +81,6 @@ extern word_t expr(char *e, bool *success);
 bool check_wp(){
   WP* temp = head;
   bool flag = true, tmp_flag = true;
-  assert(temp != NULL);
   while (temp != NULL) {
     printf("%s\n", temp->EXPR);
     word_t tmp_val = expr(temp->EXPR, &tmp_flag);
@@ -93,6 +92,7 @@ bool check_wp(){
     }
     temp = temp->next;
   }
+  assert(0);
   if(!head) printf("%s = %u\n", head->EXPR, head->val);
   return flag;
 }
