@@ -77,7 +77,6 @@ static int decode_exec(Decode *s) {
   //INSTPAT("??????? ????? 00000 000 ????? 00100 11", li     , I, R(dest) = imm); 
   INSTPAT_END();
   R(0) = 0; // reset $zero to 0
-  assert(0);
   return 0;
 }
 
