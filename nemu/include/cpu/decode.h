@@ -92,8 +92,8 @@ finish:
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \
   if (((INSTPAT_INST(s) >> shift) & mask) == key) { \
     INSTPAT_MATCH(s, ##__VA_ARGS__); \
-    assert(0);\
     goto *(__instpat_end); \
+    assert(0);\
   } \
 } while (0)
 
