@@ -37,7 +37,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-    assert(0);
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 #ifdef CONFIG_WATCHPOINT
@@ -45,6 +44,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
     printf("The watchpoints have changed!\n");
     nemu_state.state = NEMU_STOP;
   }
+    assert(0);
 #endif
 }
 
