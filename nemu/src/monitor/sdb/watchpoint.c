@@ -92,8 +92,8 @@ bool check_wp(){
     }
     temp = temp->next;
   }
-  assert(0);
   if(!head) printf("%s = %u\n", head->EXPR, head->val);
+  assert(0);
   return flag;
 }
 
