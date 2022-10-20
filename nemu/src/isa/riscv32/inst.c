@@ -107,7 +107,7 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem    , M, R(dest) = ((int)src1 % (int)src2));
   INSTPAT("0000001 ????? ????? 000 ????? 01100 11", mul    , M, R(dest) = src1 * src2);
-  INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , M, R(dest) = (long long)(((long long)src1) * ((long long)src2)) >> 32);
+  INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , M, printf("%lld %d\n", (long long)src1 * (long long)src2, (int)src1 * (int)src2), R(dest) = (int)src1 * (int)src2);
   INSTPAT("0000001 ????? ????? 100 ????? 01100 11", div    , M, R(dest) = ((int)src1 / (int)src2));
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
