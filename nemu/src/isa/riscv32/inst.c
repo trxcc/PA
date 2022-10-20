@@ -109,7 +109,7 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("0000001 ????? ????? 110 ????? 01100 11", rem    , M, R(dest) = ((int)src1 % (int)src2));
   INSTPAT("0000001 ????? ????? 000 ????? 01100 11", mul    , M, R(dest) = src1 * src2);
-  INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , M, R(dest) = (word_t)(((long long int)((long long int)src1 * (long long int)src2)) >> 32));
+  INSTPAT("0000001 ????? ????? 001 ????? 01100 11", mulh   , M, R(dest) = (word_t)((int64_t)((src1 >> 31 & 1 ? (int64_t) (src1 | 0xffffffff00000000) : (int64_t) src1) * (src2 >> 31 & 1 ? (int64_t) (src2 | 0xffffffff00000000) : (int64_t) src2)) >> 32));
   INSTPAT("0000001 ????? ????? 100 ????? 01100 11", div    , M, R(dest) = ((int)src1 / (int)src2));
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
