@@ -30,7 +30,7 @@ int sprintf(char *out, const char *fmt, ...) {
           int vaint = va_arg(vl, int);
           int len = 0, tmp = vaint;
           while (tmp) ++len, tmp /= 10;
-          for (int j = i + len; j >= 0; j--){
+          for (int j = i + len - 1; j >= i; j--){
             out[j] = (char)((vaint % 10) - '0');
             vaint /= 10;
           } 
