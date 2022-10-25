@@ -31,7 +31,7 @@ int sprintf(char *out, const char *fmt, ...) {
           int len = 0, tmp = vaint;
           while (tmp) ++len, tmp /= 10;
           for (int j = i + len - 1; j >= i; j--){
-            out[j] = (char)((vaint % 10) - '0');
+            out[j] = (char)((vaint % 10) + '0');
             vaint /= 10;
           } 
           i += len; break;
@@ -47,6 +47,7 @@ int sprintf(char *out, const char *fmt, ...) {
       ++p;
     }
   }
+  va_end(vl);
   out[i] = '\0';
   return i;
   panic("Not implemented");
