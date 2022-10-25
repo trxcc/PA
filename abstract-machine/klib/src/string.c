@@ -6,7 +6,7 @@
 
 size_t strlen(const char *s) {
   size_t ans = 0;
-  for (size_t i = 0; s[i] != '\0'; ++i, ++ans);
+  while (*s++ != '\0') ++ans;
   return ans;
   panic("Not implemented");
 }
@@ -78,7 +78,7 @@ void *memcpy(void *out, const void *in, size_t n) {
 int memcmp(const void *s1, const void *s2, size_t n) {
   const unsigned char *c1, *c2;
   int res;
-  for (c1 = s1, c2 = s2; n > 0; ++c1, ++c2, --n)
+  for (c1 = (unsigned char *)s1, c2 = (unsigned char *)s2; n > 0; ++c1, ++c2, --n)
     if ((res = *c1 - *c2) != 0)
       break;
   return res;
