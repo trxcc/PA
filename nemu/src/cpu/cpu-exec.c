@@ -42,7 +42,7 @@ static void write_to_nemulog(Decode *_this) {
   IringBuf.now = (IringBuf.now + 1) % MAX_INST_IN_IRINGBUF;
   if (nemu_state.state == NEMU_END) {
     for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
-      if (IringBuf.now == i) { log_write(" --> "); }
+      if (IringBuf.now == i + 1) { log_write(" --> "); }
       else { log_write("     "); }
       log_write("%s\n", IringBuf.bbuf[i]);
     }
