@@ -37,6 +37,7 @@ extern bool check_wp();
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
 
 static void log_to_file() {
+  log_write("The instructions in IringBuf:\n");
   for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
     if (IringBuf.now == i + 1) { log_write("   -->   "); }
     else { log_write("      "); }
