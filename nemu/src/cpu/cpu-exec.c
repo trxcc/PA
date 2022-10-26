@@ -36,17 +36,20 @@ extern bool check_wp();
 #define MAX_INST_IN_IRINGBUF 20
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
 
+static void log_to_file() {
+  for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
+    if (IringBuf.now == i + 1) { log_write("   -->   "); }
+    else { log_write("      "); }
+    log_write("%s\n", IringBuf.bbuf[i]);
+  }
+}
+
 static void write_to_nemulog(Decode *_this) {
   //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
   strcpy(IringBuf.bbuf[IringBuf.now], _this->logbuf);
   IringBuf.now = (IringBuf.now + 1) % MAX_INST_IN_IRINGBUF;
-  if (nemu_state.state == NEMU_END) {
-    for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
-      if (IringBuf.now == i + 1) { log_write(" --> "); }
-      else { log_write("     "); }
-      log_write("%s\n", IringBuf.bbuf[i]);
-    }
-  }
+  //if (nemu_state.state == NEMU_END) { log_to_file(); }
+  
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 }
 
@@ -114,6 +117,7 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+  log_to_file();
   isa_reg_display();
   statistic();
 }
