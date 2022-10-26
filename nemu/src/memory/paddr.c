@@ -68,7 +68,7 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 static void mtrace_write(paddr_t addr, word_t data) {
-  log_write("   %u is written to the address 0x%08x\n", data, addr);
+  log_write("   %u is written to the address 0x%08x\n", data, addr );
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
