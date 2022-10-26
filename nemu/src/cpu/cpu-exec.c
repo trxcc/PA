@@ -33,9 +33,21 @@ static bool g_print_step = false;
 void device_update();
 extern bool check_wp();
 
+#define MAX_INST_IN_IRINGBUF 20
+static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
+
 static void write_to_nemulog(Decode *_this) {
   //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
-  if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  strcpy(IringBuf.bbuf[IringBuf.now], _this->logbuf);
+  IringBuf.now = (IringBuf.now + 1) % MAX_INST_IN_IRINGBUF;
+  if (nemu_state.state == NEMU_END) {
+    for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
+      if (IringBuf.now == i) { log_write(" --> "); }
+      else { log_write("     "); }
+      log_write("%s\n", IringBuf.bbuf[i]);
+    }
+  }
+  //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 }
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
