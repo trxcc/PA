@@ -34,7 +34,8 @@ void device_update();
 extern bool check_wp();
 
 static void write_to_nemulog(Decode *_this) {
-  if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
+  //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
+  if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 }
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
