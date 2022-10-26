@@ -33,9 +33,14 @@ static bool g_print_step = false;
 void device_update();
 extern bool check_wp();
 
+static void write_to_nemulog(Decode *_this) {
+  if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
+}
+
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-  if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  write_to_nemulog(_this);
+  //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
