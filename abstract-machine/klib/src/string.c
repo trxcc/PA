@@ -5,6 +5,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
+  panic("Not implemented");
   size_t ans = 0;
   while (*s++ != '\0') ++ans;
   return ans;
@@ -12,6 +13,7 @@ size_t strlen(const char *s) {
 }
 
 char *strcpy(char *dst, const char *src) {
+  panic("Not implemented");
   size_t i;
   for (i = 0; src[i] != '\0'; i++) dst[i] = src[i];
   dst[i] = '\0';
@@ -20,6 +22,7 @@ char *strcpy(char *dst, const char *src) {
 }
 
 char *strncpy(char *dst, const char *src, size_t n) {
+  panic("Not implemented");
   size_t i;
   for (i = 0; i < n && src[i] != '\0'; i++)
     dst[i] = src[i];
@@ -30,6 +33,7 @@ char *strncpy(char *dst, const char *src, size_t n) {
 }
 
 char *strcat(char *dst, const char *src) {
+  panic("Not implemented");
   size_t dst_len = strlen(dst);
   size_t i;
   for(i = 0; src[i] != '\0'; i++) dst[dst_len + i] = src[i];
@@ -39,6 +43,7 @@ char *strcat(char *dst, const char *src) {
 }
 
 int strcmp(const char *s1, const char *s2) {
+  panic("Not implemented");
   while (*s1 != '\0' && *s2 != '\0') {
     if (*s1 > *s2) return 1;
     else if (*s1 < *s2) return -1; 
@@ -51,6 +56,7 @@ int strcmp(const char *s1, const char *s2) {
 }
 
 int strncmp(const char *s1, const char *s2, size_t n) {
+  panic("Not implemented");
   for (size_t i = 1; i <= n; i++) {
     if (s1[i] < s2[i]) return -1;
     else if (s1[i] > s2[i]) return 1;
@@ -60,6 +66,7 @@ int strncmp(const char *s1, const char *s2, size_t n) {
 }
 
 void *memset(void *s, int c, size_t n) {
+  panic("Not implemented");
   if (!s || n < 0) return s;
   char *p = (char *) s;
   while (n-- > 0) *p++ = c;
@@ -76,6 +83,7 @@ void *memcpy(void *out, const void *in, size_t n) {
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
+  panic("Not implemented");
   unsigned char *c1, *c2;
   int res;
   for (c1 = (unsigned char *)s1, c2 = (unsigned char *)s2; n > 0; ++c1, ++c2, --n)
