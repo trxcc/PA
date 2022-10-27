@@ -40,7 +40,7 @@ static void log_to_file() {
   log_write("The instructions in IringBuf:\n");
   for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
     if (IringBuf.now == i + 1) { log_write("   -->   "); }
-    else { log_write("      "); }
+    else { log_write("         "); }
     log_write("%s\n", IringBuf.bbuf[i]);
   }
 }
@@ -73,6 +73,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
+  printf("0x%08x\n", s->pc);
   cpu.pc = s->dnpc;
   //assert(0);
 #ifdef CONFIG_ITRACE
@@ -90,7 +91,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
   p += space_len;
-  printf("0x%08x\n", s->pc);
+  
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
