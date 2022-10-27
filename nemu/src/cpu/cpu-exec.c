@@ -57,6 +57,7 @@ static void write_to_nemulog(Decode *_this) {
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   write_to_nemulog(_this);
+  //if (!***) { ITRACE_COND = !ITRACE_COND; }
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
@@ -72,7 +73,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
-  printf("0x%08x\n", s->pc);
   isa_exec_once(s);
   cpu.pc = s->dnpc;
   //assert(0);
