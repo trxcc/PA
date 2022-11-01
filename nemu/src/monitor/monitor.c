@@ -15,6 +15,7 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#include <cpu/ftrace.h>
 
 void init_rand();
 void init_log(const char *log_file);
@@ -154,6 +155,10 @@ void am_init_monitor() {
   init_mem();
   init_isa();
   load_img();
+#ifdef FTRACE
+  init_ftrace(ftrace_file);
+  assert(0);
+#endif
   IFDEF(CONFIG_DEVICE, init_device());
   welcome();
 }
