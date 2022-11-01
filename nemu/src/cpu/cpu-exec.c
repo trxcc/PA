@@ -17,6 +17,7 @@
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
 #include <locale.h>
+#include <elf.h>
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -44,6 +45,7 @@ static void log_to_file() {
     log_write("%s\n", IringBuf.bbuf[i]);
   }
 }
+
 
 static void write_to_nemulog(Decode *_this) {
   //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
