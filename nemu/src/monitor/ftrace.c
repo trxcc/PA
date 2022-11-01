@@ -21,9 +21,11 @@ FuncNode funcnode[MAX_NODE];
 static int cnt = 0;
 
 void getStrTable (char *filepath) {
-  fp = stdout;
+//  fp = stdout;
   if (filepath != NULL) {
+    printf("hh\n");
     FILE *tmp_fp = fopen(filepath, "w");
+    printf("cc\n");
     Assert(tmp_fp, "Can not open '%s'", filepath);
     fp = tmp_fp;
   }
