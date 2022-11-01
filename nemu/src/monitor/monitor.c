@@ -106,7 +106,7 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Parse arguments. */
   parse_args(argc, argv);
-#ifdef FTRACE
+#ifdef CONFIG_FTRACE
   init_ftrace(ftrace_file);
   assert(0);
 #endif
