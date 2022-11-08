@@ -67,6 +67,8 @@ void getStrTable (char *filepath) {
 void getFunc() {
   for (uint32_t i = 0; i < nr_symtab; i++) {
     if (ELF32_ST_TYPE(SymTable[i].st_info) == STT_FUNC) {
+      printf("i: %d,  %s\n", i, StrTable + SymTable[i].st_name);
+      assert(0);
       funcnode[FTRACE_CNT].name = StrTable + SymTable[i].st_name;
       funcnode[FTRACE_CNT].start_addr = SymTable[i].st_value;
       funcnode[FTRACE_CNT].end_addr = SymTable[i].st_value + SymTable[i].st_size;
@@ -103,7 +105,6 @@ void ftrace_record(Decode *s) {
 
 void init_ftrace(char *filepath) {
   getStrTable(filepath);
-  assert(0);
   getFunc();
 }
 
