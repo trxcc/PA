@@ -66,6 +66,7 @@ void getStrTable (char *filepath) {
 
 void getFunc() {
   for (uint32_t i = 0; i < nr_symtab; i++) {
+    printf("i:%d\n", i);
     if (ELF32_ST_TYPE(SymTable[i].st_info) == STT_FUNC) {
       printf("i: %d,  %s\n", i, StrTable + SymTable[i].st_name);
       assert(0);
