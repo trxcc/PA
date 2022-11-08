@@ -24,6 +24,11 @@ typedef struct Decode {
   vaddr_t dnpc; // dynamic next pc
   ISADecodeInfo isa;
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
+  //enum {CALL = 1, RET = 2,};
+#ifdef CONFIG_FTRACE
+  int Type; // 0 for CALL, and 1 for RET
+  vaddr_t jmpAddr;
+#endif
 } Decode;
 
 // --- pattern matching mechanism ---
