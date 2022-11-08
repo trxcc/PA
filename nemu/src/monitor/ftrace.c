@@ -45,6 +45,7 @@ void getStrTable (char *filepath) {
   x = fread(shstrtab, shdr[ehdr->e_shstrndx].sh_size, 1, fp);
   assert(shstrtab != NULL);
   assert(x == x);
+  printf("%u\n", ehdr->e_shnum);
   // Scan the section table
   for (int i = 0; i < ehdr->e_shnum; i++) {
     // Load the symbol table
