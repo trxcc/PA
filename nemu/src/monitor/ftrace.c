@@ -10,17 +10,17 @@ static Elf32_Sym *SymTable;
 static char *shstrtab, *StrTable;
 static uint32_t nr_symtab;
 
-#define MAX_NODE 100
 
 /*typedef struct{
   char *name;
   uint32_t start_addr, end_addr;
 }FuncNode;*/
 
-FuncNode funcnode[100];
-char *ftrace_ans;
+FuncNode funcnode[MAX_FUNC_NODE];
+TraceNode tracenode[MAX_TRACE_NODE];
+//char *ftrace_ans;
 
-int FTRACE_CNT = 0;
+int FTRACE_CNT = 0, TRACE_NODE_CNT = 0;
 
 void getStrTable (char *filepath) {
 //  fp = stdout;
@@ -89,6 +89,7 @@ void ftrace_record(Decode *s) {
     memcpy(tmp1, tmp, 3);
     if (strcmp(tmp1, "jal") == 0) printf("2222\n");
   }*/
+/*
   char *tmp = ftrace_ans, *func_name;
   char tmp_str[5];
   char a1[] = "call", a2[] = "ret";
@@ -103,7 +104,16 @@ void ftrace_record(Decode *s) {
     }
   }
   int x = sprintf(tmp, "\n0x%08x: %s [%s@0x%08x]", s->pc, tmp_str, func_name, s->jmpAddr); 
-  assert(x == x);
+  assert(x == x);*/
+  for (int i = 0; i < FTRACE_CNT; i++) {
+    if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
+      tracenode[TRACE_NODE_CNT].name = funcnode[i].name;
+      break;
+    }
+  }
+  tracenode[TRACE_NODE_CNT].pc = s->pc;
+  tracenode[TRACE_NODE_CNT].Type = s->Type;
+  tracenode[TRACE_NODE_CNT].jmpAddr = s->jmpAddr; 
 }
 
 void init_ftrace(char *filepath) {
