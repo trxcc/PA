@@ -34,7 +34,7 @@ static bool g_print_step = false;
 
 void device_update();
 extern bool check_wp();
-char *ftrace_ans;
+//char *ftrace_ans;
 
 #define MAX_INST_IN_IRINGBUF 20
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
