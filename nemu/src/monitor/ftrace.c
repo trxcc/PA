@@ -120,9 +120,9 @@ void ftrace_record(Decode *s) {
 
 void print_ftrace(){
   for (int i = 0; i < TRACE_NODE_CNT; i++) {
-    puts("0x%08x: ");
-    if (tracenode[i].Type == 0) { puts("call "); }
-    else { puts("ret "); }
+    printf("0x%08x: ", tracenode[i].pc);
+    if (tracenode[i].Type == 0) { printf("call "); }
+    else { printf("ret "); }
     printf("[%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr);
   }
 }
