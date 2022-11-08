@@ -29,7 +29,7 @@ void getStrTable (char *filepath) {
     Assert(tmp_fp, "Can not open '%s'", filepath);
     fp = tmp_fp;
   }
-
+  printf("what1\n");
   int x = fread(ehdr, sizeof(ehdr), 1, fp);
 
   // Find the section table
