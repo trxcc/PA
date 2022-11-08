@@ -10,5 +10,6 @@ extern FuncNode funcnode[100];
 extern void getStrTable(char *filepath);
 extern void getFunc();
 extern void init_ftrace(char *filepath);
+extern void ftrace_record(char *p);
 
 #endif
