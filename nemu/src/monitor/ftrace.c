@@ -125,6 +125,7 @@ void print_ftrace(){
     else { printf("ret "); }
     printf("[%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr);
   }
+  printf("%d\n", TRACE_NODE_CNT);
 }
 
 void init_ftrace(char *filepath) {
