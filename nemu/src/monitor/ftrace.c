@@ -37,13 +37,13 @@ void getStrTable (char *filepath) {
   uint32_t shdr_size = ehdr->e_shentsize * ehdr->e_shnum;
   shdr = malloc(shdr_size);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
-  x = fread(shdr, ehdr->e_shentsize * ehdr->e_shnum, 1, fp);
+  x = fread(shdr, shdr_size, 1, fp);
   assert(shdr != NULL);
   // Find the string table
   shstrtab = malloc(shdr[ehdr->e_shstrndx].sh_size);
   fseek(fp, shdr[ehdr->e_shstrndx].sh_offset, SEEK_SET);
   x = fread(shstrtab, shdr[ehdr->e_shstrndx].sh_size, 1, fp);
-
+  assert(shstrtab != NULL);
   assert(x == x);
   // Scan the section table
   for (int i = 0; i < ehdr->e_shnum; i++) {
