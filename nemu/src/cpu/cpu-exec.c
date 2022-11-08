@@ -16,6 +16,7 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
+#include <cpu/ftrace.h>
 #include <locale.h>
 #include <elf.h>
 
