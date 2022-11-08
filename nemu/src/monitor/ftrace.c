@@ -94,6 +94,7 @@ void ftrace_record(Decode *s) {
   char a1[] = "call", a2[] = "ret";
   if (s->Type == 0) memcpy(tmp_str, a1, sizeof(a1));
   else if (s->Type == 1) memcpy(tmp_str, a2, sizeof(a2));
+  assert(0);
   while (*tmp != '\0') { tmp += 1; }
   for(int i = 0; i < FTRACE_CNT; i++) {
     if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
