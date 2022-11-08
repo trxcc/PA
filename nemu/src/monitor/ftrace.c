@@ -122,9 +122,11 @@ void print_ftrace(){
   int space_num = 0;
   for (int i = 0; i < TRACE_NODE_CNT; i++) {
     printf("0x%08x: ", tracenode[i].pc);
+    if (tracenode[i].Type == 0) ++space_num;
+    else --space_num;
     for (int i = 0; i < space_num; i++) { printf(" "); }
-    if (tracenode[i].Type == 0) { ++space_num; printf("call "); }
-    else { --space_num; printf("ret "); }
+    if (tracenode[i].Type == 0) { printf("call "); }
+    else { printf("ret "); }
     printf("[%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr);
   }
   printf("%d\n", TRACE_NODE_CNT);
