@@ -105,6 +105,7 @@ void ftrace_record(Decode *s) {
   }
   int x = sprintf(tmp, "\n0x%08x: %s [%s@0x%08x]", s->pc, tmp_str, func_name, s->jmpAddr); 
   assert(x == x);*/
+  if (s->Type == -1) return;
   for (int i = 0; i < FTRACE_CNT; i++) {
     if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
       tracenode[TRACE_NODE_CNT].name = funcnode[i].name;
@@ -114,6 +115,16 @@ void ftrace_record(Decode *s) {
   tracenode[TRACE_NODE_CNT].pc = s->pc;
   tracenode[TRACE_NODE_CNT].Type = s->Type;
   tracenode[TRACE_NODE_CNT].jmpAddr = s->jmpAddr; 
+  ++TRACE_NODE_CNT;
+}
+
+void print_ftrace(){
+  for (int i = 0; i < TRACE_NODE_CNT; i++) {
+    puts("0x%08x: ");
+    if (tracenode[i].Type == 0) { puts("call "); }
+    else { puts("ret "); }
+    printf("[%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr);
+  }
 }
 
 void init_ftrace(char *filepath) {
