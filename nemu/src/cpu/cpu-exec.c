@@ -52,7 +52,7 @@ static void write_to_nemulog(Decode *_this) {
   //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
   strcpy(IringBuf.bbuf[IringBuf.now], _this->logbuf);
   IringBuf.now = (IringBuf.now + 1) % MAX_INST_IN_IRINGBUF;
-  //if (nemu_state.state == NEMU_END) { log_to_file(); }
+  if (nemu_state.state == NEMU_END) { log_to_file(); }
   
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 }
@@ -60,7 +60,7 @@ static void write_to_nemulog(Decode *_this) {
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   write_to_nemulog(_this);
-  printf("what\n");
+  //printf("what\n");
   //if (!***) { ITRACE_COND = !ITRACE_COND; }
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
