@@ -107,7 +107,6 @@ void ftrace_record(Decode *s) {
 
 void init_ftrace(char *filepath) {
   getStrTable(filepath);
-  assert(0);
   getFunc();
 }
 
