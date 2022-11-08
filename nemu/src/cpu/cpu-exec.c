@@ -40,10 +40,10 @@ static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBu
 
 static void log_to_file() {
   log_write("The instructions in IringBuf:\n");
-  for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
-    if (IringBuf.now == i + 1) { log_write("   -->   "); }
+  for (int i = 1; i <= MAX_INST_IN_IRINGBUF; i++) {
+    if (i == MAX_INST_IN_IRINGBUF) { log_write("   -->   "); }
     else { log_write("         "); }
-    log_write("%s\n", IringBuf.bbuf[i]);
+    log_write("%s\n", IringBuf.bbuf[(i + IringBuf.now) % MAX_INST_IN_IRINGBUF]);
   }
 }
 
