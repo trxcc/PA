@@ -66,7 +66,7 @@ void getStrTable (char *filepath) {
 
 void getFunc() {
   for (uint32_t i = 0; i < nr_symtab; i++) {
-    if (SymTable[i].st_info == STT_FUNC) {
+    if (ELF32_ST_TYPE(SymTable[i].st_info) == STT_FUNC) {
       funcnode[FTRACE_CNT].name = StrTable + SymTable[i].st_name;
       funcnode[FTRACE_CNT].start_addr = SymTable[i].st_value;
       funcnode[FTRACE_CNT].end_addr = SymTable[i].st_value + SymTable[i].st_size;
