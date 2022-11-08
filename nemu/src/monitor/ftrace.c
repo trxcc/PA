@@ -32,21 +32,22 @@ void getStrTable (char *filepath) {
  
   ehdr = malloc(sizeof(Elf32_Ehdr));
   int x = fread(ehdr, sizeof(Elf32_Ehdr), 1, fp);
+  
   // Find the section table
   assert(ehdr != NULL);
   uint32_t shdr_size = ehdr->e_shentsize * ehdr->e_shnum;
-  printf("%u\n", ehdr->e_shnum);
   shdr = malloc(shdr_size);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
   x = fread(shdr, shdr_size, 1, fp);
   assert(shdr != NULL);
+  
   // Find the string table
   shstrtab = malloc(shdr[ehdr->e_shstrndx].sh_size);
   fseek(fp, shdr[ehdr->e_shstrndx].sh_offset, SEEK_SET);
   x = fread(shstrtab, shdr[ehdr->e_shstrndx].sh_size, 1, fp);
   assert(shstrtab != NULL);
   assert(x == x);
-  printf("%u\n", ehdr->e_shnum);
+  
   // Scan the section table
   for (int i = 0; i < ehdr->e_shnum; i++) {
     // Load the symbol table
@@ -67,12 +68,9 @@ void getStrTable (char *filepath) {
 } 
 
 void getFunc() {
-  printf("%u\n", nr_symtab);
   for (uint32_t i = 0; i < nr_symtab; i++) {
-    printf("i:%d\n", i);
     if (ELF32_ST_TYPE(SymTable[i].st_info) == STT_FUNC) {
       printf("i: %d,  %s\n", i, StrTable + SymTable[i].st_name);
-      assert(0);
       funcnode[FTRACE_CNT].name = StrTable + SymTable[i].st_name;
       funcnode[FTRACE_CNT].start_addr = SymTable[i].st_value;
       funcnode[FTRACE_CNT].end_addr = SymTable[i].st_value + SymTable[i].st_size;
