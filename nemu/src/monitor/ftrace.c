@@ -71,6 +71,10 @@ void getFunc() {
   }
 }
 
+void ftrace_record(char *p) {
+  
+}
+
 void init_ftrace(char *filepath) {
   getStrTable(filepath);
   getFunc();
