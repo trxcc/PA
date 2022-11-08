@@ -16,7 +16,7 @@ static uint32_t nr_symtab;
   uint32_t start_addr, end_addr;
 }FuncNode;*/
 
-FuncNode funcnode[MAX_NODE];
+FuncNode funcnode[100];
 
 static int cnt = 0;
 

@@ -6,6 +6,7 @@ typedef struct {
   uint32_t start_addr, end_addr;
 }FuncNode;
 
+extern FuncNode funcnode[100];
 extern void getStrTable(char *filepath);
 extern void getFunc();
 extern void init_ftrace(char *filepath);
