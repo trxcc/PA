@@ -34,6 +34,7 @@ static bool g_print_step = false;
 
 void device_update();
 extern bool check_wp();
+char *ftrace_ans;
 
 #define MAX_INST_IN_IRINGBUF 20
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
@@ -46,7 +47,6 @@ static void log_to_file() {
     log_write("%s\n", IringBuf.bbuf[(i + IringBuf.now) % MAX_INST_IN_IRINGBUF]);
   }
 }
-
 
 static void write_to_nemulog(Decode *_this) {
   //if (nemu_state.state == NEMU_END) log_write("%s\n", _this->logbuf);
@@ -77,21 +77,27 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
+#ifdef CONFIG_FTRACE
+  s->JMP = false;
+  s->Type = -1;
+#endif
   isa_exec_once(s);
+#ifdef CONFIG_FTRACE
+  if (s->JMP) { s->Type = (s->isa.inst.val == 0x00008067) ? 1 : 0; }
+  ftrace_record(s);
+  if (nemu_state.state == NEMU_END) log_write("%s\n", ftrace_ans); 
+#endif
   cpu.pc = s->dnpc;
   //assert(0);
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
-  printf("1: %s\n", p);
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
-  printf("2: %s\n", p);
   int ilen = s->snpc - s->pc;
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
   }
-  printf("3: %s\n", p);
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -99,7 +105,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   memset(p, ' ', space_len);
   p += space_len;
   printf("4: %s\n", p); 
-  ftrace_record(p);  
+  //ftrace_record(p);  
  
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
@@ -129,6 +135,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   log_to_file();
+  log_write("%s\n", ftrace_ans);
   isa_reg_display();
   statistic();
 }

@@ -25,10 +25,11 @@ typedef struct Decode {
   ISADecodeInfo isa;
   IFDEF(CONFIG_ITRACE, char logbuf[128]);
   //enum {CALL = 1, RET = 2,};
-#ifdef CONFIG_FTRACE
+#ifdef CONFIG_FTRACE  
+  bool JMP;
   int Type; // 0 for CALL, and 1 for RET
   vaddr_t jmpAddr;
-#endif
+#endif 
 } Decode;
 
 // --- pattern matching mechanism ---

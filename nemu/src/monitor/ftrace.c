@@ -1,5 +1,6 @@
 #include <common.h>
 #include <elf.h>
+#include <cpu/decode.h>
 #include <cpu/ftrace.h>
 
 static FILE *fp = NULL;
@@ -17,8 +18,9 @@ static uint32_t nr_symtab;
 }FuncNode;*/
 
 FuncNode funcnode[100];
+char *ftrace_ans;
 
-static int cnt = 0;
+int FTRACE_CNT = 0;
 
 void getStrTable (char *filepath) {
 //  fp = stdout;
@@ -63,15 +65,16 @@ void getStrTable (char *filepath) {
 void getFunc() {
   for (uint32_t i = 0; i < nr_symtab; i++) {
     if (SymTable[i].st_info == STT_FUNC) {
-      funcnode[cnt].name = StrTable + SymTable[i].st_name;
-      funcnode[cnt].start_addr = SymTable[i].st_value;
-      funcnode[cnt].end_addr = SymTable[i].st_value + SymTable[i].st_size;
-      ++cnt;
+      funcnode[FTRACE_CNT].name = StrTable + SymTable[i].st_name;
+      funcnode[FTRACE_CNT].start_addr = SymTable[i].st_value;
+      funcnode[FTRACE_CNT].end_addr = SymTable[i].st_value + SymTable[i].st_size;
+      ++FTRACE_CNT;
     }
   }
 }
 
-void ftrace_record(char *p) {
+void ftrace_record(Decode *s) {
+/*
   char tmp[5], tmp1[4];
   memcpy(tmp, p, 4 * sizeof(p[0]));
   printf("tmp: %s\n", tmp);
@@ -79,7 +82,21 @@ void ftrace_record(char *p) {
   else {
     memcpy(tmp1, tmp, 3);
     if (strcmp(tmp1, "jal") == 0) printf("2222\n");
+  }*/
+  char *tmp = ftrace_ans, *func_name;
+  char tmp_str[5];
+  char a1[] = "call", a2[] = "ret";
+  if (s->Type == 0) memcpy(tmp_str, a1, sizeof(a1));
+  else if (s->Type == 1) memcpy(tmp_str, a2, sizeof(a2));
+  while (*tmp != '\0') { tmp += 1; }
+  for(int i = 0; i < FTRACE_CNT; i++) {
+    if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
+      func_name = funcnode[i].name;
+      break;
+    }
   }
+  int x = sprintf(tmp, "\n0x%08x: %s [%s@0x%08x]", s->pc, tmp_str, func_name, s->jmpAddr); 
+  assert(x == x);
 }
 
 void init_ftrace(char *filepath) {
