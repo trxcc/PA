@@ -60,6 +60,7 @@ static void write_to_nemulog(Decode *_this) {
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   write_to_nemulog(_this);
+  printf("what\n");
   //if (!***) { ITRACE_COND = !ITRACE_COND; }
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
