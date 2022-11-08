@@ -38,7 +38,7 @@ void getStrTable (char *filepath) {
   shdr = malloc(shdr_size);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
   x = fread(shdr, ehdr->e_shentsize * ehdr->e_shnum, 1, fp);
-
+  assert(shdr != NULL);
   // Find the string table
   shstrtab = malloc(shdr[ehdr->e_shstrndx].sh_size);
   fseek(fp, shdr[ehdr->e_shstrndx].sh_offset, SEEK_SET);
