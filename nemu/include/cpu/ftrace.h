@@ -25,5 +25,6 @@ extern void getStrTable(char *filepath);
 extern void getFunc();
 extern void init_ftrace(char *filepath);
 extern void ftrace_record(Decode *s);
+extern void print_ftrace();
 
 #endif

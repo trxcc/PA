@@ -85,7 +85,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #ifdef CONFIG_FTRACE
   if (s->JMP) { s->Type = (s->isa.inst.val == 0x00008067) ? 1 : 0; }
   ftrace_record(s);
-//  if (nemu_state.state == NEMU_END) log_write("%s\n", ftrace_ans); 
+  if (nemu_state.state == NEMU_END) print_ftrace(); 
 #endif
   cpu.pc = s->dnpc;
   //assert(0);
@@ -135,7 +135,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   log_to_file();
-  //log_write("%s\n", ftrace_ans);
+  print_ftrace();
   isa_reg_display();
   statistic();
 }
