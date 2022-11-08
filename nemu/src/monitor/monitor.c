@@ -158,8 +158,8 @@ void am_init_monitor() {
   init_isa();
   load_img();
 #ifdef FTRACE
-  init_ftrace(ftrace_file);
-  assert(0);
+//  init_ftrace(ftrace_file);
+//  assert(0);
 #endif
   IFDEF(CONFIG_DEVICE, init_device());
   welcome();
