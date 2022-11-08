@@ -25,7 +25,7 @@ int FTRACE_CNT = 0;
 void getStrTable (char *filepath) {
 //  fp = stdout;
   if (filepath != NULL) {
-    FILE *tmp_fp = fopen(filepath, "w");
+    FILE *tmp_fp = fopen(filepath, "rb");
     Assert(tmp_fp, "Can not open '%s'", filepath);
     fp = tmp_fp;
   }
