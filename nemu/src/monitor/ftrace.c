@@ -29,7 +29,9 @@ void getStrTable (char *filepath) {
     Assert(tmp_fp, "Can not open '%s'", filepath);
     fp = tmp_fp;
   }
-  int x = fread(ehdr, sizeof(ehdr), 1, fp);
+ 
+  ehdr = malloc(sizeof(Elf32_Ehdr));
+  int x = fread(ehdr, sizeof(Elf32_Ehdr), 1, fp);
   // Find the section table
   assert(ehdr != NULL);
   shdr = malloc(ehdr->e_shentsize * ehdr->e_shnum);
