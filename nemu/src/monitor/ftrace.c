@@ -30,7 +30,7 @@ void getStrTable (char *filepath) {
     fp = tmp_fp;
   }
   int x = fread(ehdr, sizeof(ehdr), 1, fp);
-
+  assert(0);
   // Find the section table
   shdr = malloc(ehdr->e_shentsize * ehdr->e_shnum);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
@@ -99,7 +99,6 @@ void ftrace_record(Decode *s) {
 }
 
 void init_ftrace(char *filepath) {
-  assert(0);
   getStrTable(filepath);
   getFunc();
 }
