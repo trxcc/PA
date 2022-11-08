@@ -34,7 +34,8 @@ void getStrTable (char *filepath) {
   int x = fread(ehdr, sizeof(Elf32_Ehdr), 1, fp);
   // Find the section table
   assert(ehdr != NULL);
-  shdr = malloc(ehdr->e_shentsize * ehdr->e_shnum);
+  uint32_t shdr_size = ehdr->e_shentsize * ehdr->e_shnum;
+  shdr = malloc(shdr_size);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
   x = fread(shdr, ehdr->e_shentsize * ehdr->e_shnum, 1, fp);
 
