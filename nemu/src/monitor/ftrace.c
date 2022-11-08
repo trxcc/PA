@@ -75,10 +75,10 @@ void ftrace_record(char *p) {
   char tmp[5], tmp1[4];
   memcpy(tmp, p, 4 * sizeof(p[0]));
   printf("tmp: %s\n", tmp);
-  if (strcmp(tmp, "call") == 1) printf("1111\n");
+  if (strcmp(tmp, "call") == 0) printf("1111\n");
   else {
     memcpy(tmp1, tmp, 3);
-    if (strcmp(tmp1, "jal") == 1) printf("2222\n");
+    if (strcmp(tmp1, "jal") == 0) printf("2222\n");
   }
 }
 
