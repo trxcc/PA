@@ -29,7 +29,6 @@ void getStrTable (char *filepath) {
     Assert(tmp_fp, "Can not open '%s'", filepath);
     fp = tmp_fp;
   }
-  assert(0);
   int x = fread(ehdr, sizeof(ehdr), 1, fp);
 
   // Find the section table
@@ -100,6 +99,7 @@ void ftrace_record(Decode *s) {
 }
 
 void init_ftrace(char *filepath) {
+  assert(0);
   getStrTable(filepath);
   getFunc();
 }
