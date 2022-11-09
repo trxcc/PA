@@ -1,7 +1,6 @@
 #ifndef __FTRACE_H__
 #define __FTRACE_H__
 
-#ifdef CONFIG_FTRACE
 #include <cpu/decode.h>
 
 #define MAX_FUNC_NODE 500
@@ -27,7 +26,6 @@ extern void getFunc();
 extern void init_ftrace(char *filepath);
 extern void ftrace_record(Decode *s);
 extern void print_ftrace();
-#endif
 
 
 #endif

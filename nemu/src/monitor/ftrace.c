@@ -108,6 +108,7 @@ void ftrace_record(Decode *s) {
   }
   int x = sprintf(tmp, "\n0x%08x: %s [%s@0x%08x]", s->pc, tmp_str, func_name, s->jmpAddr); 
   assert(x == x);*/
+#ifdef CONFIG_FTRACE
   if (s->Type == -1) return;
   Assert(TRACE_NODE_CNT < MAX_TRACE_NODE, "Trace node overflow!");
   for (int i = 0; i < FTRACE_CNT; i++) {
@@ -120,6 +121,7 @@ void ftrace_record(Decode *s) {
   tracenode[TRACE_NODE_CNT].Type = s->Type;
   tracenode[TRACE_NODE_CNT].jmpAddr = s->jmpAddr; 
   ++TRACE_NODE_CNT;
+#endif
 }
 
 void print_ftrace(){
