@@ -110,16 +110,17 @@ void ftrace_record(Decode *s) {
 #ifdef CONFIG_FTRACE
   if (s->Type == -1) return;
   Assert(TRACE_NODE_CNT < MAX_TRACE_NODE, "Trace node overflow!");
+  
+  tracenode[TRACE_NODE_CNT].pc = s->pc;
+  tracenode[TRACE_NODE_CNT].Type = s->Type;
+  if(tracenode[TRACE_NODE_CNT].Type == 0) tracenode[TRACE_NODE_CNT].jmpAddr = s->jmpAddr; 
+  else tracenode[TRACE_NODE_CNT].jmpAddr = s->pc;
   for (int i = 0; i < FTRACE_CNT; i++) {
-    if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
+    if (funcnode[i].start_addr <= tracenode[TRACE_NODE_CNT].jmpAddr && tracenode[TRACE_NODE_CNT].jmpAddr <= funcnode[i].end_addr) {
       tracenode[TRACE_NODE_CNT].name = funcnode[i].name;
       break;
     }
-  }
-  tracenode[TRACE_NODE_CNT].pc = s->pc;
-  tracenode[TRACE_NODE_CNT].Type = s->Type;
-  tracenode[TRACE_NODE_CNT].jmpAddr = s->jmpAddr; 
-  ++TRACE_NODE_CNT;
+  }++TRACE_NODE_CNT;
 #endif
 }
 
@@ -130,10 +131,10 @@ void print_ftrace(){
     if (tracenode[i].Type == 0) ++space_num;
     else --space_num;
     for (int i = 0; i < space_num; i++) { printf(" "); }
-    if (tracenode[i].Type == 0) { printf("call "); }
-    else { printf("ret "); }
-    printf("[%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr);
-  }
+    if (tracenode[i].Type == 0) { printf("call [%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr); }
+    else { printf("ret [%s]\n", tracenode[i].name);
+ }
+      }
   printf("%d\n", TRACE_NODE_CNT);
 }
 
