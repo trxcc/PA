@@ -70,6 +70,7 @@ void getStrTable (char *filepath) {
 void getFunc() {
   for (uint32_t i = 0; i < nr_symtab; i++) {
     if (ELF32_ST_TYPE(SymTable[i].st_info) == STT_FUNC) {
+      Assert(FTRACE_CNT < MAX_FUNC_NODE, "Function node overflow!");
       printf("i: %d,  %s\n", i, StrTable + SymTable[i].st_name);
       funcnode[FTRACE_CNT].name = StrTable + SymTable[i].st_name;
       funcnode[FTRACE_CNT].start_addr = SymTable[i].st_value;
@@ -106,6 +107,7 @@ void ftrace_record(Decode *s) {
   int x = sprintf(tmp, "\n0x%08x: %s [%s@0x%08x]", s->pc, tmp_str, func_name, s->jmpAddr); 
   assert(x == x);*/
   if (s->Type == -1) return;
+  Assert(TRACE_NODE_CNT < MAX_TRACE_NODE, "Trace node overflow!");
   for (int i = 0; i < FTRACE_CNT; i++) {
     if (funcnode[i].start_addr <= s->jmpAddr && s->jmpAddr <= funcnode[i].end_addr) {
       tracenode[TRACE_NODE_CNT].name = funcnode[i].name;

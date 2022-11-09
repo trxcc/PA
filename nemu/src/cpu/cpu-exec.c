@@ -16,10 +16,12 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
-#include <cpu/ftrace.h>
 #include <locale.h>
 #include <elf.h>
 
+#ifdef CONFIG_FTRACE
+#include <cpu/ftrace.h>
+#endif
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -135,7 +137,9 @@ static void statistic() {
 
 void assert_fail_msg() {
   log_to_file();
+#ifdef CONFIG_FTRACE
   print_ftrace();
+#endif
   isa_reg_display();
   statistic();
 }
