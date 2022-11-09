@@ -1,3 +1,5 @@
+#ifdef CONFIG_FTRACE 
+
 #include <common.h>
 #include <elf.h>
 #include <cpu/decode.h>
@@ -139,3 +141,4 @@ void init_ftrace(char *filepath) {
   getFunc();
 }
 
+#endif
