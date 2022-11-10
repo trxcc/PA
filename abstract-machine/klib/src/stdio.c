@@ -29,6 +29,11 @@ int sprintf(char *out, const char *fmt, ...) {
         case 'd':
           int vaint = va_arg(vl, int);
           int len = 0, tmp = vaint;
+          if (tmp < 0) {
+            out[i++] = '-';
+            tmp = -tmp;
+            vaint = -vaint;
+          }
           while (tmp) ++len, tmp /= 10;
           for (int j = i + len - 1; j >= i; j--){
             out[j] = (char)((vaint % 10) + '0');
