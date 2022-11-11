@@ -108,7 +108,7 @@ void init_monitor(int argc, char *argv[]) {
   /* Parse arguments. */
   parse_args(argc, argv);
 #ifdef CONFIG_FTRACE
-  init_ftrace(ftrace_file);
+  if(ftrace_file) { init_ftrace(ftrace_file); }
 #endif
   /* Set random seed. */
   init_rand();
