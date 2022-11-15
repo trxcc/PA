@@ -30,20 +30,21 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
       switch (*p) {
         case 'd':
           int vaint = va_arg(ap, int);
-          int len = 0; int64_t tmp = vaint;
+          int len = 0, tmp = vaint;
+          uint32_t valint = vaint, tmp1 = vaint;
           if(tmp == 0) {
             out[i++] = '0';
             break;
           }
           else if (tmp < 0) {
             out[i++] = '-';
-            tmp = -tmp;
-            vaint = -vaint;
+            tmp1 = -tmp;
+            valint = -vaint;
           }
-          while (tmp) ++len, tmp /= 10;
+          while (tmp1) ++len, tmp1 /= 10;
           for (int j = i + len - 1; j >= i; j--){
-            out[j] = (char)((vaint % 10) + '0');
-            vaint /= 10;
+            out[j] = (char)((valint % 10) + '0');
+            valint /= 10;
           } 
           i += len; break;
         case 's':
