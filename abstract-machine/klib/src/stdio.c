@@ -7,16 +7,15 @@
 
 
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+  /*va_list ap;
+  va_start(ap, fmt);
+  int len = vsprintf(out, fmt, vl);
+  va_end(ap);
+  for(int i = 0; i < len; i++) { putch() }
+  */panic("Not implemented");
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
-}
-
-int sprintf(char *out, const char *fmt, ...) {
-  va_list vl;
-  va_start(vl, fmt);
   int i = 0;
   const char *p = fmt;
   while (*p != '\0') {
@@ -27,7 +26,7 @@ int sprintf(char *out, const char *fmt, ...) {
       ++p;
       switch (*p) {
         case 'd':
-          int vaint = va_arg(vl, int);
+          int vaint = va_arg(ap, int);
           int len = 0, tmp = vaint;
           if (tmp < 0) {
             out[i++] = '-';
@@ -41,7 +40,7 @@ int sprintf(char *out, const char *fmt, ...) {
           } 
           i += len; break;
         case 's':
-          char *vachars = va_arg(vl, char *);
+          char *vachars = va_arg(ap, char *);
           while (*vachars != '\0') {
             out[i++] = *vachars;
             vachars++;
@@ -52,9 +51,17 @@ int sprintf(char *out, const char *fmt, ...) {
       ++p;
     }
   }
-  va_end(vl);
   out[i] = '\0';
   return i;
+  panic("Not implemented");
+}
+
+int sprintf(char *out, const char *fmt, ...) {
+  va_list vl;
+  va_start(vl, fmt);
+  int ret = vsprintf(out, fmt, vl);
+  va_end(vl);
+  return ret;
   panic("Not implemented");
 }
 
