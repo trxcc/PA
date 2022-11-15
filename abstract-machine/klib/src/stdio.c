@@ -5,14 +5,16 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+#define MAX_NUM_IN_OUT 5000
+static char printf_out[MAX_NUM_IN_OUT];
 
 int printf(const char *fmt, ...) {
-  /*va_list ap;
+  va_list ap;
   va_start(ap, fmt);
-  int len = vsprintf(out, fmt, vl);
+  int len = vsprintf(printf_out, fmt, ap);
   va_end(ap);
-  for(int i = 0; i < len; i++) { putch() }
-  */panic("Not implemented");
+  for(int i = 0; i < len; i++) { putch(printf_out[i]); }
+  panic("Not implemented");
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
