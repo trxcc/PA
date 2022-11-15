@@ -31,7 +31,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         case 'd':
           int vaint = va_arg(ap, int);
           int len = 0, tmp = vaint;
-          if (tmp < 0) {
+          if(tmp == 0) {
+            out[i++] = '0';
+            break;
+          }
+          else if (tmp < 0) {
             out[i++] = '-';
             tmp = -tmp;
             vaint = -vaint;
