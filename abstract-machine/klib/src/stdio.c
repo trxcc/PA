@@ -54,6 +54,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
             vachars++;
           }
           break;
+        case 'c':
+          char va_ch = va_arg(ap, char);
+          out[i++] = va_ch;
+          break;
         default: out[i++] = *p; break;
       }
       ++p;
