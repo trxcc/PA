@@ -30,7 +30,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
       switch (*p) {
         case 'd':
           int vaint = va_arg(ap, int);
-          int len = 0, tmp = vaint;
+          int len = 0; int64_t tmp = vaint;
           if(tmp == 0) {
             out[i++] = '0';
             break;
