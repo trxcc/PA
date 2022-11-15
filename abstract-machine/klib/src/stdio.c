@@ -14,6 +14,7 @@ int printf(const char *fmt, ...) {
   int len = vsprintf(printf_out, fmt, ap);
   va_end(ap);
   for(int i = 0; i < len; i++) { putch(printf_out[i]); }
+  return len;
   panic("Not implemented");
 }
 
