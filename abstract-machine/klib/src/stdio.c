@@ -57,6 +57,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
           d_len = 0;
           d_flag = false;
         }
+        putch('l');
         for (int j = i + len - 1; j >= i; j--){
           out[j] = (char)((valint % 10) + '0');
           valint /= 10;
