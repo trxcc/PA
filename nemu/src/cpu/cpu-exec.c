@@ -39,15 +39,17 @@ extern bool check_wp();
 //char *ftrace_ans;
 
 #ifdef CONFIG_ITRACE
+
 #define MAX_INST_IN_IRINGBUF 20
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
 
 static void log_to_file() {
   log_write("The instructions in IringBuf:\n");
   for (int i = 0; i < MAX_INST_IN_IRINGBUF; i++) {
-    if (i == MAX_INST_IN_IRINGBUF - 1) { log_write("   -->   "); }
-    else { log_write("         "); }
+    if (i == MAX_INST_IN_IRINGBUF - 1) { log_write("   -->   "); printf("   -->   "); }
+    else { log_write("         "); printf("         "); }
     log_write("%s\n", IringBuf.bbuf[(i + IringBuf.now) % MAX_INST_IN_IRINGBUF]);
+    printf("%s\n", IringBuf.bbuf[(i + IringBuf.now) % MAX_INST_IN_IRINGBUF]);
   }
 }
 
@@ -62,7 +64,7 @@ static void write_to_nemulog(Decode *_this) {
 #endif
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-  write_to_nemulog(_this);
+  if (ITRACE_COND) { write_to_nemulog(_this); }
   //printf("what\n");
   //if (!***) { ITRACE_COND = !ITRACE_COND; }
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
@@ -140,6 +142,7 @@ void assert_fail_msg() {
 #ifdef CONFIG_ITRACE
   log_to_file();
 #endif
+
 #ifdef CONFIG_FTRACE
   print_ftrace();
 #endif
@@ -163,6 +166,11 @@ void cpu_exec(uint64_t n) {
 
   uint64_t timer_end = get_time();
   g_timer += timer_end - timer_start;
+  
+#ifdef CONFIG_ITRACE
+  if (nemu_state.state == NEMU_ABORT) { log_to_file(); }
+#endif
+
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
