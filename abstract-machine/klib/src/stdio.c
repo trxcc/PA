@@ -39,8 +39,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         int len = 0, tmp = vaint;
         uint32_t valint = vaint, tmp1 = vaint;
         if(tmp == 0) {
-          while(d_len--) { out[i++] = '0'; }
-          d_len = 0, d_flag = false;
+          if (d_flag) {
+            while(d_len--) { out[i++] = '0'; }
+            d_len = 0, d_flag = false;
+          }
+          else { out[i++] = '0'; }
         }
         else if (tmp < 0 && !d_flag) {
           out[i++] = '-';
