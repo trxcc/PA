@@ -72,6 +72,10 @@ void *memmove(void *dst, const void *src, size_t n) {
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
+  if (!out || n < 0) return out;
+  char *p = (char *)out;
+  while (n-- > 0) { *p++ = *(char *)in; ++in; }
+  return out;
   panic("Not implemented");
 }
 
