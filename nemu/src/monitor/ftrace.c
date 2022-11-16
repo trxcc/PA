@@ -31,16 +31,19 @@ void getStrTable (char *filepath) {
     fp = tmp_fp;
   }
  
+  //ehdr = malloc(sizeof(Elf32_Ehdr));
   int x = fread(ehdr, sizeof(Elf32_Ehdr), 1, fp);
   
   // Find the section table
   assert(ehdr != NULL);
   uint32_t shdr_size = ehdr->e_shentsize * ehdr->e_shnum;
+  //shdr = malloc(shdr_size);
   fseek(fp, ehdr->e_shoff, SEEK_SET);
   x = fread(shdr, shdr_size, 1, fp);
   assert(shdr != NULL);
   
   // Find the string table
+  //shstrtab = malloc(shdr[ehdr->e_shstrndx].sh_size);
   fseek(fp, shdr[ehdr->e_shstrndx].sh_offset, SEEK_SET);
   x = fread(shstrtab, shdr[ehdr->e_shstrndx].sh_size, 1, fp);
   assert(shstrtab != NULL);
@@ -50,12 +53,14 @@ void getStrTable (char *filepath) {
   for (int i = 0; i < ehdr->e_shnum; i++) {
     // Load the symbol table
     if (shdr[i].sh_type == SHT_SYMTAB && strcmp(shstrtab + shdr[i].sh_name, ".symtab") == 0) {
+    //  SymTable = malloc(shdr[i].sh_size);
       fseek(fp, shdr[i].sh_offset, SEEK_SET);
       x = fread(SymTable, shdr[i].sh_size, 1, fp);
       nr_symtab = shdr[i].sh_size / sizeof(SymTable[0]);
     }
     // Load the string table in symbol table
     else if (shdr[i].sh_type == SHT_STRTAB && strcmp(shstrtab + shdr[i].sh_name, ".strtab") == 0) {
+      //StrTable = malloc(shdr[i].sh_size);
       fseek(fp, shdr[i].sh_offset, SEEK_SET);
       x = fread(StrTable, shdr[i].sh_size, 1, fp);
     }
