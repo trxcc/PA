@@ -63,7 +63,8 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
 #ifdef CONFIG_MTRACE
   if (likely(in_pmem(addr))) {
-    if (addr >= MIN_ADDR && addr <= MAX_ADDR) log_write("   The address 0x%08x with %d bits is read, return %u\n", addr, len, pmem_read(addr, len));
+    if (addr >= MIN_ADDR && addr <= MAX_ADDR) { log_write("   The address 0x%08x with %d bits is read, return %u\n", addr, len, pmem_read(addr, len)); }
+    if (addr >= MIN_ADDR && addr <= MAX_ADDR) { printf("   The address 0x%08x with %d bits is read, return %u\n", addr, len, pmem_read(addr, len)); }
   }
 #endif
   if (likely(in_pmem(addr))) { return pmem_read(addr, len); }
