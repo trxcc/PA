@@ -2,16 +2,17 @@
 #include <nemu.h>
 #include <stdio.h>
 
-//static uint64_t BASE_TIME = 0;
+static uint64_t BOOT_TIME = 0;
 
 void __am_timer_init() {
-  /*uint32_t lo = inl(RTC_ADDR), hi = inl(RTC_ADDR + 4);
-  BASE_TIME = (uint64_t)hi << 32 | lo;*/
+  volatile uint32_t lo = inl(RTC_ADDR), hi = inl(RTC_ADDR + 4);
+  BOOT_TIME = (uint64_t)hi << 32 | lo;
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint32_t lo = inl(RTC_ADDR), hi = inl(RTC_ADDR + 4);
-  uptime->us = ((uint64_t)hi << 32 | lo)/* - BASE_TIME*/;
+  volatile uint32_t lo = inl(RTC_ADDR), hi = inl(RTC_ADDR + 4);
+  if (BOOT_TIME == 0) { __am_timer_init(); }
+  uptime->us = ((uint64_t)hi << 32 | lo) - BOOT_TIME;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
