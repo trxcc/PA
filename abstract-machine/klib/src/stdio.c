@@ -9,6 +9,12 @@
 static char printf_out[MAX_NUM_IN_OUT];
 
 #define is_num(x) x >= '0' && x <= '9'
+/*
+static struct form_flag{
+  bool tal_flag;
+  bool d_flag;
+  bool zero_flag;
+};*/
 
 int printf(const char *fmt, ...) {
   va_list ap;

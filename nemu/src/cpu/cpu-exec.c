@@ -38,6 +38,7 @@ void device_update();
 extern bool check_wp();
 //char *ftrace_ans;
 
+#ifdef CONFIG_ITRACE
 #define MAX_INST_IN_IRINGBUF 20
 static struct iringbuf { char bbuf[MAX_INST_IN_IRINGBUF][128]; int now; }IringBuf;
 
@@ -58,7 +59,7 @@ static void write_to_nemulog(Decode *_this) {
   
   //if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 }
-
+#endif
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   write_to_nemulog(_this);
@@ -136,7 +137,9 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+#ifdef CONFIG_ITRACE
   log_to_file();
+#endif
 #ifdef CONFIG_FTRACE
   print_ftrace();
 #endif
