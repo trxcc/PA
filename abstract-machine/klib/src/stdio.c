@@ -8,6 +8,8 @@
 #define MAX_NUM_IN_OUT 5000
 static char printf_out[MAX_NUM_IN_OUT];
 
+#define is_num(x) x >= '0' && x <= '9'
+
 int printf(const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
@@ -19,7 +21,8 @@ int printf(const char *fmt, ...) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  int i = 0;
+  int i = 0, d_len = 0;
+  bool d_flag = false;
   const char *p = fmt;
   while (*p != '\0') {
     if (*p != '%') {
@@ -27,39 +30,55 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     }
     else {
       ++p;
-      switch (*p) {
-        case 'd':
-          int vaint = va_arg(ap, int);
-          int len = 0, tmp = vaint;
-          uint32_t valint = vaint, tmp1 = vaint;
-          if(tmp == 0) {
-            out[i++] = '0';
-            break;
-          }
-          else if (tmp < 0) {
-            out[i++] = '-';
-            tmp1 = -tmp;
-            valint = -vaint;
-          }
-          while (tmp1) ++len, tmp1 /= 10;
-          for (int j = i + len - 1; j >= i; j--){
-            out[j] = (char)((valint % 10) + '0');
-            valint /= 10;
-          } 
-          i += len; break;
-        case 's':
-          char *vachars = va_arg(ap, char *);
-          while (*vachars != '\0') {
-            out[i++] = *vachars;
-            vachars++;
-          }
-          break;
-        case 'c':
-          char va_ch = (char)va_arg(ap, int);
-          out[i++] = va_ch;
-          break;
-        default: out[i++] = *p; break;
+      if (is_num(*p)) {
+        d_len = d_len * 10 + *p - '0';
+        d_flag = true;
       }
+      else if (*p == 'd') {
+        int vaint = va_arg(ap, int);
+        int len = 0, tmp = vaint;
+        uint32_t valint = vaint, tmp1 = vaint;
+        if(tmp == 0) {
+          out[i++] = '0';
+          break;
+        }
+        else if (tmp < 0 && !d_flag) {
+          out[i++] = '-';
+          tmp1 = -tmp;
+          valint = -vaint;
+        }
+        while (tmp1) ++len, tmp1 /= 10;
+        if (d_flag) {
+          if (len < d_len) {
+            for (int j = 0; j < d_len - len; j++) {
+              out[i+j] = '0';
+            }
+            i += (d_len - len);
+          }
+          d_len = 0;
+          d_flag = false;
+        }
+        for (int j = i + len - 1; j >= i; j--){
+          out[j] = (char)((valint % 10) + '0');
+          valint /= 10;
+        } 
+        i += len;
+        
+      }
+      else if (*p == 's') {
+        if (d_flag) { d_flag = false, d_len = 0; }
+        char *vachars = va_arg(ap, char *);
+        while (*vachars != '\0') {
+          out[i++] = *vachars;
+          vachars++;
+        }
+      }
+      else if (*p == 'c') {
+        if (d_flag) { d_flag = false, d_len = 0; }
+        char va_ch = (char)va_arg(ap, int);
+        out[i++] = va_ch;
+      }
+      else out[i++] = *p;
       ++p;
     }
   }
