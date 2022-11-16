@@ -11,7 +11,7 @@ void __am_timer_init() {
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   volatile uint32_t lo = inl(RTC_ADDR), hi = inl(RTC_ADDR + 4);
-  if (BOOT_TIME == 0) { __am_timer_init(); }
+  //if (BOOT_TIME == 0) { __am_timer_init(); }
   uptime->us = ((uint64_t)hi << 32 | lo) - BOOT_TIME;
 }
 
