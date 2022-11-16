@@ -21,8 +21,8 @@ int printf(const char *fmt, ...) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  int i = 0/*, d_len = 0*/;
-  //bool d_flag = false;
+  int i = 0, d_len = 0;
+  bool d_flag = false;
   const char *p = fmt;
   while (*p != '\0') {
     if (*p != '%') {
@@ -30,19 +30,19 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     }
     else {
       ++p;
-    /*  if (is_num(*p)) {
+      if (is_num(*p)) {
         d_len = d_len * 10 + *p - '0';
         d_flag = true;
-      }*/
+      }
       if (*p == 'd') {
         int vaint = va_arg(ap, int);
         int len = 0, tmp = vaint;
         uint32_t valint = vaint, tmp1 = vaint;
         if(tmp == 0) {
-          out[i++] = '0';
-          //while(d_len--) { out[i++] = '0'; }
+          while(d_len--) { out[i++] = '0'; }
+          d_len = 0, d_flag = false;
         }
-        else if (tmp < 0/* && !d_flag*/) {
+        else if (tmp < 0 && !d_flag) {
           out[i++] = '-';
           tmp1 = -tmp;
           valint = -vaint;
