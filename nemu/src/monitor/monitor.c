@@ -15,7 +15,9 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#ifdef CONFIG_FTRACE
 #include <cpu/ftrace.h>
+#endif
 
 void init_rand();
 void init_log(const char *log_file);
