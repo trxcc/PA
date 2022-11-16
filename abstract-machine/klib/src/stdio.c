@@ -30,9 +30,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
     }
     else {
       ++p;
-      if (is_num(*p)) {
+      while (is_num(*p)) {
         d_len = d_len * 10 + *p - '0';
         d_flag = true;
+        p++;
       }
       if (*p == 'd') {
         int vaint = va_arg(ap, int);
