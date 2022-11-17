@@ -37,7 +37,7 @@ static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
     assert(nr_map <= NR_MAP);
     for (int i = 0; i < nr_map; i++) {
       if (addr >= maps[i].low && addr <= maps[i].high) {
-        pritnf("Device %s is used", maps[i].name);
+        printf("Device %s is used", maps[i].name);
         return;
       }
     }

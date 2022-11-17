@@ -52,7 +52,7 @@ void init_map() {
   p_space = io_space;
 }
 
-#ifdef CONFGI_DTRACE
+#ifdef CONFIG_DTRACE
   extern void pio_dtrace(ioaddr_t addr);
   extern void mmio_dtrace(paddr_t addr);
 #endif
