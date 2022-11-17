@@ -36,8 +36,8 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *suk = (uint32_t *)ctl->pixels;
   for (int i = 1; i <= h && y + i <= H; i++) {
     for (int j = 1; j <= w && x + j <= W; j++) {
-      fb[ind + (i-1)*W+j-1] = suk[(i-1)*w+j-1];
       printf("fb_index: %d, suk_index: %d\n", ind + (i-1)*W+j-1, (i-1)*w+j-1);
+      fb[ind + (i-1)*W+j-1] = suk[(i-1)*w+j-1];
     }
   }
   if (ctl->sync) {
