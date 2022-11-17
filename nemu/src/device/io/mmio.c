@@ -32,6 +32,18 @@ static void report_mmio_overlap(const char *name1, paddr_t l1, paddr_t r1,
                "with %s@[" FMT_PADDR ", " FMT_PADDR "]", name1, l1, r1, name2, l2, r2);
 }
 
+#ifdef CONFIG_DTRACE
+  void mmio_dtrace(paddr_t addr) {
+    assert(nr_map <= NR_MAP);
+    for (int i = 0; i < nr_map; i++) {
+      if (addr >= maps[i].low && addr <= maps[i].high) {
+        pritnf("Device %s is used", maps[i].name);
+        return;
+      }
+    }
+  }
+#endif
+
 /* device interface */
 void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback) {
   assert(nr_map < NR_MAP);

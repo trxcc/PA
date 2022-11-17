@@ -12,7 +12,7 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
-
+#include <common.h>
 #include <device/map.h>
 
 #define PORT_IO_SPACE_MAX 65535
@@ -32,6 +32,18 @@ void add_pio_map(const char *name, ioaddr_t addr, void *space, uint32_t len, io_
 
   nr_map ++;
 }
+
+#ifdef CONFIG_DTRACE
+void pio_dtrace(ioaddr_t addr) {
+  assert(nr_map <= NR_MAP);
+  for (int i = 0; i < nr_map; i++) {
+    if (addr >= maps[i].low && addr <= maps[i].high) {
+      printf("Device %s is used\n", maps[i].name);
+      return;
+    } 
+  }
+}
+#endif
 
 /* CPU interface */
 uint32_t pio_read(ioaddr_t addr, int len) {
