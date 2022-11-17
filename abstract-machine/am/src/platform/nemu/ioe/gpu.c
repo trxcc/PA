@@ -30,6 +30,9 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
     fb[i] = *((uint32_t*)ctl->pixels + i);
   }*/
+  if (ctl->sync) {
+    outl(SYNC_ADDR, 1);
+  }
   int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h;
   if(w == 0 || h == 0) return;
   printf("x: %d, y: %d, w: %d, h: %d\n", x, y, w, h);
@@ -41,10 +44,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       //printf("fb_index: %d, suk_index: %d\n", ind + (i)*W+j, (i)*w+j);
       fb[ind + (i)*W+j] = suk[(i)*w+j];
     }
-  }
-  if (ctl->sync) {
-    outl(SYNC_ADDR, 1);
-  }
+  } 
 }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) {
