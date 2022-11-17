@@ -31,14 +31,14 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     fb[i] = *((uint32_t*)ctl->pixels + i);
   }*/
   int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h;
-  printf("x: %d, y: %d\n", x, y);
-  int ind = (y - 1) * W + x - 1;
+  printf("x: %d, y: %d, w: %d, h: %d\n", x, y, w, h);
+  int ind = (y) * W + x;
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   uint32_t *suk = (uint32_t *)ctl->pixels;
-  for (int i = 1; i <= h && y + i <= H; i++) {
-    for (int j = 1; j <= w && x + j <= W; j++) {
-      printf("fb_index: %d, suk_index: %d\n", ind + (i-1)*W+j-1, (i-1)*w+j-1);
-      fb[ind + (i-1)*W+j-1] = suk[(i-1)*w+j-1];
+  for (int i = 0; i < h && y + i < H; i++) {
+    for (int j = 1; j < w && x + j < W; j++) {
+      printf("fb_index: %d, suk_index: %d\n", ind + (i)*W+j, (i)*w+j);
+      fb[ind + (i)*W+j] = suk[(i)*w+j];
     }
   }
   if (ctl->sync) {
