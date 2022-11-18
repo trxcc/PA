@@ -18,7 +18,7 @@ _default:
 
 COUNT_L := $(shell find -name "*.[ch]" | xargs cat | wc -l)
 count:
-	@echo $(COUNT_L) lines in nemu
+	@echo $(COUNT_L) lines in the file
 
 submit:
 	git gc
