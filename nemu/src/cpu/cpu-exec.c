@@ -171,6 +171,10 @@ void cpu_exec(uint64_t n) {
   if (nemu_state.state == NEMU_ABORT) { log_to_file(); }
 #endif
 
+#ifdef CONFIG_FTRACE
+  if(nemu_state.state == NEMU_ABORT) { print_ftrace(); }
+#endif
+
   switch (nemu_state.state) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
