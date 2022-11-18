@@ -127,21 +127,21 @@ void ftrace_record(Decode *s) {
 void print_ftrace(){
   int space_num = 0;
   for (int i = 0; i < TRACE_NODE_CNT; i++) {
-    //printf("0x%08x: ", tracenode[i].pc);
+    printf("0x%08x: ", tracenode[i].pc);
     log_write("0x%08x: ", tracenode[i].pc);
     if (tracenode[i].Type == 0) ++space_num;
     else if (i != 0 && tracenode[i-1].Type != 0)--space_num;
-    for (int i = 0; i < space_num; i++) { /*printf(" ");*/ log_write(" "); }
+    for (int i = 0; i < space_num; i++) { printf(" "); log_write(" "); }
     if (tracenode[i].Type == 0) { 
-      //printf("call [%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr); 
+      printf("call [%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr); 
       log_write("call [%s@0x%08x]\n", tracenode[i].name, tracenode[i].jmpAddr); 
     }
     else { 
-      //printf("ret [%s]\n", tracenode[i].name);
+      printf("ret [%s]\n", tracenode[i].name);
       log_write("ret [%s]\n", tracenode[i].name);
     }
       }
-  //printf("%d\n", TRACE_NODE_CNT);
+  printf("%d\n", TRACE_NODE_CNT);
   log_write("%d\n", TRACE_NODE_CNT);
 }
 
