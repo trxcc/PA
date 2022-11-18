@@ -4,7 +4,7 @@
 #include <cpu/decode.h>
 
 #define MAX_FUNC_NODE 500
-#define MAX_TRACE_NODE 50000
+#define MAX_TRACE_NODE 500000000
 
 typedef struct {
   char *name;
