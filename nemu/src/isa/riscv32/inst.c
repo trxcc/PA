@@ -62,15 +62,13 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
   }
 }
 
-extern void csr_init();
 extern word_t isa_raise_intr(word_t, vaddr_t);
 
 static int decode_exec(Decode *s) {
   int dest = 0;
   word_t src1 = 0, src2 = 0, imm = 0;
   s->dnpc = s->snpc;
-  csr_init();
-
+  if (s->pc == 0x80000610) printf("yes\n");
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
   decode_operand(s, &dest, &src1, &src2, &imm, concat(TYPE_, type)); \
