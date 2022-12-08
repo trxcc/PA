@@ -75,6 +75,17 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         i += len;
         
       }
+      else if (*p == 'u') {
+        uint32_t vauint = (uint32_t)va_arg(ap, int);
+        uint32_t tmp = vauint;
+        int len = 0;
+        while (tmp) ++len, tmp /= 10;
+        for (int j = i + len - 1; j >= i; j--) {
+          out[j] = (char)((vauint % 10) + '0');
+          vauint /= 10;
+        } 
+        i += len;
+      }
       else if (*p == 's') {
         if (d_flag) { d_flag = false, d_len = 0; }
         char *vachars = va_arg(ap, char *);
