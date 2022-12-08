@@ -23,6 +23,9 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+const char *csrs[] = {"mepc", "mstatus", "mcause"};
+word_t csr[3] = {0, 0, 0};
+
 void isa_reg_display() {
   //Log("hhh");
   for (int i = 0; i < 32; i++){
