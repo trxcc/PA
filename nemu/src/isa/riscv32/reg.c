@@ -58,6 +58,7 @@ word_t csr[4096];
 static bool is_csr_inited = false;
 
 void csr_init() {
+  if (is_csr_inited) return;
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
   }
