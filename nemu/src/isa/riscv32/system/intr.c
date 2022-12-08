@@ -15,12 +15,15 @@
 
 #include <isa.h>
 
+extern word_t csr[];
+
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
-
-  return 0;
+  csr[0x341] = epc;
+  csr[0x342] = NO;
+  return csr[0x305];
 }
 
 word_t isa_query_intr() {

@@ -29,6 +29,7 @@ enum {
 };
 
 extern word_t csr[];
+extern word_t get_csr_index(word_t);
 
 #define src1R() do { *src1 = R(rs1); } while (0)
 #define src2R() do { *src2 = R(rs2); } while (0)
@@ -42,7 +43,7 @@ extern word_t csr[];
                       else if (imm == 0x341) imm = 0; \\
                       else if (imm == 0x342) imm = 2; \\
                     } while(0)
-#define CSR(imm) csr[imm]
+#define CSR(imm) csr[get_csr_index(imm)]
 
 static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst.val;
@@ -61,10 +62,14 @@ static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, wor
   }
 }
 
+extern void csr_init();
+extern word_t isa_raise_intr(word_t, vaddr_t);
+
 static int decode_exec(Decode *s) {
   int dest = 0;
   word_t src1 = 0, src2 = 0, imm = 0;
   s->dnpc = s->snpc;
+  csr_init();
 
 #define INSTPAT_INST(s) ((s)->isa.inst.val)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
@@ -103,9 +108,10 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 101 ????? 00100 11", srli   , I, R(dest) = src1 >> (imm & 0x1f));
   INSTPAT("0100000 ????? ????? 101 ????? 00100 11", srai   , I, R(dest) = (int)src1 >> (imm & 0x1f));
   INSTPAT("1111111 ????? ????? 100 ????? 00100 11", not    , I, R(dest) = ~src1); 
-  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, imm = imm == 0x300 ? 1 : imm, imm = imm == 0x341 ? 0 : imm, imm = imm == 0x342 ? 2 : imm, imm = imm == 0x305 ? 3 : imm, R(dest) = CSR(imm), CSR(imm) = src1, printf("%u %u\n", s->pc, imm)); 
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, CSR(0) = s->dnpc, s->dnpc = CSR(3));
-  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I, imm = imm == 0x300 ? 1 : imm, imm = imm == 0x341 ? 0 : imm, imm = imm == 0x342 ? 2 : imm, imm = imm == 0x305 ? 3 : imm, R(dest) = CSR(imm), CSR(imm) = CSR(imm) | src1);
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, R(dest) = CSR(imm), CSR(imm) = src1); 
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I, R(dest) = CSR(imm), CSR(imm) = CSR(imm) | src1);
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341));
  
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw     , S, Mw(src1 + imm, 4, src2));
   INSTPAT("??????? ????? ????? 001 ????? 01000 11", sh     , S, Mw(src1 + imm, 2, (src2 & 0xffff)));

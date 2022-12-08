@@ -24,7 +24,6 @@ const char *regs[] = {
 };
 
 const char *csrs[] = {"mepc", "mstatus", "mcause", "mtvec"};
-word_t csr[4] = {0, 0, 0, 0};
 
 void isa_reg_display() {
   //Log("hhh");
@@ -53,4 +52,17 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   if (i == -1) { success = false; return 0; }
   *success = true;
   return cpu.gpr[i];
+}
+
+word_t csr[4096];
+
+void csr_init() {
+  for (int i = 0; i < 4096; i++) {
+    csr[i] = 0;
+  }
+}
+
+word_t get_csr_index(word_t index) {
+  assert (index >= 0 && index <= 4096);
+  return index;
 }
