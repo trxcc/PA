@@ -55,17 +55,17 @@ word_t isa_reg_str2val(const char *s, bool *success) {
 }
 
 word_t csr[4096];
-static bool is_csr_inited = false;;
+static bool is_csr_inited = false;
 
 void csr_init() {
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
   }
-  is_csr_inited = true;
 }
 
 word_t get_csr_index(word_t index) {
   if (!is_csr_inited) csr_init();
+  is_csr_inited = true;
   assert (index >= 0 && index <= 4096);
   return index;
 }
