@@ -108,7 +108,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("1111111 ????? ????? 100 ????? 00100 11", not    , I, R(dest) = ~src1); 
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, R(dest) = CSR(imm), CSR(imm) = src1, printf("%u, 0x%08x %u %u %u\n", imm, s->pc, imm, src1, CSR(imm))); 
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I, R(dest) = CSR(imm), CSR(imm) = CSR(imm) | src1);
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc));
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc + 4));
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341));
  
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw     , S, Mw(src1 + imm, 4, src2));
