@@ -21,6 +21,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
    */
+  printf("%u\n", csr[0x305]);
   csr[0x341] = epc;
   csr[0x342] = NO;
   return csr[0x305];
