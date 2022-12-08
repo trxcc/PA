@@ -57,7 +57,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
 word_t csr[4096];
 static bool is_csr_inited = false;;
 
-static void csr_init() {
+void csr_init() {
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
   }
