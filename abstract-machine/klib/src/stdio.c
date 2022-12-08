@@ -79,6 +79,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         uint32_t vauint = (uint32_t)va_arg(ap, int);
         uint32_t tmp = vauint;
         int len = 0;
+        if (tmp == 0) out[i++] = '0';
         while (tmp) ++len, tmp /= 10;
         for (int j = i + len - 1; j >= i; j--) {
           out[j] = (char)((vauint % 10) + '0');
