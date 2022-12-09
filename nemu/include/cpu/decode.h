@@ -30,6 +30,11 @@ typedef struct Decode {
   int Type; // 0 for CALL, and 1 for RET
   vaddr_t jmpAddr;
 #endif 
+
+#ifdef CONFIG_ETRACE
+  bool is_exception;
+#endif
+
 } Decode;
 
 // --- pattern matching mechanism ---

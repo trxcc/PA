@@ -22,6 +22,11 @@
 #ifdef CONFIG_FTRACE
 #include <cpu/ftrace.h>
 #endif
+
+#ifdef CONFIG_ETRACE
+#include <cpu/etrace.h>
+#endif 
+
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -92,6 +97,10 @@ static void exec_once(Decode *s, vaddr_t pc) {
   ftrace_record(s);
   if (nemu_state.state == NEMU_END) print_ftrace(); 
 #endif
+#ifdef CONFIG_ETRACE
+  if (s->is_exception) etrace_exec();
+  if (nemu_state.state == NEMU_END) print_etrace();
+#endif
   cpu.pc = s->dnpc;
   //assert(0);
 #ifdef CONFIG_ITRACE
@@ -145,6 +154,10 @@ void assert_fail_msg() {
 
 #ifdef CONFIG_FTRACE
   print_ftrace();
+#endif
+
+#ifdef CONFIG_ETRACE
+  print_etrace();
 #endif
   isa_reg_display();
   statistic();
