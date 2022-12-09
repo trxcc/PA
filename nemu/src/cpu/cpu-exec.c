@@ -98,7 +98,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   if (nemu_state.state == NEMU_END) print_ftrace(); 
 #endif
 #ifdef CONFIG_ETRACE
-  if (s->is_exception) etrace_exec();
+  if (s->is_exception) { etrace_exec(); s->is_exception = false; }
   if (nemu_state.state == NEMU_END) print_etrace();
 #endif
   cpu.pc = s->dnpc;
