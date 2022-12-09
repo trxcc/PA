@@ -2,7 +2,7 @@
 #define __ETRACE_H__
 
 #include <cpu/decode.h>
-#define MAX_EXCEPTION_NODE 65535
+#define MAX_EXCEPTION_NODE 20
 
 typedef struct {
   word_t MEPC;
