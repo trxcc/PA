@@ -30,8 +30,10 @@ void init_isa();
 
 // reg
 extern CPU_state cpu;
+extern word_t csr[];
 void isa_reg_display();
 word_t isa_reg_str2val(const char *name, bool *success);
+word_t get_csr_index(word_t index);
 
 // exec
 struct Decode;

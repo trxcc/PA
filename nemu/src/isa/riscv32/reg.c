@@ -54,10 +54,10 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   return cpu.gpr[i];
 }
 
-word_t csr[4096];
+//word_t csr[4096];
 static bool is_csr_inited = false;
 
-void csr_init() {
+static void csr_init() {
   if (is_csr_inited) return;
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
