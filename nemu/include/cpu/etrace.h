@@ -11,7 +11,6 @@ typedef struct {
   word_t MSTATUS;
 }exceptionNode;
 
-uint64_t etrace_cnt = 0; 
 
 extern void etrace_exec();
 extern void print_etrace();

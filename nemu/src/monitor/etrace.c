@@ -9,6 +9,7 @@
 #define mstatus 0x300
 
 static uint64_t nr_etrace_node = 0;
+uint64_t etrace_cnt = 0;
 
 exceptionNode etrace_node[MAX_EXCEPTION_NODE];
 
