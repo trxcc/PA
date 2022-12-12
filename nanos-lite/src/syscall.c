@@ -1,6 +1,8 @@
 #include <common.h>
 #include "syscall.h"
 
+#define SYS_yield 1 
+
 extern void yield();
 
 static int sys_yield() {
@@ -14,7 +16,7 @@ void do_syscall(Context *c) {
   a[0] = c->GPR1;
   //printf("a[0]: %u", a[0]);
   switch (a[0]) {
-    case 1: c->GPRx = sys_yield(); break;
+    case SYS_yield: c->GPRx = sys_yield(); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
