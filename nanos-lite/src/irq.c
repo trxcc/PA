@@ -7,14 +7,14 @@ static Context* do_event(Event e, Context* c) {
     case EVENT_YIELD: 
       printf("hh\n"); 
 #ifdef __ISA_RISCV32__
-      //c->mepc += 4;
+      c->mepc += 4;
 #endif
       break;
     case EVENT_SYSCALL:
       printf("SYSCALL ing \n");
       do_syscall(c);
 #ifdef __ISA_RISCV32__
-      //c->mepc += 4;
+      c->mepc += 4;
 #endif      
       break;
     default: panic("Unhandled event ID = %d", e.event);
