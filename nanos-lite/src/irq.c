@@ -10,9 +10,9 @@ static Context* do_event(Event e, Context* c) {
       break;
     case EVENT_SYSCALL:
       printf("SYSCALL ing \n");
-#ifdef __ISA_RISCV32__
+/*#ifdef __ISA_RISCV32__
       c->mepc += 4;
-#endif      
+#endif*/      
       break;
     default: panic("Unhandled event ID = %d", e.event);
   }
