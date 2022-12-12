@@ -15,7 +15,6 @@ extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 extern size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  
   void *Elf32_File = malloc(get_ramdisk_size());
   ramdisk_read(Elf32_File, 0, get_ramdisk_size());
   assert(Elf32_File != NULL);
@@ -23,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr *ehdr = malloc(sizeof(Elf32_Ehdr));
   ramdisk_read(ehdr, 0, sizeof(Elf32_Ehdr));
   assert(ehdr != NULL);
+  Log("%s", ehdr->e_ident); 
 
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf32_Phdr *phdr = malloc(phdr_size);
