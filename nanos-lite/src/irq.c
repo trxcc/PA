@@ -4,7 +4,9 @@ static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_YIELD: 
       printf("hh\n"); 
+#ifdef __ISA_RISCV32__
       c->mepc += 4;
+#endif
       break;
     default: panic("Unhandled event ID = %d", e.event);
   }

@@ -28,10 +28,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(Elf32_File, 0, get_ramdisk_size());
   assert(Elf32_File != NULL);
   
-  Elf_Ehdr *ehdr = malloc(sizeof(Elf32_Ehdr));
-  ramdisk_read(ehdr, 0, sizeof(Elf32_Ehdr));
+  Elf_Ehdr *ehdr = malloc(sizeof(Elf_Ehdr));
+  ramdisk_read(ehdr, 0, sizeof(Elf_Ehdr));
   assert(ehdr != NULL);
   assert(*(uint32_t *)ehdr->e_ident == 0x464c457f); 
+  assert(ehdr->e_machine == EXPECT_TYPE);
 
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf_Phdr *phdr = malloc(phdr_size);
