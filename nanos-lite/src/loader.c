@@ -22,7 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr *ehdr = malloc(sizeof(Elf32_Ehdr));
   ramdisk_read(ehdr, 0, sizeof(Elf32_Ehdr));
   assert(ehdr != NULL);
-  Log("%s", ehdr->e_ident); 
+  Log("%u", *(uint32_t *)ehdr->e_ident); 
 
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf32_Phdr *phdr = malloc(phdr_size);
