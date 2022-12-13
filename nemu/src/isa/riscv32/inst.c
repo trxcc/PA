@@ -111,7 +111,7 @@ static int decode_exec(Decode *s) {
 #ifdef CONFIG_ETRACE
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc), s->is_exception = true);
 #else
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc), s->is_exception = false);
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc));
 #endif
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341));
  
