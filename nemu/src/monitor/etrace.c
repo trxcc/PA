@@ -36,7 +36,7 @@ void print_etrace() {
   for (uint64_t i = 0; i < len; i++) {
     if (i == nr_etrace_node) { printf("  --->  "); log_write("  --->  "); }
     else                     { printf("        "); log_write("        "); }
-    printf("Etrace %lu: MEPC: %u, MCAUSE: %u, MTVEC: %u, MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
-    log_write("Etrace %lu: MEPC: %u, MCAUSE: %u, MTVEC: %u, MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
+    printf("Etrace %lu: MEPC: %u\t MCAUSE: %u\t MTVEC: %u\t MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
+    log_write("Etrace %lu: MEPC: %u\t MCAUSE: %u\t MTVEC: %u\t MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
   }
 }
