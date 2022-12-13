@@ -28,6 +28,8 @@ void etrace_exec() {
 //#define extend_printf(x, ...) do { printf(x, ...); log_write(x, ...); } while (0)
 
 void print_etrace() {
+  printf("\n**********************************ETRACE*************************************\n");
+  log_write("\n**********************************ETRACE*************************************\n");
   printf("\n");
   log_write("\n");
   uint64_t len = etrace_cnt > MAX_EXCEPTION_NODE ? MAX_EXCEPTION_NODE : etrace_cnt;
