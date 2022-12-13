@@ -55,6 +55,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
       break;
     case SYS_brk:
+      putch('h');
       c->GPRx = sys_brk(a[1]);
       break;
     case SYS_exit: 
