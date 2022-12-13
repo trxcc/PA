@@ -109,9 +109,9 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, R(dest) = CSR(imm), CSR(imm) = src1, printf("%u, 0x%08x %u %u %u\n", imm, s->pc, imm, src1, CSR(imm))); 
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , I, R(dest) = CSR(imm), CSR(imm) = CSR(imm) | src1);
 #ifdef CONFIG_ETRACE
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc), s->is_exception = true);
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(11, s->pc), s->is_exception = true);
 #else
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17), s->pc));
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(11, s->pc));
 #endif
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341));
  
