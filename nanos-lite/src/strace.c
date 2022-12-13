@@ -46,7 +46,8 @@ void print_strace() {
     if (i == arrow_index) printf("   --->   ");
     else                  printf("          ");
     printf("Type: %s\t mepc: %u\t mstatus: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
-  } 
+  }
+  printf("\n"); 
 }
 
 void reset_strace() {
