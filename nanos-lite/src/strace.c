@@ -38,6 +38,7 @@ void strace_record(uintptr_t x[], uint32_t ret) {
 }
 
 void print_strace() {
+  printf("***********************STRACE*****************************\n");
   printf("\n");
   int max_len = strace_cnt >= MAX_NUM_OF_STRACE ? MAX_NUM_OF_STRACE : strace_cnt;
   int arrow_index = nr_strace == 0 ? MAX_NUM_OF_STRACE : nr_strace - 1;
