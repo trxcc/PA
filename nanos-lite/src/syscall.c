@@ -30,6 +30,7 @@ static int sys_write(int fd, void *buf, size_t count) {
 } 
 
 static int sys_brk(intptr_t addr){
+  Log("Use sys_brk");
   return 0;
 }
 
