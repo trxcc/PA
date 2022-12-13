@@ -4,7 +4,7 @@
 extern void yield();
 
 static int sys_yield() {
-  printf("what\n");
+  //printf("what\n");
   yield();
   return 0;
 }
