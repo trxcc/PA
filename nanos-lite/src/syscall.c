@@ -17,12 +17,19 @@ static void sys_exit(int flag) {
   halt(flag);
 }
 
+
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
-  a[0] = c->mcause;
-  a[1] = c->mepc;
-  a[2] = c->mstatus;
+  uintptr_t x[3];
+  x[0] = c->mcause;
+  x[1] = c->mepc;
+  x[2] = c->mstatus;
 
+  a[0] = c->GPR1;
+  a[1] = c->GPR2;
+  a[2] = c->GPR3;
+  a[3] = c->GPR4;
   //printf("a[0]: %u", a[0]);
   switch (a[0]) {
     case SYS_yield: 
@@ -30,13 +37,14 @@ void do_syscall(Context *c) {
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
-      strace_record(a, 0);
+      strace_record(x, 0);
 #endif
       sys_exit(a[0]); 
+      c->GPRx = 0;
       break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 #ifdef CONFIG_STRACE
-      strace_record(a, c->GPRx);
+      strace_record(x, c->GPRx);
 #endif
 }
