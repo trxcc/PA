@@ -32,7 +32,6 @@ void strace_record(uintptr_t x[], uint32_t ret) {
   S[nr_strace].call_type = x[0];
   S[nr_strace].gpr2 = x[1];
   S[nr_strace].gpr3 = x[2];
-  S[nr_strace].gpr4 = x[3];
   S[nr_strace].gprx = ret;
   nr_strace = (nr_strace + 1) % MAX_NUM_OF_STRACE;
   ++strace_cnt;  
@@ -41,11 +40,11 @@ void strace_record(uintptr_t x[], uint32_t ret) {
 void print_strace() {
   printf("\n");
   int max_len = strace_cnt >= MAX_NUM_OF_STRACE ? MAX_NUM_OF_STRACE : strace_cnt;
-  int arrow_index = nr_strace == 0 ? nr_strace - 1 : nr_strace;
+  int arrow_index = nr_strace == 0 ? MAX_NUM_OF_STRACE : nr_strace - 1;
   for (int i = 0; i < max_len; i++) {
     if (i == arrow_index) printf("   --->   ");
     else                  printf("          ");
-    printf("Type: %s\t GPR2: %u\t GPR3: %u\t GPRx: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
+    printf("Type: %s\t mepc: %u\t mstatus: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
   } 
 }
 
