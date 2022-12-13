@@ -59,10 +59,10 @@ static bool is_csr_inited = false;
 
 static void csr_init() {
   if (is_csr_inited) return;
-  csr[0x300] = 0x1800;
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
   }
+  csr[0x300] = 0x1800;
 }
 
 word_t get_csr_index(word_t index) {
