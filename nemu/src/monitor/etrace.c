@@ -39,4 +39,5 @@ void print_etrace() {
     printf("Etrace %lu: MEPC: %u\t MCAUSE: %u\t MTVEC: %u\t MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
     log_write("Etrace %lu: MEPC: %u\t MCAUSE: %u\t MTVEC: %u\t MSTATUS: %u\n", i, etrace_node[i].MEPC, etrace_node[i].MCAUSE, etrace_node[i].MTVEC, etrace_node[i].MSTATUS);
   }
+  printf("\n");
 }
