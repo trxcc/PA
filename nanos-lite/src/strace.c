@@ -45,7 +45,7 @@ void print_strace() {
   for (int i = 0; i < max_len; i++) {
     if (i == arrow_index) printf("   --->   ");
     else                  printf("          ");
-    printf("Type: %s, GPR2: %u, GPR3: %u, GPRx: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
+    printf("Type: %s\t GPR2: %u\t GPR3: %u\t GPRx: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
   } 
 }
 
