@@ -17,7 +17,16 @@ static void sys_exit(int flag) {
   halt(flag);
 }
 
-
+static int sys_write(int fd, void *buf, size_t count) {
+  int i = 0;
+  if (fd == 1 || fd == 2) {
+    char *buff = (char *)buf;
+    for (i = 0; i < count; i++) {
+      putch(buff[i]);
+    }
+  }
+  return count;
+} 
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -34,6 +43,9 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_yield: 
       c->GPRx = sys_yield(); 
+      break;
+    case SYS_write:
+      c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
