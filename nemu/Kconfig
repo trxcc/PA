@@ -166,6 +166,11 @@ config ETRACE
   bool "Enable exception tracer"
   default y
 
+config STRACE
+  depends on TRACE && TARGET_NATIVE_ELF && ENGINE_INTERPRETER
+  bool "Enable syscall tracer"
+  default y
+
 config DTRACE
   depends on TRACE && TARGET_NATIVE_ELF && ENGINE_INTERPRETER
   bool "Enable device tracer"
