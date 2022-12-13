@@ -29,6 +29,10 @@ static int sys_write(int fd, void *buf, size_t count) {
   return count;
 } 
 
+static int sys_brk(intptr_t addr){
+  return 0;
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
 #ifdef CONFIG_STRACE
@@ -48,6 +52,9 @@ void do_syscall(Context *c) {
       break;
     case SYS_write:
       c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
+      break;
+    case SYS_brk:
+      c->GPRx = sys_brk(a[1]);
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE

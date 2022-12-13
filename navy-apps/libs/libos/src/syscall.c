@@ -67,7 +67,17 @@ int _write(int fd, void *buf, size_t count) {
   //_exit(SYS_write);
 }
 
+extern char _end;
+static intptr_t brk = (intptr_t)&_end;
+
 void *_sbrk(intptr_t increment) {
+  intptr_t last_brk = brk;
+  intptr_t now_brk = last_brk + increment;
+  intptr_t re = _syscall_(SYS_brk, now_brk, 0, 0);
+  if (re == 0) {
+    brk = now_brk;
+    return (void *)last_brk;
+  }
   return (void *)-1;
 }
 
