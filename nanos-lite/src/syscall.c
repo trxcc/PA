@@ -18,6 +18,7 @@ static void sys_exit(int flag) {
 }
 
 static int sys_write(int fd, void *buf, size_t count) {
+  Log("Use sys_write\n");
   int i = 0;
   if (fd == 1 || fd == 2) {
     char *buff = (char *)buf;
@@ -30,11 +31,12 @@ static int sys_write(int fd, void *buf, size_t count) {
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
+#ifdef CONFIG_STRACE
   uintptr_t x[3];
   x[0] = c->mcause;
   x[1] = c->mepc;
   x[2] = c->mstatus;
-
+#endif
   a[0] = c->GPR1;
   a[1] = c->GPR2;
   a[2] = c->GPR3;
