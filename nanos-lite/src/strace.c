@@ -43,8 +43,8 @@ void print_strace() {
   int max_len = strace_cnt >= MAX_NUM_OF_STRACE ? MAX_NUM_OF_STRACE : strace_cnt;
   int arrow_index = nr_strace == 0 ? nr_strace - 1 : nr_strace;
   for (int i = 0; i < max_len; i++) {
-    if (i == arrow_index) printf("   --->   \n");
-    else                  printf("          \n");
+    if (i == arrow_index) printf("   --->   ");
+    else                  printf("          ");
     printf("Type: %s, GPR2: %u, GPR3: %u, GPRx: %u\n", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gprx);
   } 
 }
