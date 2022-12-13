@@ -28,7 +28,7 @@ static strace_node S[MAX_NUM_OF_STRACE];
 static int strace_cnt = 0, nr_strace = 0;
 
 void strace_record(uintptr_t x[], uint32_t ret) {
-  if (x[0] < 0 || x[1] > 19) panic("Unhandled syscall ID = %d", x);
+  if (x[0] < 0 || x[0] > 19) panic("Unhandled syscall ID = %d", x[0]);
   S[nr_strace].call_type = x[0];
   S[nr_strace].gpr2 = x[1];
   S[nr_strace].gpr3 = x[2];
