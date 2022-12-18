@@ -60,6 +60,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   for (int i = 0; i < ehdr->e_phnum; i++) {
     if (phdr[i].p_type == PT_LOAD) {
+      printf("p_vaddr: %u, p_offset: %u, p_filesz: %u\n", phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
       //ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset + fs_get_file_off(fd), SEEK_SET);
       fs_read(fd, (void *)phdr[i].p_vaddr, phdr[i].p_filesz);
