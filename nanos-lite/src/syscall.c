@@ -2,6 +2,11 @@
 #include "syscall.h"
 
 extern void yield();
+extern int fs_open(const char *, int, int);
+extern size_t fs_read(int, void *, size_t);
+extern size_t fs_write(int, const void *, size_t);
+extern size_t fs_lseek(int, size_t, int);
+extern int fs_close(int);
 
 static int sys_yield() {
   //printf("what\n");
@@ -52,12 +57,28 @@ void do_syscall(Context *c) {
       c->GPRx = sys_yield(); 
       break;
     case SYS_write:
-      putch('a');
+      //putch('a');
       c->GPRx = sys_write(a[1], (void *)a[2], a[3]);
       break;
     case SYS_brk:
-      putch('h');
+     // putch('h');
       c->GPRx = sys_brk(a[1]);
+      break;
+    case SYS_open:
+      printf("Hit SYS_open\n");
+      c->GPRx = fs_open((char *)a[1], a[2], a[3]);
+      break;
+    case SYS_read:
+      printf("Hit SYS_read\n");
+      c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
+      break;
+    case SYS_lseek:
+      printf("Hit SYS_lseek\n");
+      c->GPRx = fs_lseek(a[1], a[2], a[3]);
+      break;
+    case SYS_close:
+      printf("Hit SYS_close\n");
+      c->GPRx = fs_close(a[1]);
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
