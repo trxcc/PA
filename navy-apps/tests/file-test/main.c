@@ -6,11 +6,12 @@ int main() {
   assert(fp);
   
   fseek(fp, 0, SEEK_END);
-  assert(0);
+  //assert(0);
   long size = ftell(fp);
   assert(size == 5000);
 
   fseek(fp, 500 * 5, SEEK_SET);
+  assert(0);
   int i, n;
   for (i = 500; i < 1000; i ++) {
     fscanf(fp, "%d", &n);
