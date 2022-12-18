@@ -53,7 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr *phdr = malloc(phdr_size);
   ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
   assert(phdr != NULL);
-  assert(0);
+  //assert(0);
   
   for (int i = 0; i < ehdr->e_phnum; i++) {
     if (phdr[i].p_type == PT_LOAD) {
@@ -61,6 +61,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((void *)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
+  assert(0);
   return ehdr->e_entry;
 }
 
