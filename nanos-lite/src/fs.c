@@ -92,9 +92,9 @@ size_t fs_write(int fd, const void *buf, size_t len) {
 size_t fs_lseek(int fd, size_t offset, int whence) { 
   size_t now_offset = offset, tmp = file_state[fd].open_offset;
   //printf("file_off: %d\n", file_state[fd].open_offset);
+  printf("now_file_off: %d\n", file_state[fd].open_offset);
   if (whence == SEEK_SET) {
     file_state[fd].open_offset = now_offset;
-    printf("now_file_off: %d\n", file_state[fd].open_offset);
   }
   else if (whence == SEEK_CUR) {
     printf("file_off: %d\n", file_state[fd].open_offset);
