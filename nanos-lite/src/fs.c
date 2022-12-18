@@ -54,11 +54,11 @@ static bool check_open_overflow(int fd, size_t len) {
 
 int fs_open(const char *pathname, int flags, int mode) {
   int i;
-  for (i = 3; i < 23; i++) {
+  for (i = 3; i < 24; i++) {
     if (strcmp(pathname, file_table[i].name) == 0) 
       break;
   }
-  if (i == 23) {
+  if (i == 24) {
     Log("File %s not found!\n", pathname);
     assert(0);
   } 
