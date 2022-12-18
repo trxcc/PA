@@ -54,7 +54,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr *phdr = malloc(phdr_size);
   printf("phdr_size: %u, phoff: %u\n", phdr_size, ehdr->e_phoff);
   //ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
-  fs_lseek(fd, ehdr->e_phoff, SEEK_CUR);
+  fs_lseek(fd, ehdr->e_phoff, SEEK_SET);
   fs_read(fd, phdr, phdr_size);
   assert(phdr != NULL);
  // assert(0);
