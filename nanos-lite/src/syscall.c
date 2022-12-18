@@ -23,7 +23,7 @@ static void sys_exit(int flag) {
 }
 
 static int sys_write(int fd, void *buf, size_t count) {
-  Log("Use sys_write\n");
+  //Log("Use sys_write\n");
   int i = 0;
   if (fd == 1 || fd == 2) {
     char *buff = (char *)buf;
@@ -35,7 +35,7 @@ static int sys_write(int fd, void *buf, size_t count) {
 } 
 
 static int sys_brk(intptr_t addr){
-  Log("Use sys_brk");
+  //Log("Use sys_brk");
   return 0;
 }
 
@@ -65,19 +65,19 @@ void do_syscall(Context *c) {
       c->GPRx = sys_brk(a[1]);
       break;
     case SYS_open:
-      printf("Hit SYS_open\n");
+      //printf("Hit SYS_open\n");
       c->GPRx = fs_open((char *)a[1], a[2], a[3]);
       break;
     case SYS_read:
-      printf("Hit SYS_read\n");
+      //printf("Hit SYS_read\n");
       c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
       break;
     case SYS_lseek:
-      printf("Hit SYS_lseek\n");
+      //printf("Hit SYS_lseek\n");
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
       break;
     case SYS_close:
-      printf("Hit SYS_close\n");
+      //printf("Hit SYS_close\n");
       c->GPRx = fs_close(a[1]);
       break;
     case SYS_exit: 
