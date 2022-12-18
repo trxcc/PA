@@ -106,6 +106,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     file_state[fd].open_offset = now_offset;
   }
   if (!file_state[fd].is_open || file_state[fd].open_offset > file_table[fd].size) { 
+    printf("open_off: %d, size: %d\n", file_state[fd].open_offset, file_table[fd].size);
     file_state[fd].open_offset = tmp;
     panic("file not open or overflow!");
   } 
