@@ -48,7 +48,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(ehdr != NULL);
   assert(*(uint32_t *)ehdr->e_ident == 0x464c457f); 
   assert(ehdr->e_machine == EXPECT_TYPE);
-
+  assert(0);
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf_Phdr *phdr = malloc(phdr_size);
   ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
