@@ -45,8 +45,8 @@ struct fileState{
 
 static bool check_open_overflow(int fd, size_t len) {
   if (!file_state[fd].is_open) { return false; }
-  Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
-  if (len + file_state[fd].open_offset >= file_table[fd].size) {
+  //Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
+  if (len + file_state[fd].open_offset > file_table[fd].size) {
     return false;
   }
   return true;
