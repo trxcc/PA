@@ -51,13 +51,16 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf_Phdr *phdr = malloc(phdr_size);
-  ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
+  //ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
+  fs_lseek(fd, ehdr->e_phoff, SEEK_CUR);
+  fs_read(fd, phdr, phdr_size);
   assert(phdr != NULL);
-  //assert(0);
+  assert(0);
   
   for (int i = 0; i < ehdr->e_phnum; i++) {
     if (phdr[i].p_type == PT_LOAD) {
       ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
+      
       memset((void *)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
