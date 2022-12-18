@@ -38,6 +38,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   //ramdisk_read(Elf32_File, 0, get_ramdisk_size());
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, Elf32_File, fs_get_file_size(fd));
+  assert(0);
   assert(Elf32_File != NULL);
   
   Elf_Ehdr *ehdr = malloc(sizeof(Elf_Ehdr));
