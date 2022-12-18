@@ -62,6 +62,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   //assert(0);
+  printf("0x%u", ehdr->e_entry);
   return ehdr->e_entry;
 }
 
@@ -69,6 +70,6 @@ void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
-  assert(0);
+  //assert(0);
 }
 
