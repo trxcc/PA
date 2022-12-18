@@ -43,13 +43,13 @@ struct fileState{
   size_t open_offset;
 }file_state[50];
 
-static bool check_open_overflow(int fd, size_t len) {
-  if (!file_state[fd].is_open) { return false; }
+static int check_open_overflow(int fd, size_t len) {
+  if (!file_state[fd].is_open) { return -1; }
   //Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
   if (len + file_state[fd].open_offset > file_table[fd].size) {
-    return false;
+    return 0;
   }
-  return true;
+  return 1;
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
@@ -69,9 +69,12 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 
 size_t fs_read(int fd, void *buf, size_t len) {
-  if (!check_open_overflow(fd, len)) {
-    //Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size); 
-    panic("file not open or overflow!");
+  int check_flag = check_open_overflow(fd, len);
+  if (check_flag == -1) {
+    panic("File not open!");
+  }
+  else if (check_flag == 0) {
+    len = file_table[fd].size - file_state[fd].open_offset;
   }
   Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
   size_t fd_read_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
@@ -81,8 +84,12 @@ size_t fs_read(int fd, void *buf, size_t len) {
 }
 
 size_t fs_write(int fd, const void *buf, size_t len) {
-  if (!check_open_overflow(fd, len)) {
-    panic("file not open or overflow!");
+  int check_flag = check_open_overflow(fd, len);
+  if (check_flag == -1) {
+    panic("File not open!");
+  }
+  else if (check_flag == 0) {
+    len = file_table[fd].size - file_state[fd].open_offset;
   }
   //printf("file_off: %d\n", file_state[fd].open_offset);
   size_t fd_write_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
@@ -124,5 +131,6 @@ size_t fs_get_file_off(int fd) {
 }
 
 int fs_close(int fd) {
+  file_state[fd].is_open = false;
   return 0;
 }
