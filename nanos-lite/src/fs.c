@@ -62,6 +62,7 @@ int fs_open(const char *pathname, int flags, int mode) {
     assert(0);
   } 
   file_state[i].is_open = true;
+  file_state[i].open_offset = 0;
   return i;
 }
 
@@ -70,6 +71,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
     panic("file not open or overflow!");
   }
   size_t fd_read_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
+  file_state[fd].open_offset += len;
   return ramdisk_read(buf, fd_read_offset, len);
 }
 
@@ -81,6 +83,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   file_state[fd].open_offset += len;
   return ramdisk_write(buf, fd_write_offset, len);
 }
+
 
 size_t fs_lseek(int fd, size_t offset, int whence) { 
   size_t now_offset = offset;
@@ -99,6 +102,10 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     panic("file not open or overflow!");
   } 
   return now_offset;
+}
+
+size_t fs_get_file_size(int fd) {
+  return file_table[fd].size;
 }
 
 int fs_close(int fd) {

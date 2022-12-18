@@ -1,5 +1,6 @@
 #include <proc.h>
 #include <elf.h>
+#include <fs.h>
 //#include <stdio.h>
 
 #ifdef __LP64__
@@ -22,14 +23,27 @@ extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
 extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 extern size_t get_ramdisk_size();
 
-static uintptr_t loader(PCB *pcb, const char *filename) {
+extern int fs_open(const char *, int, int);
+extern size_t fs_read(int, void *, size_t);
+extern size_t fs_write(int, const void *, size_t);
+extern size_t fs_lseek(int, size_t, int);
+extern int fs_close(int);
+extern size_t fs_get_file_size(int);
 
-  void *Elf32_File = malloc(get_ramdisk_size());
-  ramdisk_read(Elf32_File, 0, get_ramdisk_size());
+static uintptr_t loader(PCB *pcb, const char *filename) {
+  int fd = fs_open(filename, 0, 0);
+
+  //void *Elf32_File = malloc(get_ramdisk_size());
+  void *Elf32_File = malloc(fs_get_file_size(fd));
+  //ramdisk_read(Elf32_File, 0, get_ramdisk_size());
+  fs_lseek(fd, 0, SEEK_SET);
+  fs_read(fd, Elf32_File, fs_get_file_size(fd));
   assert(Elf32_File != NULL);
   
   Elf_Ehdr *ehdr = malloc(sizeof(Elf_Ehdr));
-  ramdisk_read(ehdr, 0, sizeof(Elf_Ehdr));
+  //ramdisk_read(ehdr, 0, sizeof(Elf_Ehdr));
+  fs_lseek(fd, 0, SEEK_SET);
+  fs_read(fd, ehdr, sizeof(Elf_Ehdr));
   assert(ehdr != NULL);
   assert(*(uint32_t *)ehdr->e_ident == 0x464c457f); 
   assert(ehdr->e_machine == EXPECT_TYPE);
