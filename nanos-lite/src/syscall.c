@@ -73,7 +73,7 @@ void do_syscall(Context *c) {
       break;
     case SYS_read:
       //printf("Hit SYS_read\n");
-      printf("len: %d\n", a[3]);
+      //printf("len: %d\n", a[3]);
       c->GPRx = fs_read(a[1], (void *)a[2], a[3]);
       break;
     case SYS_lseek:
