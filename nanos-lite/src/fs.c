@@ -96,6 +96,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     file_state[fd].open_offset = now_offset;
   }
   else if (whence == SEEK_CUR) {
+    printf("file_off: %d\n", file_state[fd].open_offset);
     file_state[fd].open_offset += offset;
     now_offset = file_state[fd].open_offset;
   }
