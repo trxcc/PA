@@ -68,7 +68,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   //assert(0);
-  printf("0x%u", ehdr->e_entry);
+  printf("0x%u\n", ehdr->e_entry);
   return ehdr->e_entry;
 }
 
