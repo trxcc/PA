@@ -59,7 +59,7 @@ void print_strace() {
   for (int i = 0; i < max_len; i++) {
     if (i == arrow_index) printf("   --->   ");
     else                  printf("          ");
-    printf("Type: %s\t gpr2: %u\t gpr3: %u\t gpr4: %u\t ret: %u\t", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gpr4, S[i].gprx);
+    printf("Type: %s, gpr2: %u, gpr3: %u, gpr4: %u, ret: %u, ", syscall_string[S[i].call_type], S[i].gpr2, S[i].gpr3, S[i].gpr4, S[i].gprx);
     if (S[i].call_type == 2) printf("File: %s", (char *)S[i].gpr2);
     else if (check_file_op(i)) printf("File: %s", fs_get_file_name(S[i].gpr2));
     printf("\n");
