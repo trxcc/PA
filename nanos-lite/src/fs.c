@@ -106,6 +106,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
 }
 
 size_t fs_get_file_size(int fd) {
+  Log("size: %d", file_table[fd].size);
   return file_table[fd].size;
 }
 
