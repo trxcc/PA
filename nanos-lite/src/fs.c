@@ -88,7 +88,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
 
 
 size_t fs_lseek(int fd, size_t offset, int whence) { 
-  size_t now_offset = offset;
+  size_t now_offset = offset, tmp = file_state[fd].open_offset;
   if (whence == SEEK_SET) {
     file_state[fd].open_offset = now_offset;
   }
@@ -101,6 +101,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     file_state[fd].open_offset = now_offset;
   }
   if (!file_state[fd].is_open || file_state[fd].open_offset > file_table[fd].size) { 
+    file_state[fd].open_offset = tmp;
     panic("file not open or overflow!");
   } 
   return now_offset;
