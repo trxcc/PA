@@ -31,6 +31,9 @@ static int sys_write(int fd, void *buf, size_t count) {
       putch(buff[i]);
     }
   }
+  else {
+    fs_write(fd, buf, count);
+  }
   return count;
 } 
 
