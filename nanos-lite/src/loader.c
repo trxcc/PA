@@ -61,7 +61,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset((void *)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }
-  assert(0);
+  //assert(0);
   return ehdr->e_entry;
 }
 
@@ -69,5 +69,6 @@ void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %p", entry);
   ((void(*)())entry) ();
+  assert(0);
 }
 
