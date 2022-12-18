@@ -52,7 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   uint32_t phdr_size = ehdr->e_phentsize * ehdr->e_phnum;
   Elf_Phdr *phdr = malloc(phdr_size);
-  printf("phdr_size: %u, phoff: %u\n", phdr_size, ehdr->e_phoff);
+  //printf("phdr_size: %u, phoff: %u\n", phdr_size, ehdr->e_phoff);
   //ramdisk_read(phdr, ehdr->e_phoff, phdr_size);  
   fs_lseek(fd, ehdr->e_phoff, SEEK_SET);
   fs_read(fd, phdr, phdr_size);
@@ -61,7 +61,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   
   for (int i = 0; i < ehdr->e_phnum; i++) {
     if (phdr[i].p_type == PT_LOAD) {
-      printf("p_vaddr: %u, p_offset: %u, p_filesz: %u\n", phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
+      //printf("p_vaddr: %u, p_offset: %u, p_filesz: %u\n", phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
       //ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
       size_t offfff = fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
       printf("offfff: %d\n", offfff);
