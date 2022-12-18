@@ -46,7 +46,6 @@ struct fileState{
 
 static int check_open_overflow(int fd, size_t len) {
   if (!file_state[fd].is_open) { return -1; }
-  //Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
   if (len + file_state[fd].open_offset > file_table[fd].size) {
     return 0;
   }
@@ -98,6 +97,9 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   return ramdisk_write(buf, fd_write_offset, len);
 }
 
+char *fs_get_file_name(int fd) {
+  return file_table[fd].name;
+}
 
 size_t fs_lseek(int fd, size_t offset, int whence) { 
   size_t now_offset = offset, tmp = file_state[fd].open_offset;

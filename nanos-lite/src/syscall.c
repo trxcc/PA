@@ -8,6 +8,12 @@ extern size_t fs_write(int, const void *, size_t);
 extern size_t fs_lseek(int, size_t, int);
 extern int fs_close(int);
 
+#ifdef CONFIG_STRACE
+extern void strace_record(uintptr_t x[], uint32_t ret);
+extern void print_strace();
+extern void reset_strace();
+#endif
+
 static int sys_yield() {
   //printf("what\n");
   yield();
@@ -44,12 +50,12 @@ static int sys_brk(intptr_t addr){
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
-#ifdef CONFIG_STRACE
+/*#ifdef CONFIG_STRACE
   uintptr_t x[3];
   x[0] = c->mcause;
   x[1] = c->mepc;
   x[2] = c->mstatus;
-#endif
+#endif*/
   a[0] = c->GPR1;
   a[1] = c->GPR2;
   a[2] = c->GPR3;
@@ -86,7 +92,7 @@ void do_syscall(Context *c) {
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
-      strace_record(x, 0);
+      strace_record(a, 0);
 #endif
       sys_exit(a[0]); 
       c->GPRx = 0;
@@ -94,6 +100,6 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 #ifdef CONFIG_STRACE
-      strace_record(x, c->GPRx);
+    strace_record(a, c->GPRx);
 #endif
 }
