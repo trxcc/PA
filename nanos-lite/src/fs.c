@@ -72,8 +72,8 @@ size_t fs_read(int fd, void *buf, size_t len) {
   if (!check_open_overflow(fd, len)) {
     panic("file not open or overflow!");
   }
-  printf("file_off: %d", file_state[fd].open_offset);
   size_t fd_read_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
+  printf("file_off: %d, read_off: %d\n", file_state[fd].open_offset, fd_read_offset);
   file_state[fd].open_offset += len;
   return ramdisk_read(buf, fd_read_offset, len);
 }
@@ -82,7 +82,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (!check_open_overflow(fd, len)) {
     panic("file not open or overflow!");
   }
-  printf("file_off: %d", file_state[fd].open_offset);
+  printf("file_off: %d\n", file_state[fd].open_offset);
   size_t fd_write_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
   file_state[fd].open_offset += len;
   return ramdisk_write(buf, fd_write_offset, len);
@@ -91,7 +91,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
 
 size_t fs_lseek(int fd, size_t offset, int whence) { 
   size_t now_offset = offset, tmp = file_state[fd].open_offset;
-  printf("file_off: %d", file_state[fd].open_offset);
+  //printf("file_off: %d\n", file_state[fd].open_offset);
   if (whence == SEEK_SET) {
     file_state[fd].open_offset = now_offset;
   }
