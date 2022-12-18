@@ -64,7 +64,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   } 
   file_state[i].is_open = true;
   file_state[i].open_offset = 0;
-  //Log("OK with %d", i);
+  Log("OK with %d", i);
   return i;
 }
 
