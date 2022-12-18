@@ -29,6 +29,7 @@ extern size_t fs_write(int, const void *, size_t);
 extern size_t fs_lseek(int, size_t, int);
 extern int fs_close(int);
 extern size_t fs_get_file_size(int);
+extern size_t fs_get_file_off(int);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
@@ -55,12 +56,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_lseek(fd, ehdr->e_phoff, SEEK_CUR);
   fs_read(fd, phdr, phdr_size);
   assert(phdr != NULL);
-  assert(0);
+ // assert(0);
   
   for (int i = 0; i < ehdr->e_phnum; i++) {
     if (phdr[i].p_type == PT_LOAD) {
-      ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
-      
+      //ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_filesz);
+      fs_lseek(fd, phdr[i].p_offset + fs_get_file_off(fd), SEEK_SET);
+      fs_read(fd, (void *)phdr[i].p_vaddr, phdr[i].p_filesz);
       memset((void *)(phdr[i].p_vaddr + phdr[i].p_filesz), 0, phdr[i].p_memsz - phdr[i].p_filesz);
     }
   }

@@ -110,6 +110,10 @@ size_t fs_get_file_size(int fd) {
   return file_table[fd].size;
 }
 
+size_t fs_get_file_off(int fd) {
+  return file_table[fd].disk_offset;
+}
+
 int fs_close(int fd) {
   return 0;
 }
