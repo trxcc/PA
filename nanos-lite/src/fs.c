@@ -45,7 +45,7 @@ struct fileState{
 
 static bool check_open_overflow(int fd, size_t len) {
   if (!file_state[fd].is_open) { return false; }
-  Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
+  //Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
   if (len + file_state[fd].open_offset > file_table[fd].size) {
     return false;
   }
@@ -70,6 +70,8 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 size_t fs_read(int fd, void *buf, size_t len) {
   if (!check_open_overflow(fd, len)) {
+    Log("Open_offset: %d, len: %d, size: %d", file_state[fd].open_offset, len, file_table[fd].size);
+ 
     panic("file not open or overflow!");
   }
   size_t fd_read_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
