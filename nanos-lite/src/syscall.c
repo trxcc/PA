@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include <sys/time.h>
 
 extern void yield();
 extern int fs_open(const char *, int, int);
@@ -48,6 +49,13 @@ static int sys_brk(intptr_t addr){
   return 0;
 }
 
+static int sys_gettimeofday(struct timeval *tv, struct timezone *tz) {
+  tv->tv_usec = io_read(AM_TIMER_UPTIME).us;
+  tv->tv_sec  = tv->tv_usec / 1000000;
+  if (tv->tv_usec < 0 || tv->tv_sec < 0) return  -1;
+  return 0; 
+}
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
 /*#ifdef CONFIG_STRACE
@@ -91,7 +99,7 @@ void do_syscall(Context *c) {
       c->GPRx = fs_close(a[1]);
       break;
     case SYS_gettimeofday:
-      
+      c->GPRx = sys_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); 
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE

@@ -1,5 +1,6 @@
 #include <sys/time.h>
 #include <stdio.h>
+#include <assert.h>
 
 int main() {
   struct timeval val; 
@@ -13,8 +14,8 @@ int main() {
       assert(0);
     }
     long int tmp = val.tv_usec;
-    if (tmp - pre >= 1e5) {
-      printf("print for %d at time %u\n", ++cnt, tmp);
+    if (tmp - pre >= 5e5) {
+      printf("print for %d at time %d\n", ++cnt, (int)tmp);
     } 
   }
   return 0;
