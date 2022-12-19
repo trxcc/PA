@@ -25,8 +25,8 @@ int NDL_PollEvent(char *buf, int len) {
   int i = fread(c, sizeof(char), len, fp);
   //assert(0);
   if (i == 0) return 0; 
+  printf("%s\n", c);
   memcpy(buf, c, len);
-  assert(0);
   return 1;
 }
 
