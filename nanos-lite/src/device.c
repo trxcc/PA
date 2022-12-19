@@ -35,7 +35,8 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   int keylen = strlen(keyname[ev.keycode]);
   memcpy(buff, keyname[ev.keycode], keylen < len ? keylen : len);
   buff += (keylen < len ? keylen : len);
-  *buff = '\n';
+  *buff++ = '\n';
+  *buff = '\0';
   printf("%s\n", (char *)buf);
   return keylen + 4;
 }
