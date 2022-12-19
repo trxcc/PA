@@ -22,6 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
   FILE *fp = fopen("/dev/events", "r+");
   char *c;
   int i = fread(c, sizeof(char), len, fp);
+  assert(0);
   if (i == 0) return 0; 
   memcpy(buf, c, len);
   return 1;
