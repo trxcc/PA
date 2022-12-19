@@ -50,6 +50,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   sprintf(buff, "WIDTH: %d\nHEIGHT: %d\n", w, h);  
   buff += len;
   *buff = '\0';
+  printf("%s\n", buff);
   return len;
 }
 
