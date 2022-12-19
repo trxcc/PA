@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <assert.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
@@ -30,6 +31,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   FILE *fp = fopen("/proc/dispinfo", "r+");
   char *tmp_str;
   fscanf(fp, "%s %d", tmp_str, &screen_w);
+  assert(0);
   fscanf(fp, "%s %d", tmp_str, &screen_h);
   printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
   if (getenv("NWM_APP")) {
