@@ -48,6 +48,8 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   int h = io_read(AM_GPU_CONFIG).height;
   len = len < 30 ? len : 30;
   sprintf(buff, "WIDTH: %d\nHEIGHT: %d\n", w, h);  
+  buff += len;
+  *buff = '\0';
   return len;
 }
 
