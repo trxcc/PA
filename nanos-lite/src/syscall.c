@@ -30,7 +30,7 @@ static void sys_exit(int flag) {
 
 static int sys_write(int fd, void *buf, size_t count) {
   //Log("Use sys_write\n");
-  int i = 0;
+  /*int i = 0;
   if (fd == 1 || fd == 2) {
     char *buff = (char *)buf;
     for (i = 0; i < count; i++) {
@@ -39,8 +39,8 @@ static int sys_write(int fd, void *buf, size_t count) {
   }
   else {
     fs_write(fd, buf, count);
-  }
-  return count;
+  }*/
+  return fs_write(fd, buf, count);
 } 
 
 static int sys_brk(intptr_t addr){
@@ -89,6 +89,9 @@ void do_syscall(Context *c) {
     case SYS_close:
       //printf("Hit SYS_close\n");
       c->GPRx = fs_close(a[1]);
+      break;
+    case SYS_gettimeofday:
+      
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
