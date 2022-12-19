@@ -33,8 +33,9 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   *buff++ = ' ';
   
   int keylen = strlen(keyname[ev.keycode]);
+  keylen = keylen < len ? keylen : len;
   memcpy(buff, keyname[ev.keycode], keylen < len ? keylen : len);
-  buff += (keylen < len ? keylen : len);
+  buff += keylen;
   //*buff++ = '\n';
   *buff = '\0';
   //printf("%s\n", (char *)buf);
@@ -42,7 +43,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  char *buff = (char *)buf;
+  int w = io_read(AM_GPU_CONFIG).width;
+  int h = io_read(AM_GPU_CONFIG).height;
+  len = len < 30 ? len : 30;
+  sprintf(buff, "WIDTH: %d\nHEIGHT: %d\n", w, h);  
+  return len;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
