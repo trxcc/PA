@@ -15,8 +15,11 @@ int main() {
     }
     long int tmp = val.tv_usec;
     if (tmp - pre >= 500000) {
-      printf("print for %d at time %d\n", ++cnt, (int)(tmp - pre));
+      printf("print for %d at time %d", ++cnt, (int)(tmp - pre));
       pre = tmp;
+    }
+    if (cnt % 2 == 0) {
+      printf(" Ticks: %u\n", NDL_GetTicks());
     } 
   }
   return 0;
