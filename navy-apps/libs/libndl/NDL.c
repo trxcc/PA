@@ -27,10 +27,6 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  FILE *fp = fopen("/proc/dispinfo", "r+");
-  char *tmp_str1 = "i am the king\n", *tmp_str2 = "lsy\n";
-  fscanf(fp, "%s %d %s %d", tmp_str1, &screen_w, tmp_str2, &screen_h);
-  printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
   if (getenv("NWM_APP")) {
     int fbctl = 4;
     fbdev = 5;
@@ -47,6 +43,13 @@ void NDL_OpenCanvas(int *w, int *h) {
       if (strcmp(buf, "mmap ok") == 0) break;
     }
     close(fbctl);
+  }
+  else {
+    FILE *fp = fopen("/proc/dispinfo", "r+");
+    char *tmp_str1 = "i am the king\n", *tmp_str2 = "lsy\n";
+    fscanf(fp, "%s %d %s %d", tmp_str1, &screen_w, tmp_str2, &screen_h);
+    printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
+    
   }
 }
 
