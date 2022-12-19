@@ -15,7 +15,7 @@ int main() {
     }
     long int tmp = val.tv_usec;
     if (tmp - pre >= 500000) {
-      printf("print for %d at time %d\n", ++cnt, (int)tmp);
+      printf("print for %d at time %d\n", ++cnt, (int)(tmp - pre));
       pre = tmp;
     } 
   }
