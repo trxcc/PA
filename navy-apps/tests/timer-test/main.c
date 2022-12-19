@@ -17,10 +17,10 @@ int main() {
     if (tmp - pre >= 500000) {
       printf("print for %d at time %d", ++cnt, (int)(tmp - pre));
       pre = tmp;
+      if (cnt % 2 == 0) {
+        printf(" Ticks: %u\n", NDL_GetTicks());
+      }
     }
-    if (cnt % 2 == 0) {
-      printf(" Ticks: %u\n", NDL_GetTicks());
-    } 
   }
   return 0;
 }
