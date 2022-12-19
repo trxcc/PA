@@ -14,7 +14,7 @@ int main() {
       assert(0);
     }
     long int tmp = val.tv_usec;
-    if (tmp - pre >= 5e5) {
+    if (tmp - pre >= 500000) {
       printf("print for %d at time %d\n", ++cnt, (int)tmp);
       pre = tmp;
     } 
