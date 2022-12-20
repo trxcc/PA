@@ -37,11 +37,13 @@ static Finfo file_table[] __attribute__((used)) = {
   {"/dev/events", 0, 0, events_read, invalid_write},
   {"/proc/dispinfo", 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
+  //{"/dev/fb", 0, 0},
   {"6", 0, 0, invalid_read, invalid_write},
 };
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  
 }
 
 struct fileState{
