@@ -10,11 +10,11 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
 static long int BOOT_TIME = 0;
-
+/*
 #define N 1000
 static int in_canvas[N][N];
 static int canvas_w = 0, canvas_h = 0;
-
+*/
 uint32_t NDL_GetTicks() {
   struct timeval val;
   gettimeofday(&val, NULL);
@@ -87,11 +87,11 @@ int NDL_Init(uint32_t flags) {
   struct timeval val;
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
-  memset(in_canvas, 0, sizeof(in_canvas));
+ // memset(in_canvas, 0, sizeof(in_canvas));
   return 0;
 }
 
 void NDL_Quit() {
   BOOT_TIME = 0;
-  memset(in_canvas, 0, sizeof(in_canvas));
+  //memset(in_canvas, 0, sizeof(in_canvas));
 }
