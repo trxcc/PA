@@ -13,7 +13,7 @@ static int screen_w = 0, screen_h = 0;
 static long int BOOT_TIME = 0;
 
 #define N 1000
-static int in_canvas[N][N];
+static int in_canvas[400][300];
 static int canvas_w = 0, canvas_h = 0;
 
 uint32_t NDL_GetTicks() {
@@ -58,7 +58,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     if (*w == 0 && *h == 0) {
       *w = screen_w, *h = screen_h;
     }
-    canvas_w = *w, canvas_h = *h;
+    canvas_w = *w <= screen_w ? *w : screen_w, canvas_h = *h <= screen_h ? *h : screen_h;
     for (int i = 0; i < *w; i++) 
       for (int j = 0; j < *h; j++)
         in_canvas[i][j] = 1;
@@ -105,8 +105,8 @@ int NDL_Init(uint32_t flags) {
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  for (int i = 0; i < N; i++)
-    for (int j = 0; j < N; j++)
+  for (int i = 0; i < 400; i++)
+    for (int j = 0; j < 300; j++)
       in_canvas[i][j] = 0;
   return 0;
 }
@@ -114,7 +114,7 @@ int NDL_Init(uint32_t flags) {
 void NDL_Quit() {
   BOOT_TIME = 0;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  for (int i = 0; i < N; i++)
-    for (int j = 0; j < N; j++)
+  for (int i = 0; i < 400; i++)
+    for (int j = 0; j < 300; j++)
       in_canvas[i][j] = 0;
 }
