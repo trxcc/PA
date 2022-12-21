@@ -2,8 +2,7 @@
 
 extern uint8_t ramdisk_start;
 extern uint8_t ramdisk_end;
-extern int ramdisk_offset;
-#define RAMDISK_SIZE ((&ramdisk_end) - (&ramdisk_start) + ramdisk_offset)
+#define RAMDISK_SIZE ((&ramdisk_end) - (&ramdisk_start))
 
 /* The kernel is monolithic, therefore we do not need to
  * translate the address `buf' from the user process to

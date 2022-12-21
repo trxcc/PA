@@ -36,20 +36,23 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, serial_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, serial_write},
   {"/dev/events", 0, 0, events_read, invalid_write},
+  {"/dev/fb", 0, 0, invalid_read, fb_write},
   {"/proc/dispinfo", 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
-  {"/dev/fb", 0, 0, invalid_read, fb_write},
   {"6", 0, 0, invalid_read, invalid_write},
 };
 
-int ramdisk_offset = 0;
+#define SPECIAL_FILE_NUM 5
+
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   int i;
   for (i = 0; strcmp(file_table[i].name, "/dev/fb") != 0; i++);
-  file_table[i].disk_offset = file_table[i-1].disk_offset + file_table[i-1].size;
   file_table[i].size = 400 * 300 * 4;
-  ramdisk_offset += 400 * 300 * 4;
+  for (i = SPECIAL_FILE_NUM + 1; strcmp(file_table[i].name, "6") != 0; i++) {
+    file_table[i].read = ramdisk_read;
+    file_table[i].write = ramdisk_write;
+  }
 }
 
 struct fileState{
@@ -82,7 +85,7 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 
 size_t fs_read(int fd, void *buf, size_t len) {
-  if ((fd >= 0 && fd <= 4) || strcmp(file_table[fd].name, "/dev/fb") != 0) {
+  if (fd >= 0 && fd <= SPECIAL_FILE_NUM) {
     return file_table[fd].read(buf, file_state[fd].open_offset, len);
   }
   int check_flag = check_open_overflow(fd, len);
@@ -96,11 +99,11 @@ size_t fs_read(int fd, void *buf, size_t len) {
   size_t fd_read_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
   //printf("file_off: %d, read_off: %d\n", file_state[fd].open_offset, fd_read_offset);
   file_state[fd].open_offset += len;
-  return ramdisk_read(buf, fd_read_offset, len);
+  return file_table[fd].read(buf, fd_read_offset, len);
 }
 
 size_t fs_write(int fd, const void *buf, size_t len) {
-  if ((fd >= 0 && fd <= 4) || strcmp(file_table[fd].name, "/dev/fb") != 0) {
+  if (fd >= 0 && fd <= SPECIAL_FILE_NUM) {
     return file_table[fd].write(buf, file_state[fd].open_offset, len);
   }
   int check_flag = check_open_overflow(fd, len);
@@ -113,7 +116,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   //printf("file_off: %d\n", file_state[fd].open_offset);
   size_t fd_write_offset = file_table[fd].disk_offset + file_state[fd].open_offset; 
   file_state[fd].open_offset += len;
-  return ramdisk_write(buf, fd_write_offset, len);
+  return file_table[fd].write(buf, fd_write_offset, len);
 }
 
 char *fs_get_file_name(int fd) {
