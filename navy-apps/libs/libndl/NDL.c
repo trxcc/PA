@@ -65,6 +65,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  printf("x: %d, y: %d, w: %d, h: %d\n", x, y, w, h);
   FILE* fp = fopen("/dev/fb", "r+");
   assert(x + w < 400);
   assert(y + h < 300);
@@ -103,16 +104,16 @@ int NDL_Init(uint32_t flags) {
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  /*for (int i = 0; i < N; i++)
+  for (int i = 0; i < N; i++)
     for (int j = 0; j < N; j++)
-      in_canvas[i][j] = 0;*/
+      in_canvas[i][j] = 0;
   return 0;
 }
 
 void NDL_Quit() {
   BOOT_TIME = 0;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  /*for (int i = 0; i < N; i++)
+  for (int i = 0; i < N; i++)
     for (int j = 0; j < N; j++)
-      in_canvas[i][j] = 0;*/
+      in_canvas[i][j] = 0;
 }
