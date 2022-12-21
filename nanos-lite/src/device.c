@@ -60,13 +60,13 @@ static uint32_t color_buf[W * H];
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   assert(offset <= W * H);
+  assert(0);
   int y = offset / W, x = offset - y * W;
   uint32_t *buff = (uint32_t *)buf;
   for (size_t i = 0; i < len; i++) {
     color_buf[y * W + x + i] = buff[i];
   }
   for (int i = 0; i < W * H; i++) {color_buf[i] = i % 255; printf("i: %d, color: %d\n", i, color_buf[i]);}
-  assert(0);
   io_write(AM_GPU_FBDRAW, 0, 0, color_buf, 400, 300, true);
   return len;
 }
