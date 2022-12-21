@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <assert.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
@@ -64,6 +65,20 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  FILE* fp = fopen("/dev/fb", "r+");
+  assert(x + w < 400);
+  assert(y + h < 300);
+  assert(in_canvas[x + w][y + h] != 0);
+  fseek(fp, 0, SEEK_SET);
+  
+  int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
+  fseek(fp, start_y * screen_w + start_x, SEEK_SET);
+  fseek(fp, y * screen_w + x, SEEK_CUR);
+  for (int j = 0; j < h; j++) {
+    fwrite(pixels + j * w, sizeof(uint32_t), w, fp);
+    fseek(fp, screen_w, SEEK_CUR);
+  }
+  fseek(fp, 0, SEEK_SET);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
