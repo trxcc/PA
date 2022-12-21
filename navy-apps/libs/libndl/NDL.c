@@ -87,11 +87,17 @@ int NDL_Init(uint32_t flags) {
   struct timeval val;
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
-  memset(in_canvas, 0, sizeof(in_canvas));
+  //memset(in_canvas, 0, sizeof(in_canvas));
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+      in_canvas[i][j] = 0;
   return 0;
 }
 
 void NDL_Quit() {
   BOOT_TIME = 0;
   //memset(in_canvas, 0, sizeof(in_canvas));
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+      in_canvas[i][j] = 0;
 }
