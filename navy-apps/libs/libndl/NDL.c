@@ -78,7 +78,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
   fseek(fp, (start_y * screen_w + start_x) * 4, SEEK_SET);
   fseek(fp, (y * screen_w + x) * 4, SEEK_CUR);
-  //printf("start_x: %d, start_y: %d, x: %d, y: %d, w: %d, h: %d\n", start_x, start_y, x, y, w, h);
+  printf("start_x: %d, start_y: %d, x: %d, y: %d, w: %d, h: %d\n", start_x, start_y, x, y, w, h);
   for (int j = 0; j < h; j++) {
     fwrite(pixels + j * w, sizeof(uint32_t), w, fp);
     fseek(fp, ((start_y + y + j) * screen_w + start_x) * 4, SEEK_SET);
