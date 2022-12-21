@@ -151,7 +151,7 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	return A & (~FIXEDPT_FMASK);
+	return A & (~FIXEDPT_FMASK); //FMASK is the mask of float
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {

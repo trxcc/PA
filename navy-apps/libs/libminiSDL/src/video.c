@@ -13,6 +13,20 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  if (s->format->BitsPerPixel == 32) {
+    if (w == 0 && h == 0 && x == 0 && y == 0) {
+      NDL_DrawRect((uint32_t *)s->pixels, 0, 0, s->w, s->h);
+      return;
+    }
+    uint32_t *pix_arg = malloc(w * h * sizeof(uint32_t)), *buff = (uint32_t *)s->pixels;
+    for (int i = 0; i < h; i++) {
+      memcpy(pix_arg + i * w, buff + (y * i) * s->w + x, sizeof(uint32_t) * w);
+    }
+    NDL_DrawRect(pix_arg, x, y, w, h);
+  }
+  else {
+    panic("SDL_UpdateRect not completed!");
+  }
 }
 
 // APIs below are already implemented.
