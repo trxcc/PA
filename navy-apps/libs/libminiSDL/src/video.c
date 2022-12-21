@@ -27,7 +27,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     NDL_DrawRect(pix_arg, x, y, w, h);
   }
   else {
-    panic("SDL_UpdateRect not completed!");
+    assert(0);
   }
 }
 
