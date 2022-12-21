@@ -62,6 +62,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     for (int i = 0; i < *w; i++) 
       for (int j = 0; j < *h; j++)
         in_canvas[i][j] = 1;
+    printf("incan: %d\n", in_canvas[*w][*h]);
   }
 }
 
