@@ -55,11 +55,11 @@ void NDL_OpenCanvas(int *w, int *h) {
     printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
     if (*w == 0 && *h == 0) {
       *w = screen_w, *h = screen_h;
-    }
+    }/*
     canvas_w = *w, canvas_h = *h;
     for (int i = 0; i < *w; i++) 
       for (int j = 0; j < *h; j++)
-        in_canvas[i][j] = 1;
+        in_canvas[i][j] = 1;*/
   }
 }
 
