@@ -43,7 +43,7 @@ static Finfo file_table[] __attribute__((used)) = {
 };
 
 extern uint8_t ramdisk_end;
-
+extern uint8_t ramdisk_start;
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   int i;
@@ -52,6 +52,7 @@ void init_fs() {
   file_table[i].size = 400 * 300 * 4;
   uint8_t *end = &ramdisk_end;
   end += 400 * 300 * 4;
+  printf("RAM_SIZE: %d", (&ramdisk_end) - (&ramdisk_start));
 }
 
 struct fileState{
