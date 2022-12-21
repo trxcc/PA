@@ -61,8 +61,8 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   assert(offset <= W * H * 4);
   offset /= 4;
-  printf("offset: %d\n", offset);
   int y = offset / W, x = offset - y * W;
+  printf("offset: %d, x: %d, y: %d\n", offset, x, y);
   uint32_t *buff = (uint32_t *)buf;
   /*for (size_t i = 0; i < len; i++) {
     color_buf[y * W + x + i] = buff[i];
