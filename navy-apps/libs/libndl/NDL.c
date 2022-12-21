@@ -62,7 +62,6 @@ void NDL_OpenCanvas(int *w, int *h) {
     for (int i = 0; i < *w; i++) 
       for (int j = 0; j < *h; j++)
         in_canvas[i][j] = 1;
-    printf("incan: %d\n", in_canvas[*w][*h]);
   }
 }
 
@@ -71,7 +70,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   FILE* fp = fopen("/dev/fb", "r+");
   assert(x + w < 400);
   assert(y + h < 300);
-  assert(in_canvas[x + w][y + h] != 0);
+  assert(in_canvas[x + w - 1][y + h - 1] != 0);
   fseek(fp, 0, SEEK_SET);
   
   int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
