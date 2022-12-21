@@ -59,8 +59,8 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 static uint32_t color_buf[W * H];
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  printf("hao\n");
   assert(offset <= W * H);
-  printf("offset: %d, len: %d\n", offset, len);
   int y = offset / W, x = offset - y * W;
   uint32_t *buff = (uint32_t *)buf;
   for (size_t i = 0; i < len; i++) {
