@@ -42,17 +42,14 @@ static Finfo file_table[] __attribute__((used)) = {
   {"6", 0, 0, invalid_read, invalid_write},
 };
 
-extern uint8_t ramdisk_end;
-extern uint8_t ramdisk_start;
+int ramdisk_offset = 0;
 void init_fs() {
   // TODO: initialize the size of /dev/fb
   int i;
   for (i = 0; strcmp(file_table[i].name, "/dev/fb") != 0; i++);
   file_table[i].disk_offset = file_table[i-1].disk_offset + file_table[i-1].size;
   file_table[i].size = 400 * 300 * 4;
-  uint8_t *end = &ramdisk_end;
-  end += 400 * 300 * 4;
-  printf("RAM_SIZE: %d", (&ramdisk_end) - (&ramdisk_start));
+  ramdisk_offset += 400 * 300 * 4;
 }
 
 struct fileState{
