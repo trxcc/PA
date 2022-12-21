@@ -11,6 +11,10 @@ static int screen_w = 0, screen_h = 0;
 
 static long int BOOT_TIME = 0;
 
+#define N 1000
+static int in_canvas[N][N];
+static int canvas_w = 0, canvas_h = 0;
+
 uint32_t NDL_GetTicks() {
   struct timeval val;
   gettimeofday(&val, NULL);
@@ -50,8 +54,12 @@ void NDL_OpenCanvas(int *w, int *h) {
     fscanf(fp, "%s %d %s %d", tmp_str1, &screen_w, tmp_str2, &screen_h);
     printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
     if (*w == 0 && *h == 0) {
-      screen_w = *w, screen_h = *h;
-    } 
+      *w = screen_w, *h = screen_h;
+    }
+    canvas_w = *w, canvas_h = *h;
+    for (int i = 0; i < *w; i++) 
+      for (int j = 0; j < *h; j++)
+        in_canvas[i][j] = 1;
   }
 }
 
@@ -79,9 +87,11 @@ int NDL_Init(uint32_t flags) {
   struct timeval val;
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
+  memset(in_canvas, 0, sizeof(in_canvas));
   return 0;
 }
 
 void NDL_Quit() {
   BOOT_TIME = 0;
+  memset(in_canvas, 0, sizeof(in_canvas));
 }
