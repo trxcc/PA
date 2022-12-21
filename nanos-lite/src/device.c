@@ -65,7 +65,8 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   for (size_t i = 0; i < len; i++) {
     color_buf[y * W + x + i] = buff[i];
   }
-  io_write(AM_GPU_FBDRAW, x, y, color_buf, len, 1, true);
+  for (int i = 0; i < W * H; i++) {color_buf[i] = i % 255;}
+  io_write(AM_GPU_FBDRAW, 0, 0, color_buf, 200, 200, true);
   return len;
 }
 
