@@ -54,7 +54,7 @@ void NDL_OpenCanvas(int *w, int *h) {
     FILE *fp = fopen("/proc/dispinfo", "r+");
     char *tmp_str1 = "i am the king\n", *tmp_str2 = "lsy\n";
     fscanf(fp, "%s %d %s %d", tmp_str1, &screen_w, tmp_str2, &screen_h);
-    printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_w);
+    printf("SCREEN_W: %d, SCREEN_H: %d\n", screen_w, screen_h);
     if (*w == 0 && *h == 0) {
       *w = screen_w, *h = screen_h;
     }
