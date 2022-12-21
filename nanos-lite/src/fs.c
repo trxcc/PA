@@ -144,6 +144,7 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     file_state[fd].open_offset = tmp;
     panic("file not open or overflow!");
   } 
+  printf("now_offset: %d\n", now_offset);
   return now_offset;
 }
 
