@@ -13,7 +13,7 @@ static int screen_w = 0, screen_h = 0;
 static long int BOOT_TIME = 0;
 
 #define N 1000
-static int in_canvas[400][300];
+//static int in_canvas[400][300];
 static int canvas_w = 0, canvas_h = 0;
 
 uint32_t NDL_GetTicks() {
@@ -59,18 +59,18 @@ void NDL_OpenCanvas(int *w, int *h) {
       *w = screen_w, *h = screen_h;
     }
     canvas_w = *w <= screen_w ? *w : screen_w, canvas_h = *h <= screen_h ? *h : screen_h;
-    for (int i = 0; i < *w; i++) 
+   /* for (int i = 0; i < *w; i++) 
       for (int j = 0; j < *h; j++)
-        in_canvas[i][j] = 1;
+        in_canvas[i][j] = 1;*/
   }
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  printf("x: %d, y: %d, w: %d, h: %d, in_canvas: %d\n", x, y, w, h, in_canvas[x + w][y + h]);
+  //printf("x: %d, y: %d, w: %d, h: %d, in_canvas: %d\n", x, y, w, h, in_canvas[x + w][y + h]);
   FILE* fp = fopen("/dev/fb", "r+");
   assert(x + w < 400);
   assert(y + h < 300);
-  assert(in_canvas[x + w - 1][y + h - 1] != 0);
+  //assert(in_canvas[x + w - 1][y + h - 1] != 0);
   fseek(fp, 0, SEEK_SET);
   
   int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
@@ -105,16 +105,16 @@ int NDL_Init(uint32_t flags) {
   gettimeofday(&val, NULL);
   BOOT_TIME = val.tv_sec;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  for (int i = 0; i < 400; i++)
-    for (int j = 0; j < 300; j++)
-      in_canvas[i][j] = 0;
+  //for (int i = 0; i < 400; i++)
+  //  for (int j = 0; j < 300; j++)
+  //    in_canvas[i][j] = 0;
   return 0;
 }
 
 void NDL_Quit() {
   BOOT_TIME = 0;
   //memset(in_canvas, 0, sizeof(in_canvas));
-  for (int i = 0; i < 400; i++)
-    for (int j = 0; j < 300; j++)
-      in_canvas[i][j] = 0;
+  //for (int i = 0; i < 400; i++)
+  //  for (int j = 0; j < 300; j++)
+  //    in_canvas[i][j] = 0;
 }
