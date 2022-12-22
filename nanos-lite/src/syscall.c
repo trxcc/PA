@@ -77,7 +77,7 @@ void do_syscall(Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
-  printf("a[0]: %u\n", a[0]);
+  //printf("a[0]: %u\n", a[0]);
   switch (a[0]) {
     case SYS_yield: 
       c->GPRx = sys_yield(); 
@@ -111,7 +111,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); 
       break;
     case SYS_execve:
-      putch(((char *)a[0])[5]);
+      printf("%s\n", (char *)a[0]);
       c->GPRx = sys_execve((char *)a[0], (char * const*)a[1], (char * const*)a[2]);
       break;
     case SYS_exit: 
