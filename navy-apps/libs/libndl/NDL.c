@@ -76,7 +76,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   fseek(fp, 0, SEEK_SET);
   int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
   long s_offset = (start_y * screen_w + start_x) * 4;
-  s_offset = (y * screen_w + x) * 4; 
+  s_offset += (y * screen_w + x) * 4; 
   //fseek(fp, (start_y * screen_w + start_x) * 4, SEEK_SET);
   //fseek(fp, (y * screen_w + x) * 4, SEEK_CUR);
   fseek(fp, s_offset, SEEK_SET);
