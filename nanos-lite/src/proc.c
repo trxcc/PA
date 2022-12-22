@@ -25,7 +25,7 @@ void init_proc() {
   switch_boot_pcb();
 
   Log("Initializing processes...");
-  naive_uload(NULL, "/bin/timer-test");
+  naive_uload(NULL, "/bin/bird");
   // load program here
 
 }
