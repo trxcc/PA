@@ -110,6 +110,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); 
       break;
     case SYS_execve:
+      printf("OK\n");
       sys_execve((char *)a[0], (char * const*)a[1], (char * const*)a[2]);
       break;
     case SYS_exit: 
