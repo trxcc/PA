@@ -86,8 +86,9 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 size_t fs_read(int fd, void *buf, size_t len) {
   if (fd >= 0 && fd <= SPECIAL_FILE_NUM) {
+    size_t i = file_table[fd].read(buf, file_state[fd].open_offset, len);
     file_state[fd].open_offset += len;
-    return file_table[fd].read(buf, file_state[fd].open_offset, len);
+    return i;
   }
   int check_flag = check_open_overflow(fd, len);
   if (check_flag == -1) {
@@ -105,8 +106,9 @@ size_t fs_read(int fd, void *buf, size_t len) {
 
 size_t fs_write(int fd, const void *buf, size_t len) {
   if (fd >= 0 && fd <= SPECIAL_FILE_NUM) {
+    size_t i = file_table[fd].write(buf, file_state[fd].open_offset, len);
     file_state[fd].open_offset += len;
-    return file_table[fd].write(buf, file_state[fd].open_offset, len);
+    return i;
   }
   int check_flag = check_open_overflow(fd, len);
   if (check_flag == -1) {
