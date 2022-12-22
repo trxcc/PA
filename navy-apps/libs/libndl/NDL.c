@@ -75,15 +75,17 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   //assert(in_canvas[x + w - 1][y + h - 1] != 0);
   fseek(fp, 0, SEEK_SET);
   int start_y = (screen_h - canvas_h) / 2, start_x = (screen_w - canvas_w) / 2;
-  //long s_offset = (start_y * screen_w + start_x) * 4;
-  //s_offset = (y * screen_w + x) * 4 
-  fseek(fp, (start_y * screen_w + start_x) * 4, SEEK_SET);
-  fseek(fp, (y * screen_w + x) * 4, SEEK_CUR);
-  //fseek(fp, s_offset, SEEK_SET);
+  long s_offset = (start_y * screen_w + start_x) * 4;
+  s_offset = (y * screen_w + x) * 4 
+  //fseek(fp, (start_y * screen_w + start_x) * 4, SEEK_SET);
+  //fseek(fp, (y * screen_w + x) * 4, SEEK_CUR);
+  fseek(fp, s_offset, SEEK_SET);
   printf("start_x: %d, start_y: %d, x: %d, y: %d, w: %d, h: %d\n", start_x, start_y, x, y, w, h);
   for (int j = 0; j < h; j++) {
     //printf("lines: %d, len: %d\n", start_y + y + j, w);
-    fseek(fp, ((start_y + y + j) * screen_w + start_x + x) * 4, SEEK_SET);
+    s_offset += (j * screen_w) * 4;
+    fseek(fp, s_offset, SEEK_SET);
+    //fseek(fp, ((start_y + y + j) * screen_w + start_x + x) * 4, SEEK_SET);
     fwrite(pixels + j * w, sizeof(uint32_t), w, fp);
   }
   //printf("hi\n");
