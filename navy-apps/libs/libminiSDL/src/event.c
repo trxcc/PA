@@ -43,6 +43,12 @@ static int ana_key(uint8_t *type, uint8_t *sym) {
 }
 
 int SDL_PollEvent(SDL_Event *ev) {
+  uint8_t tmp_type = 0, tmp_sym = 0;
+  if (ana_key(&tmp_type, &tmp_sym)) {
+    ev->type = tmp_type;
+    ev->key.keysym.sym = tmp_sym;
+    return 1;
+  }
   return 0;
 }
 
