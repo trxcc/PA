@@ -1,6 +1,7 @@
 #include <common.h>
 #include "syscall.h"
 #include <sys/time.h>
+#include <proc.h>
 
 extern void yield();
 extern int fs_open(const char *, int, int);
@@ -8,6 +9,7 @@ extern size_t fs_read(int, void *, size_t);
 extern size_t fs_write(int, const void *, size_t);
 extern size_t fs_lseek(int, size_t, int);
 extern int fs_close(int);
+extern void naive_uload(PCB *, const char *);
 
 #ifdef CONFIG_STRACE
 extern void strace_record(uintptr_t x[], uint32_t ret);
@@ -21,11 +23,16 @@ static int sys_yield() {
   return 0;
 }
 
+static void sys_execve(const char *fname, char * const argv[], char *const envp[]) {
+  naive_uload(NULL, fname);
+}
+
 static void sys_exit(int flag) {
 #ifdef CONFIG_STRACE
   print_strace();
   reset_strace();
 #endif
+  sys_execve("/bin/menu", NULL, NULL);
   halt(flag);
 }
 
@@ -100,6 +107,9 @@ void do_syscall(Context *c) {
       break;
     case SYS_gettimeofday:
       c->GPRx = sys_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); 
+      break;
+    case SYS_execve:
+      sys_execve((char *)a[0], (char * const*)a[1], (char * const*)a[2]);
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
