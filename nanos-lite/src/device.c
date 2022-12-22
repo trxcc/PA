@@ -60,14 +60,14 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   assert(offset <= W * H * 4);
-  offset /= 4;
+  offset >>= 2;
   int y = offset / W, x = offset - y * W;
   uint32_t *buff = (uint32_t *)buf;
   /*for (size_t i = 0; i < len; i++) {
     color_buf[y * W + x + i] = buff[i];
   }*/
   printf("x: %d, y: %d, len: %d\n", x, y, len);
-  io_write(AM_GPU_FBDRAW, x, y, buff, len, 1, true);
+  io_write(AM_GPU_FBDRAW, x, y, buff, len >> 2, 1, true);
   return len;
 }
 
