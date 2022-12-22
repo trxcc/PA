@@ -27,13 +27,15 @@ static void sh_handle_cmd(const char *cmd) {
   int i;
   for (i = 0; tmp[i] != '\n' && tmp[i] != '\0'; i++);
   tmp[i] = '\0';
-  execve(tmp, NULL, NULL);
+  //execve(tmp, NULL, NULL);
+  execvp(tmp, NULL);
 }
 
 void builtin_sh_run() {
   sh_banner();
   sh_prompt();
 
+  setenv("PATH", "/bin", 0);
   while (1) {
     SDL_Event ev;
     if (SDL_PollEvent(&ev)) {
