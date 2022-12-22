@@ -25,7 +25,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     if (!dstrect) dst_x = 0, dst_y = 0;
     else dst_x = dstrect->x, dst_y = dstrect->y;
   
-    printf("src_x: %d, src_y: %d, dst_x: %d, dst_y: %d, rect_w: %d, rect_h: %d\n", src_x, src_y, dst_x, dst_y, rect_w, rect_h);
+    //printf("src_x: %d, src_y: %d, dst_x: %d, dst_y: %d, rect_w: %d, rect_h: %d\n", src_x, src_y, dst_x, dst_y, rect_w, rect_h);
 
     for (int i = 0; i < rect_h; i++)
       for (int j = 0; j < rect_w; j++) 
