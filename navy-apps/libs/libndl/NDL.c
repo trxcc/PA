@@ -36,7 +36,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  printf("*w: %d, *h: %d\n", *w, *h);
+//  printf("*w: %d, *h: %d\n", *w, *h);
   if (getenv("NWM_APP")) {
     int fbctl = 4;
     fbdev = 5;
@@ -72,7 +72,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  printf("x: %d, y: %d, w: %d, h: %d, c_w: %d, c_h: %d, s_w: %d, s_h: %d\n", x, y, w, h, canvas_w, canvas_h, screen_w, screen_h);
+  //printf("x: %d, y: %d, w: %d, h: %d, c_w: %d, c_h: %d, s_w: %d, s_h: %d\n", x, y, w, h, canvas_w, canvas_h, screen_w, screen_h);
   FILE* fp = fopen("/dev/fb", "r+");
   assert(x + w - 1 < 400);
   assert(y + h - 1 < 300);
@@ -84,7 +84,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   //fseek(fp, (start_y * screen_w + start_x) * 4, SEEK_SET);
   //fseek(fp, (y * screen_w + x) * 4, SEEK_CUR);
   fseek(fp, s_offset, SEEK_SET);
-  printf("start_x: %d, start_y: %d, x: %d, y: %d, w: %d, h: %d\n", start_x, start_y, x, y, w, h);
+ // printf("start_x: %d, start_y: %d, x: %d, y: %d, w: %d, h: %d\n", start_x, start_y, x, y, w, h);
   for (int j = 0; j < h; j++) {
     //printf("lines: %d, len: %d\n", start_y + y + j, w);
     fwrite(pixels + j * w, sizeof(uint32_t), w, fp);
