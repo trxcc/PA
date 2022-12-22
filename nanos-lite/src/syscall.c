@@ -23,9 +23,10 @@ static int sys_yield() {
   return 0;
 }
 
-static void sys_execve(const char *fname, char * const argv[], char *const envp[]) {
+static int sys_execve(const char *fname, char * const argv[], char *const envp[]) {
   printf("%s\n", fname);
   naive_uload(NULL, fname);
+  return 0;
 }
 
 static void sys_exit(int flag) {
@@ -110,8 +111,7 @@ void do_syscall(Context *c) {
       c->GPRx = sys_gettimeofday((struct timeval *)a[1], (struct timezone *)a[2]); 
       break;
     case SYS_execve:
-      printf("OK\n");
-      sys_execve((char *)a[0], (char * const*)a[1], (char * const*)a[2]);
+      c->GPRx = sys_execve((char *)a[0], (char * const*)a[1], (char * const*)a[2]);
       break;
     case SYS_exit: 
 #ifdef CONFIG_STRACE
