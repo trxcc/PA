@@ -33,7 +33,7 @@ static void sys_exit(int flag) {
   print_strace();
   reset_strace();
 #endif
-  sys_execve("/bin/menu", NULL, NULL);
+  sys_execve("/bin/nterm", NULL, NULL);
   halt(flag);
 }
 
