@@ -10,6 +10,8 @@ static const char *keyname[] = {
   _KEYS(keyname)
 };
 
+static uint8_t is_key_down[sizeof(keyname) / sizeof(char *)] = {0};
+
 int SDL_PushEvent(SDL_Event *ev) {
   assert(0);
   return 0;
@@ -48,6 +50,8 @@ int SDL_PollEvent(SDL_Event *ev) {
   if (ana_key(&tmp_type, &tmp_sym)) {
     ev->type = tmp_type;
     ev->key.keysym.sym = tmp_sym;
+    if (tmp_type == SDL_KEYDOWN) is_key_down[tmp_sym] = 1;
+    else if (tmp_type == SDL_KEYUP) is_key_down[tmp_sym] = 0;
     return 1;
   }
   return 0;
@@ -58,7 +62,8 @@ int SDL_WaitEvent(SDL_Event *event) {
   while (!ana_key(&tmp_type, &tmp_sym));
   event->type = tmp_type;
   event->key.keysym.sym = tmp_sym;
-  
+  if (tmp_type == SDL_KEYDOWN) is_key_down[tmp_sym] = 1;
+  else if (tmp_type == SDL_KEYUP) is_key_down[tmp_sym] = 0;
   return 1;
 }
 
@@ -68,6 +73,6 @@ int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
 }
 
 uint8_t* SDL_GetKeyState(int *numkeys) {
-  assert(0);
-  return NULL;
+  if (numkeys) *numkeys = sizeof(is_key_down) / sizeof(is_key_down[0]); 
+  return is_key_down;
 }
