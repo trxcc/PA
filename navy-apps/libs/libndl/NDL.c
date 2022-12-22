@@ -10,7 +10,7 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
-static long int BOOT_TIME = 0;
+//static long int BOOT_TIME = 0;
 
 #define N 1000
 //static int in_canvas[400][300];
@@ -18,9 +18,13 @@ static int canvas_w = 0, canvas_h = 0;
 
 uint32_t NDL_GetTicks() {
   struct timeval val;
-  gettimeofday(&val, NULL);
-  long int now_time = val.tv_sec;
-  return (uint32_t)(now_time - BOOT_TIME);
+  int ret =  gettimeofday(&val, NULL);
+  if (ret == -1) {
+    printf("Cannot get time of day\n");
+    return ret;
+  }
+  uint32_t ms = val.tv_usec / 1000;
+  return ms;
 }
 
 int NDL_PollEvent(char *buf, int len) {
@@ -108,9 +112,9 @@ int NDL_Init(uint32_t flags) {
   if (getenv("NWM_APP")) {
     evtdev = 3;
   }
-  struct timeval val;
-  gettimeofday(&val, NULL);
-  BOOT_TIME = val.tv_sec;
+//  struct timeval val;
+//  gettimeofday(&val, NULL);
+//  BOOT_TIME = val.tv_sec;
   //memset(in_canvas, 0, sizeof(in_canvas));
   //for (int i = 0; i < 400; i++)
   //  for (int j = 0; j < 300; j++)
@@ -119,7 +123,7 @@ int NDL_Init(uint32_t flags) {
 }
 
 void NDL_Quit() {
-  BOOT_TIME = 0;
+//  BOOT_TIME = 0;
   //memset(in_canvas, 0, sizeof(in_canvas));
   //for (int i = 0; i < 400; i++)
   //  for (int j = 0; j < 300; j++)
