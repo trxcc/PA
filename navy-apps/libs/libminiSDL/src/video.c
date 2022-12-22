@@ -120,7 +120,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     for (int i = 0; i < h; i++) 
       for (int j = 0; j < w; j++) { 
         pix_arg[i * w + j] = get32color(&s->format->palette->colors[p[(y + i) * s->w + x + j]]);
-        if (pix_arg[i*w + j]) printf("pixels[%d] = %u\n", i*w+j, pix_arg[i*w+j]);
+//        if (pix_arg[i*w + j]) printf("pixels[%d] = %u\n", i*w+j, pix_arg[i*w+j]);
       }
     NDL_DrawRect(pix_arg, x, y, w, h);
   }
