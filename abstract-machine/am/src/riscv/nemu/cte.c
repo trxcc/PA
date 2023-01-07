@@ -38,7 +38,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *context = kstack.end - sizeof(Context);
   context->mepc = (uintptr_t)entry;
   context->pdir = NULL;
-  printf("Hit kcontext!\n");
+  printf("Hit kcontext, entry = %u!\n", context->mepc);
   return context;
 }
 
