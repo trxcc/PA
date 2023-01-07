@@ -17,7 +17,7 @@ void hello_fun(void *arg) {
   Log("Into hello_fun");
   int j = 1;
   while (1) {
-    Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
+    Log("Hello World from Nanos-lite with arg for the %dth time!", j);
     j ++;
     yield();
   }
