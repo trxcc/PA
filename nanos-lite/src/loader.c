@@ -85,5 +85,5 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
   pcb->cp = kcontext(area, entry, arg);
-  Log("In kload\n");
+  Log("In kload, entry = %u\n", entry);
 }
