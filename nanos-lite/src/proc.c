@@ -14,6 +14,7 @@ void switch_boot_pcb() {
 }
 
 void hello_fun(void *arg) {
+  Log("Into hello_fun");
   int j = 1;
   while (1) {
     Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
@@ -27,7 +28,7 @@ void init_proc() {
   switch_boot_pcb();
 
   Log("Initializing processes...");
-  assert(0);
+//  assert(0);
   naive_uload(NULL, "/bin/pal");
   // load program here
 
