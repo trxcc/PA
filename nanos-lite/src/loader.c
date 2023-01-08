@@ -81,12 +81,12 @@ void naive_uload(PCB *pcb, const char *filename) {
 }
 
 void context_uload(PCB *pcb, const char *filename) {
-  AddrSpace *as = &pcb->as;
+  //AddrSpace *as = &pcb->as;
   uintptr_t entry = loader(pcb, filename);
   Area area;
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
-  pcb->cp = ucontext(as, area, (void *)entry);
+  pcb->cp = ucontext(NULL, area, (void *)entry);
   Log("In uload, entry = %u, pcb->cp->mepc = %u", entry, pcb->cp->mepc);
 }
 
