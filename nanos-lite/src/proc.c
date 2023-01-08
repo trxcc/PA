@@ -13,11 +13,14 @@ void switch_boot_pcb() {
   current = &pcb_boot;
 }
 
+int flag = 1;
+
 void hello_fun(void *arg) {
   Log("Into hello_fun");
   int j = 1;
+  printf("Into hello for %d time", flag++);
   while (1) {
-    Log("Hello World from Nanos-lite with arg for the %dth time!", j);
+    //Log("Hello World from Nanos-lite with arg for the %dth time!", j);
     j ++;
     yield();
   }
