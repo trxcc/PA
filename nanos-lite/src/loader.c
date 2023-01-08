@@ -85,6 +85,8 @@ static inline size_t aligned_word_len(size_t size) {
   return (size & ~0x3) + 0x4;
 }
 
+#define NR_PAGE 8
+
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
   int argc = 0, envc = 0;
   if (argv) {
@@ -93,23 +95,28 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   if (envp) {
     for (; envp[envc]; envc++);
   }
+
+  void *now_page_head = new_page(NR_PAGE) + (NR_PAGE << 12);
  
-  char *us_pointer = (char *)heap.end;
-  char *us_argv[argc + 1];
+  //char *us_pointer = (char *)heap.end;
+  char *us_pointer = (char *)now_page_head;
+  uintptr_t *us_argv[argc + 1];
   printf("argv start----\n");
+
   for (int i = 0; i < argc; i++) {
     //printf("%s\n", argv[i]);
     us_pointer -= aligned_word_len(strlen(argv[i]) + 1);
-    us_argv[i] = us_pointer;
+    us_argv[i] = (uintptr_t *)us_pointer;
     //printf("us_argv[%d]: %u, us_pointer: %s\n", i, us_argv[i], us_pointer);
     strcpy(us_pointer, argv[i]); 
   }
   printf("argv finish----\n");
-  char *us_envp[envc + 1];  
+
+  uintptr_t *us_envp[envc + 1];  
 
   for (int i = 0; i < envc; i++) {
     us_pointer -= aligned_word_len(strlen(envp[i]) + 1);
-    us_envp[i] = us_pointer;
+    us_envp[i] = (uintptr_t *)us_pointer;
     strcpy(us_pointer, envp[i]);
   }
 

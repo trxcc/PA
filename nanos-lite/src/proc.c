@@ -30,7 +30,6 @@ void hello_fun(void *arg) {
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "CRT");
   //context_kload(&pcb[1], hello_fun, "TRX");
-  switch_boot_pcb();
 //  hello_fun(NULL);
   Log("Initializing processes...");
   //context_uload(&pcb[0], "/bin/hello");
@@ -38,8 +37,21 @@ void init_proc() {
   context_uload(&pcb[1], "/bin/pal", argv, NULL);
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
+  switch_boot_pcb();
   // load program here
 
+}
+
+static int cnt_proc = 1;
+
+int execve(const char *filename, char *const argv[], char *const envp[]) {
+  context_uload(&pcb[cnt_proc], filename, argv, envp);
+  cnt_proc = (cnt_proc + 1) % (MAX_NR_PROC - 1);
+  if (cnt_proc == 0) cnt_proc = (MAX_NR_PROC - 1);
+
+  switch_boot_pcb();
+  yield();
+  return 0;
 }
 
 Context* schedule(Context *prev) {

@@ -10,6 +10,7 @@ extern size_t fs_write(int, const void *, size_t);
 extern size_t fs_lseek(int, size_t, int);
 extern int fs_close(int);
 extern void naive_uload(PCB *, const char *);
+extern int execve(const char *, char *const[], char *const[]);
 
 #ifdef CONFIG_STRACE
 extern void strace_record(uintptr_t x[], uint32_t ret);
@@ -24,7 +25,8 @@ static int sys_yield() {
 }
 
 static int sys_execve(const char *fname, char * const argv[], char *const envp[]) {
-  naive_uload(NULL, fname);
+//  naive_uload(NULL, fname);
+  execve(fname, argv, envp);
   return 0;
 }
 
