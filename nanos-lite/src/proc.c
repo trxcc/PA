@@ -18,9 +18,9 @@ int flag = 1;
 void hello_fun(void *arg) {
   Log("Into hello_fun");
   int j = 1;
-  printf("Into hello for %d time", flag++);
+  //printf("Into hello for %d time", flag++);
   while (1) {
-    //Log("Hello World from Nanos-lite with arg for the %dth time!", j);
+    Log("Hello World from Nanos-lite with arg %s for the %dth time!", (char *)arg, j);
     j ++;
     yield();
   }
@@ -39,6 +39,7 @@ void init_proc() {
 
 Context* schedule(Context *prev) {
   current->cp = prev;
-  current = &pcb[0];
+  //current = &pcb[0];
+  current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
   return current->cp;
 }
