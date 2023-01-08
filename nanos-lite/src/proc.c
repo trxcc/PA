@@ -34,7 +34,8 @@ void init_proc() {
 //  hello_fun(NULL);
   Log("Initializing processes...");
   //context_uload(&pcb[0], "/bin/hello");
-  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
+  char *argv[] = {"--skip", NULL};
+  context_uload(&pcb[1], "/bin/pal", argv, NULL);
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
   // load program here
