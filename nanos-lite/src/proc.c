@@ -28,11 +28,12 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, "CRT");
+  //context_kload(&pcb[0], hello_fun, "CRT");
   //context_kload(&pcb[1], hello_fun, "TRX");
   switch_boot_pcb();
 //  hello_fun(NULL);
   Log("Initializing processes...");
+  context_uload(&pcb[0], "/bin/hello");
   context_uload(&pcb[1], "/bin/pal");
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
