@@ -8,7 +8,7 @@ PCB *current = NULL;
 
 extern void naive_uload(PCB *pcb, const char *filename);
 extern void context_kload(PCB *pcb, void (*entry)(void *), void *arg);
-extern void context_uload(PCB *pcb, const char *filename);
+extern void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]);
 
 void switch_boot_pcb() {
   current = &pcb_boot;
@@ -34,7 +34,7 @@ void init_proc() {
 //  hello_fun(NULL);
   Log("Initializing processes...");
   //context_uload(&pcb[0], "/bin/hello");
-  context_uload(&pcb[1], "/bin/pal");
+  context_uload(&pcb[1], "/bin/pal", NULL, NULL);
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
   // load program here

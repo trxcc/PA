@@ -80,13 +80,15 @@ void naive_uload(PCB *pcb, const char *filename) {
   //assert(0);
 }
 
-void context_uload(PCB *pcb, const char *filename) {
-  //AddrSpace *as = &pcb->as;
+void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
+  
+
   uintptr_t entry = loader(pcb, filename);
   Area area;
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
   pcb->cp = ucontext(NULL, area, (void *)entry);
+  pcb->cp->GPRx = (uintptr_t)heap.end;
   Log("In uload, entry = %u, pcb->cp->mepc = %u", entry, pcb->cp->mepc);
 }
 
