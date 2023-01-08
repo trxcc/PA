@@ -80,8 +80,56 @@ void naive_uload(PCB *pcb, const char *filename) {
   //assert(0);
 }
 
+static inline size_t aligned_word_len(size_t size) {
+  if (!(size & 0x3)) return size;
+  return (size & ~0x3) + 0x4;
+}
+
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
-  
+  int argc = 0, envc = 0;
+  if (argv) {
+    for (; argv[argc]; argc++);
+  }
+  if (envp) {
+    for (; envp[envc]; envc++);
+  }
+ 
+  char *us_pointer = (char *)heap.end;
+  char *us_argv[argc + 1];
+  printf("argv start----\n");
+  for (int i = 0; i < argc; i++) {
+    printf("%s\n", argv[i]);
+    us_pointer -= aligned_word_len(strlen(argv[i]) + 1);
+    us_argv[i] = us_pointer;
+    printf("us_argv[%d]: %u\n", i, us_argv[i]);
+    strcpy(us_pointer, argv[i]); 
+  }
+  printf("argv finish----\n");
+  char *us_envp[envc + 1];  
+
+  for (int i = 0; i < envc; i++) {
+    us_pointer -= aligned_word_len(strlen(envp[i]) + 1);
+    us_envp[i] = us_pointer;
+    strcpy(us_pointer, envp[i]);
+  }
+
+  uintptr_t *addrptr = (uintptr_t *)us_pointer;
+  addrptr -= 1;
+  *addrptr = 0;
+  addrptr -= envc;
+  for (int i = 0; i < envc; i++) {
+    addrptr[i] = (uintptr_t)us_envp[i];
+  }
+
+  addrptr -= 1;
+  *addrptr = 0;
+  addrptr -= argc;
+  for (int i = 0; i < argc; i++) {
+    addrptr[i] = (uintptr_t)us_argv[i];
+  }
+
+  addrptr -= 1;
+  *addrptr = (uintptr_t)argc;
 
   uintptr_t entry = loader(pcb, filename);
   Area area;
