@@ -87,7 +87,7 @@ void context_uload(PCB *pcb, const char *filename) {
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
   pcb->cp = ucontext(as, area, (void *)entry);
-  Log("In uload, entry = %u\n", entry);
+  Log("In uload, entry = %u, pcb->cp->mepc = %u", entry, pcb->cp->mepc);
 }
 
 void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
@@ -95,6 +95,6 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
   pcb->cp = kcontext(area, entry, arg);
-  Log("In kload, entry = %u\n", entry);
+  Log("In kload, entry = %u", entry);
 }
 
