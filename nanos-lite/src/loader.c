@@ -136,7 +136,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
   pcb->cp = ucontext(NULL, area, (void *)entry);
-  pcb->cp->GPRx = (uintptr_t)heap.end;
+  pcb->cp->GPRx = (uintptr_t)addrptr;
   Log("In uload, entry = %u, pcb->cp->mepc = %u", entry, pcb->cp->mepc);
 }
 
