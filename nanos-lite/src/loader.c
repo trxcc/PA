@@ -80,6 +80,16 @@ void naive_uload(PCB *pcb, const char *filename) {
   //assert(0);
 }
 
+void context_uload(PCB *pcb, const char *filename) {
+  AddrSpace *as = &pcb->as;
+  uintptr_t entry = loader(pcb, filename);
+  Area area;
+  area.start = &pcb->cp;
+  area.end = &pcb->cp + STACK_SIZE;
+  pcb->cp = ucontext(as, area, (void *)entry);
+  Log("In uload, entry = %u\n", entry);
+}
+
 void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   Area area;
   area.start = &pcb->cp;
@@ -87,3 +97,4 @@ void context_kload(PCB *pcb, void (*entry)(void *), void *arg) {
   pcb->cp = kcontext(area, entry, arg);
   Log("In kload, entry = %u\n", entry);
 }
+
