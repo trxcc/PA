@@ -32,7 +32,7 @@ extern size_t fs_get_file_size(int);
 extern size_t fs_get_file_off(int);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  printf("filename: %s\n", filename);
+  //printf("filename: %s\n", filename);
   int fd = fs_open(filename, 0, 0);
 
   //void *Elf32_File = malloc(get_ramdisk_size());
