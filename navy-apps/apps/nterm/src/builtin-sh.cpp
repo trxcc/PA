@@ -25,6 +25,10 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   //char *tmp = (char *)cmd;
+#ifndef MAX_ARGC 
+#define MAX_ARGC 32
+#endif
+
   char *tmp = (char *)"pal -";
   int i;
   for (i = 0; tmp[i] != ' ' && tmp[i] != '\n' && tmp[i] != '\0'; i++);
@@ -33,7 +37,7 @@ static void sh_handle_cmd(const char *cmd) {
     execvp(tmp, NULL);
     return;
   } 
-  char **argv;
+  char *argv[MAX_ARGC];
   int argc = 0;
 
   char *argv0 = tmp;
