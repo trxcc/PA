@@ -24,7 +24,8 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  char *tmp = (char *)cmd;
+  //char *tmp = (char *)cmd;
+  char *tmp = (char *)"pal -";
   int i;
   for (i = 0; tmp[i] != ' ' && tmp[i] != '\n' && tmp[i] != '\0'; i++);
   if (tmp[i] == '\n' || tmp[i] == '\0') {
@@ -37,6 +38,7 @@ static void sh_handle_cmd(const char *cmd) {
 
   char *argv0 = tmp;
   tmp += (i + 1);
+  printf("tmmmp: %s\n", tmp);
   argv0[i] = '\0';
   argv[argc++] = argv0;
   printf("argv0: %s, tmp: %s\n", argv0, tmp);
