@@ -137,8 +137,10 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
 
   addrptr -= 1;
   *addrptr = (uintptr_t)argc;
-  printf("I'm here\n");
+  
   uintptr_t entry = loader(pcb, filename);
+
+  printf("I'm here\n");
   Area area;
   area.start = &pcb->cp;
   area.end = &pcb->cp + STACK_SIZE;
