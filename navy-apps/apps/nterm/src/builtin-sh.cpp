@@ -39,7 +39,7 @@ static void sh_handle_cmd(const char *cmd) {
   tmp += (i + 1);
   argv0[i] = '\0';
   argv[argc++] = argv0;
-
+  printf("argv0: %s, tmp: %s\n", argv0, tmp);
   i = 0;
   while (tmp[i] != '\n' && tmp[i] != '\0') {
     if (*tmp == ' ') ++tmp;
