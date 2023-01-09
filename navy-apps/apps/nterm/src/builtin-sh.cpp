@@ -33,6 +33,7 @@ static void sh_handle_cmd(const char *cmd) {
     return;
   } 
   char **argv;
+  assert(0);
   int argc = 0;
 
   char *argv0 = tmp;
