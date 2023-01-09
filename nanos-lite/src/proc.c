@@ -45,6 +45,7 @@ void init_proc() {
 static int cnt_proc = 1;
 
 int execve(const char *filename, char *const argv[], char *const envp[]) {
+  printf("cnt_proc: %d\n", cnt_proc);
   context_uload(&pcb[cnt_proc], filename, argv, envp);
   cnt_proc = (cnt_proc + 1) % (MAX_NR_PROC - 1);
   if (cnt_proc == 0) cnt_proc = (MAX_NR_PROC - 1);

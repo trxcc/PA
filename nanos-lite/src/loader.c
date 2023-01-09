@@ -97,7 +97,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   }
 
   void *now_page_head = new_page(NR_PAGE) + (NR_PAGE << 12);
- 
+  printf("now_page_head: %u\n", (uintptr_t)now_page_head); 
   //char *us_pointer = (char *)heap.end;
   char *us_pointer = (char *)now_page_head;
   uintptr_t *us_argv[argc + 1];
