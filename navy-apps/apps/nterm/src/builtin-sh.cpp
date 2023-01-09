@@ -40,6 +40,7 @@ static void sh_handle_cmd(const char *cmd) {
   tmp += (i + 1);
   printf("tmmmp: %s\n", tmp);
   argv0[i] = '\0';
+  printf("argv000: %s\n", argv0);
   argv[argc++] = argv0;
   printf("argv0: %s, tmp: %s\n", argv0, tmp);
   i = 0;
