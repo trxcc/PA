@@ -105,7 +105,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   printf("argv start----\n");
 
   for (int i = 0; i < argc; i++) {
-    //printf("%s\n", argv[i]);
+    printf("%s\n", argv[i]);
     us_pointer -= aligned_word_len(strlen(argv[i]) + 1);
     us_argv[i] = (uintptr_t *)us_pointer;
     //printf("us_argv[%d]: %u, us_pointer: %s\n", i, us_argv[i], us_pointer);
