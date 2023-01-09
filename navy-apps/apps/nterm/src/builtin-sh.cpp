@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <SDL.h>
+#include <stdio.h>
 
 char handle_key(SDL_Event *ev);
 
@@ -25,10 +26,41 @@ static void sh_prompt() {
 static void sh_handle_cmd(const char *cmd) {
   char *tmp = (char *)cmd;
   int i;
-  for (i = 0; tmp[i] != '\n' && tmp[i] != '\0'; i++);
+  for (i = 0; tmp[i] != ' ' && tmp[i] != '\n' && tmp[i] != '\0'; i++);
+  if (tmp[i] == '\n' || tmp[i] == '\0') {
+    tmp[i] = '\0';
+    execvp(tmp, NULL);
+    return;
+  } 
+  char **argv;
+  int argc = 0;
+
+  char *argv0 = tmp;
+  tmp += (i + 1);
+  argv0[i] = '\0';
+  argv[argc++] = argv0;
+
+  i = 0;
+  while (tmp[i] != '\n' && tmp[i] != '\0') {
+    if (*tmp == ' ') ++tmp;
+    else if (tmp[i] != ' ') {
+      i++; 
+      continue;
+    }
+    argv0 = tmp;
+    tmp += (i + 1);
+    argv0[i] = '\0';
+    argv[argc++] = argv0;
+    i = 0;
+  }
   tmp[i] = '\0';
+  argv[argc++] = tmp;
+  argv[argc] = NULL;
+  for (int i = 0; i < argc; i++) {
+    printf("argv[%d] = %s\n", i, argv[i]);
+  }
   //execve(tmp, NULL, NULL);
-  execvp(tmp, NULL);
+  execvp(argv[0], argv);
 }
 
 void builtin_sh_run() {
