@@ -1,10 +1,12 @@
 #include <memory.h>
+#include <stdio.h>
 
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
   void *tmp = pf;
   pf += (nr_page << 12);
+  printf("tmp: %u, pf: %u\n", (uintptr_t)tmp, (uintptr_t)pf);
   return tmp;
 }
 

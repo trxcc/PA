@@ -26,8 +26,8 @@ static int sys_yield() {
 
 static int sys_execve(const char *fname, char * const argv[], char *const envp[]) {
 //  naive_uload(NULL, fname);
-  execve(fname, argv, envp);
-  return 0;
+  //execve(fname, argv, envp);
+  return execve(fname, argv, envp);
 }
 
 static void sys_exit(int flag) {
