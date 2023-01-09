@@ -29,7 +29,7 @@ static void sh_handle_cmd(const char *cmd) {
 #define MAX_ARGC 32
 #endif
 
-  char *tmp = (char *)"pal -";
+  char *tmp = (char *)"pal --skip";
   int i;
   for (i = 0; tmp[i] != ' ' && tmp[i] != '\n' && tmp[i] != '\0'; i++);
   if (tmp[i] == '\n' || tmp[i] == '\0') {
