@@ -75,9 +75,9 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   PTE* pte = as->ptr + VA_PPN_1(va) * 4;
   if (!(*pte & PTE_V)) {
-    printf("pte not valid\n");
-  printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
-  printf("pte: %u, *pte: %u\n", (uintptr_t)pte, (uint32_t)*pte);
+    //printf("pte not valid\n");
+    //printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
+    //printf("pte: %u, *pte: %u\n", (uintptr_t)pte, (uint32_t)*pte);
     void *new_alloc_page = pgalloc_usr(PGSIZE);
     //Sv32 has a pa with 34 bits, right shift 2 bits before getting the PPN
     *pte = (*pte & ~PPN_MASK) | (PPN_MASK & ((uintptr_t)new_alloc_page >> 2));
