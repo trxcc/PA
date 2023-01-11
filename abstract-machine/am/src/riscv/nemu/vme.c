@@ -37,7 +37,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
       map(&kas, va, va, 0);
     }
   }
-  printf("Hit vme_init\n");
+  //printf("Hit vme_init\n");
   set_satp(kas.ptr);
   vme_enable = 1;
 
@@ -80,12 +80,12 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     //printf("pte: %u, *pte: %u\n", (uintptr_t)pte, (uint32_t)*pte);
     void *new_alloc_page = pgalloc_usr(PGSIZE);
     //Sv32 has a pa with 34 bits, right shift 2 bits before getting the PPN
-    *pte = (*pte & ~PPN_MASK) | (PPN_MASK & ((uintptr_t)new_alloc_page >> 2));
+    *pte = (*pte & ~PPN_MASK) | (PPN_MASK & ((uintptr_t)new_alloc_page));
     *pte = (*pte | PTE_V);
   }
   
   PTE *leaf_pte = (PTE *)((((*pte & PPN_MASK) >> 10) << 12) + VA_VPN_0(va) * 4);
-  *leaf_pte = (PPN_MASK & (uintptr_t)pa >> 2) | PTE_V | PTE_R | PTE_W | PTE_X;
+  *leaf_pte = (PPN_MASK & (uintptr_t)pa) | PTE_V | PTE_R | PTE_W | PTE_X;
   //printf("leaf_pte: %u, *leaf_pte: %u\n", leaf_pte, (uint32_t)*leaf_pte);
 }
 
