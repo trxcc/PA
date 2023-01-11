@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 static void *pf = NULL;
+#define PAGE_SIZE (1 << 12)
 
 void* new_page(size_t nr_page) {
   printf("new_page_pf: %u\n", (uintptr_t)pf);
@@ -13,7 +14,10 @@ void* new_page(size_t nr_page) {
 
 #ifdef HAS_VME
 static void* pg_alloc(int n) {
-  return NULL;
+  assert(n % PAGE_SIZE == 0);
+  void *page_head = new_page(n / PAGE_SIZE);
+  memset(page_head, 0, n);
+  return page_head;
 }
 #endif
 
