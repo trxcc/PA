@@ -63,5 +63,6 @@ Context* schedule(Context *prev) {
   current = (current == &pcb[0] ? &pcb[cnt_proc] : &pcb[0]);
   //cnt_proc = (cnt_proc + 1) % (MAX_NR_PROC - 1);
   //if (cnt_proc == 0) cnt_proc = (MAX_NR_PROC - 1);
+  printf("he\n");
   return current->cp;
 }
