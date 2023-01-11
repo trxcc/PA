@@ -188,7 +188,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   Area area;
   area.start = (void *)pcb->stack;
   area.end = (void *)(pcb->stack + STACK_SIZE);
-  pcb->cp = ucontext(NULL, area, (void *)entry);
+  pcb->cp = ucontext(&pcb->as, area, (void *)entry);
   pcb->cp->GPRx = (uintptr_t)addrptr;
   Log("In uload, entry = %u, pcb->cp->mepc = %u", entry, pcb->cp->mepc);
 }
