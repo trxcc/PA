@@ -75,6 +75,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 }
 */
 
+#define VPO_MASK 0xfff
+
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
   
@@ -92,9 +94,17 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &phdr, ehdr.e_phentsize);
     if (phdr.p_type == PT_LOAD) {
 //      printf("PT_LOAD good!\n");
-      fs_lseek(fd, phdr.p_offset, SEEK_SET);
+     /* fs_lseek(fd, phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
-      memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
+      memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);*/
+      int num_page = ((phdr.p_vaddr + phdr.p_memsz - 1) >> 12) - (phdr.p_vaddr >> 12) + 1;
+      void *new_page_head = new_page(num_page);
+      for (int j = 0; j < num_page; j++) {
+        map(&pcb->as, (void *)((phdr.p_vaddr & ~VPO_MASK) + (j << 12)), (void *)(new_page_head + (j << 12)), 1);
+      }
+      fs_lseek(fd, phdr.p_offset, SEEK_SET);
+      fs_read(fd, (void *)(new_page_head + (phdr.p_vaddr & VPO_MASK)), phdr.p_filesz);
+      memset((void *)(new_page_head + (phdr.p_vaddr & VPO_MASK) + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz); 
     }
   }
   printf("e_entry: %u\n", ehdr.e_entry);
@@ -116,6 +126,8 @@ static inline size_t aligned_word_len(size_t size) {
 #define NR_PAGE 8
 
 void context_uload(PCB *pcb, const char *filename, char *const argv[], char *const envp[]) {
+  protect(&pcb->as);
+
   int argc = 0, envc = 0;
   if (argv) {
     for (; argv[argc]; argc++);
@@ -127,6 +139,11 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   void *now_page_head = new_page(NR_PAGE) + (NR_PAGE << 12);
   printf("now_page_head: %u\n", (uintptr_t)now_page_head); 
   //char *us_pointer = (char *)heap.end;
+  //Use decreasing order, to avoid change what has been allocated.
+  for (int i = 8; i >= 1; i--) {
+    map(&pcb->as, (void *)(pcb->as.area.end - (i << 12)), (void *)(now_page_head - (i << 12)), 1);
+  }
+
   char *us_pointer = (char *)now_page_head;
   uintptr_t *us_argv[argc + 1];
   printf("argv start----\n");

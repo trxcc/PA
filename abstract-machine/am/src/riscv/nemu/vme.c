@@ -73,25 +73,26 @@ void __am_switch(Context *c) {
 #define PPN_MASK 0xfffffc00L
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
   PTE* pte = as->ptr + VA_VPN_1(va) * 4;
   if (!(*pte & PTE_V)) {
     //printf("pte not valid\n");
-    //printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
     //printf("pte: %u, *pte: %u\n", (uintptr_t)pte, (uint32_t)*pte);
     void *new_alloc_page = pgalloc_usr(PGSIZE);
-    //Sv32 has a pa with 34 bits, right shift 2 bits before getting the PPN
-    *pte = (*pte & ~PPN_MASK) | (PPN_MASK & ((uintptr_t)new_alloc_page));
+    //((PPN >> 10) << 12) = va, so va should be devided by 4
+    *pte = (*pte & ~PPN_MASK) | (PPN_MASK & ((uintptr_t)new_alloc_page >> 2));
     *pte = (*pte | PTE_V);
   }
   
   PTE *leaf_pte = (PTE *)((((*pte & PPN_MASK) >> 10) << 12) + VA_VPN_0(va) * 4);
-  *leaf_pte = (PPN_MASK & (uintptr_t)pa) | PTE_V | PTE_R | PTE_W | PTE_X;
+  *leaf_pte = (PPN_MASK & (uintptr_t)pa >> 2) | PTE_V | PTE_R | PTE_W | PTE_X;
   //printf("leaf_pte: %u, *leaf_pte: %u\n", leaf_pte, (uint32_t)*leaf_pte);
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   Context *context = kstack.end - sizeof(Context);
   context->mstatus = 0x1800;
+  context->pdir = as->ptr;
   context->mepc = (uintptr_t)entry;
   //context->gpr[10] = (uintptr_t)heap.end;
   return context;
