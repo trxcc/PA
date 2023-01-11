@@ -73,7 +73,7 @@ void __am_switch(Context *c) {
 #define PPN_MASK 0xfffffc00L
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
+//  printf("as->ptr: %u, va: %u, pa: %u\n", (uintptr_t)as->ptr, (uintptr_t)va, (uintptr_t)pa);
   PTE* pte = as->ptr + VA_VPN_1(va) * 4;
   if (!(*pte & PTE_V)) {
     //printf("pte not valid\n");
