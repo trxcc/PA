@@ -81,7 +81,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     *pte = (*pte | PTE_V);
   }
 
-  PTE *leaf_pte = (((*pte & PPN_MASK) >> 10) << 12) + VA_PPN_0(va) * 4;
+  PTE *leaf_pte = (PTE *)((((*pte & PPN_MASK) >> 10) << 12) + VA_PPN_0(va) * 4);
   *leaf_pte = (PPN_MASK & (uintptr_t)pa >> 2) | PTE_V | PTE_R | PTE_W | PTE_X;
 }
 
