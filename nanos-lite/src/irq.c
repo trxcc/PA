@@ -10,6 +10,7 @@ static Context* do_event(Event e, Context* c) {
 #ifdef __ISA_RISCV32__
       c->mepc += 4;
 #endif
+      printf("HERE\n");
       return schedule(c);
       break;
     case EVENT_SYSCALL:

@@ -36,7 +36,6 @@ static void sys_exit(int flag) {
   reset_strace();
 #endif
 //  sys_execve("/bin/nterm", NULL, NULL);
-  printf("HERE\n");
   halt(flag);
 }
 
