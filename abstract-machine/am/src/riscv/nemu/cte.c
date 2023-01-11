@@ -19,11 +19,11 @@ Context* __am_irq_handle(Context *c) {
       default: ev.event = EVENT_ERROR; break;
     }
 //    printf("mcause: %u, mstatus: %u, mepc: %u\n", c->mcause, c->mstatus, c->mepc);
-    printf("I'm here\n");
     c = user_handler(ev, c);
     assert(c != NULL);
   }
   __am_switch(c);
+  printf("I'm here\n");
   return c;
 }
 
