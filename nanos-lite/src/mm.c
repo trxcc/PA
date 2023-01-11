@@ -14,6 +14,7 @@ void* new_page(size_t nr_page) {
 
 #ifdef HAS_VME
 static void* pg_alloc(int n) {
+  printf("In pg_alloc, n = %d\n", n);
   assert(n % PAGE_SIZE == 0);
   void *page_head = new_page(n / PAGE_SIZE);
   memset(page_head, 0, n);
