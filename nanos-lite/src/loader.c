@@ -91,7 +91,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     fs_lseek(fd, ehdr.e_phoff + i * ehdr.e_phentsize, SEEK_SET);
     fs_read(fd, &phdr, ehdr.e_phentsize);
     if (phdr.p_type == PT_LOAD) {
-      printf("PT_LOAD good!\n");
+//      printf("PT_LOAD good!\n");
       fs_lseek(fd, phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
       memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
