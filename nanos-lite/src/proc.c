@@ -29,13 +29,13 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, "CRT");
-  context_kload(&pcb[1], hello_fun, "TRX");
+  //context_kload(&pcb[1], hello_fun, "TRX");
 //  hello_fun(NULL);
   Log("Initializing processes...");
   //context_uload(&pcb[0], "/bin/hello");
-  //char *argv[] = {"--skip", NULL};
+  char *argv[] = {"--skip", NULL};
   //char *argv[] = {"/bin/nterm", "23", "--skip", NULL};
-  //context_uload(&pcb[1], "/bin/nterm", argv, NULL);
+  context_uload(&pcb[1], "/bin/pal", argv, NULL);
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
   switch_boot_pcb();
