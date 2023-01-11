@@ -30,6 +30,9 @@ typedef struct {
   } inst;
 } riscv32_ISADecodeInfo;
 
-#define isa_mmu_check(vaddr, len, type) (MMU_DIRECT)
+extern word_t csr[];
+#define satp 0x180
+
+#define isa_mmu_check(vaddr, len, type) (((csr[satp] >> 31) & 0x1) ? MMU_TRANSLATE: MMU_DIRECT)
 
 #endif
