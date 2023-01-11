@@ -33,7 +33,7 @@ extern word_t csr[];
 #define PTE_PPN(x) (((paddr_t)(x) & 0xfffffc00L) >> 10)
 #define VA_VPN_0(x) (((vaddr_t)(x) & 0x003ff000L) >> 12)
 #define VA_VPN_1(x) (((vaddr_t)(x) & 0xffc00000L) >> 22)
-#define VA_OFF(x) ((vaddr_t)(x) & 0xfff)
+#define VA_VPO(x) ((vaddr_t)(x) & 0xfff)
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   printf("In isa_mmu_translate\n");
@@ -45,7 +45,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   PTE leaf_pte = paddr_read(leaf_pte_addr, 4);
   assert(leaf_pte & PTE_V);
 
-  paddr_t pa = (PTE_PPN(leaf_pte) << 12) + VA_OFF(vaddr);
+  paddr_t pa = (PTE_PPN(leaf_pte) << 12) + VA_VPO(vaddr);
   assert(pa == vaddr);
   return pa;
 }
