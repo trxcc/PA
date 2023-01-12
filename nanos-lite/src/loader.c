@@ -97,6 +97,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
      /* fs_lseek(fd, phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
       memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);*/
+      //int num_page = (phdr.p_memsz >> 12) + 1;
       int num_page = ((phdr.p_vaddr + phdr.p_memsz - 1) >> 12) - (phdr.p_vaddr >> 12) + 1;
       void *new_page_head = new_page(num_page);
       for (int j = 0; j < num_page; j++) {
