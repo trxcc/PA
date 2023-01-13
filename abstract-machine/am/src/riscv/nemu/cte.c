@@ -43,7 +43,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   context->mstatus = 0x1800;
   context->mepc = (uintptr_t)entry;
   context->gpr[10] = (uintptr_t)arg;
-  context->pdir = NULL;
+//  context->pdir = NULL;
   printf("Hit kcontext, entry = %u!\n", context->mepc);
   return context;
 }
