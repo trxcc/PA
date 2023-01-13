@@ -1,5 +1,6 @@
 #include <memory.h>
 #include <stdio.h>
+#include <proc.h>
 
 static void *pf = NULL;
 #define PAGE_SIZE (1 << 12)
@@ -26,8 +27,19 @@ void free_page(void *p) {
   panic("not implement yet");
 }
 
+extern PCB *current;
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
+  if (brk >= current->max_brk) {
+    int num_page = (brk >> 12) - (current->max_brk >> 12) + 1;
+    for (int i = 0; i < num_page; i++) {
+      void *now_page_head = new_page(1);
+      memset(now_page_head, 0, PAGE_SIZE);
+      map(&current->as, (void *)current->max_brk, now_page_head, 1);
+      current->max_brk += PAGE_SIZE;
+    }
+    assert(current->max_brk > brk);
+  }
   return 0;
 }
 

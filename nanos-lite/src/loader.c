@@ -106,6 +106,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)(new_page_head + (phdr.p_vaddr & VPO_MASK)), phdr.p_filesz);
       memset((void *)(new_page_head + (phdr.p_vaddr & VPO_MASK) + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz); 
+      if (phdr.p_memsz > phdr.p_filesz) {
+        pcb->max_brk = ROUNDUP(phdr.p_vaddr + phdr.p_memsz, 0xfff); 
+      }
     }
   }
   printf("e_entry: %u\n", ehdr.e_entry);

@@ -11,6 +11,7 @@ extern size_t fs_lseek(int, size_t, int);
 extern int fs_close(int);
 extern void naive_uload(PCB *, const char *);
 extern int execve(const char *, char *const[], char *const[]);
+extern int mm_brk(uintptr_t);
 
 #ifdef CONFIG_STRACE
 extern void strace_record(uintptr_t x[], uint32_t ret);
@@ -56,7 +57,7 @@ static int sys_write(int fd, void *buf, size_t count) {
 
 static int sys_brk(intptr_t addr){
   //Log("Use sys_brk");
-  return 0;
+  return mm_brk(addr);
 }
 
 static int sys_gettimeofday(struct timeval *tv, struct timezone *tz) {
