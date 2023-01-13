@@ -36,7 +36,7 @@ extern word_t csr[];
 #define VA_VPO(x) ((vaddr_t)(x) & 0xfff)
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  printf("In isa_mmu_translate\n");
+//  printf("In isa_mmu_translate\n");
   paddr_t pte_addr = (SATP_PPN(csr[satp]) << 12) + VA_VPN_1(vaddr) * 4;
   PTE pte = paddr_read(pte_addr, 4);
   assert(pte & PTE_V);
