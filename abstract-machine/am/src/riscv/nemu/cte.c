@@ -4,7 +4,7 @@
 
 extern void __am_get_cur_as(Context *);
 extern void __am_switch(Context *);
-
+#define IRQ_TIMER 0x80000007
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -16,6 +16,8 @@ Context* __am_irq_handle(Context *c) {
         if (c->GPR1 == (uint32_t)-1) ev.event = EVENT_YIELD; 
         else ev.event = EVENT_SYSCALL; 
         break;
+      case IRQ_TIMER:
+        ev.event = EVENT_IRQ_TIMER; break;
       default: ev.event = EVENT_ERROR; break;
     }
 //    printf("mcause: %u, mstatus: %u, mepc: %u\n", c->mcause, c->mstatus, c->mepc);
@@ -40,7 +42,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *context = kstack.end - sizeof(Context);
-  context->mstatus = 0x1800;
+  context->mstatus = 0x1800 | 0x80;
   context->mepc = (uintptr_t)entry;
   context->gpr[10] = (uintptr_t)arg;
   context->pdir = NULL;

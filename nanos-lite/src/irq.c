@@ -19,6 +19,9 @@ static Context* do_event(Event e, Context* c) {
       c->mepc += 4;
 #endif      
       break;
+    case EVENT_IRQ_TIMER:
+      Log("Hit EVENT_IRQ_TIMER");
+      return schedule(c);
     default: panic("Unhandled event ID = %d", e.event);
   }
 
