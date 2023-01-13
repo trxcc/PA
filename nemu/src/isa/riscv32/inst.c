@@ -44,6 +44,9 @@ extern word_t get_csr_index(word_t);
                       else if (imm == 0x342) imm = 2; \\
                     } while(0)
 #define CSR(imm) csr[get_csr_index(imm)]
+#define MSTATUS CSR(0x300)
+#define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
+#define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
 
 static void decode_operand(Decode *s, int *dest, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst.val;
@@ -113,7 +116,7 @@ static int decode_exec(Decode *s) {
 #else
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(11, s->pc));
 #endif
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341), MSTATUS = MSTATUS | (get_mpie(MSTATUS) << 3), MSTATUS = MSTATUS | (1 << 7));
  
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw     , S, Mw(src1 + imm, 4, src2));
   INSTPAT("??????? ????? ????? 001 ????? 01000 11", sh     , S, Mw(src1 + imm, 2, (src2 & 0xffff)));

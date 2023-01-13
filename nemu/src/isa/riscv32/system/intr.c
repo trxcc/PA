@@ -15,7 +15,12 @@
 
 #include <isa.h>
 
+#define MSTATUS_IDX 0x300
+#define IRQ_TIMER 0x80000007
 extern word_t csr[];
+
+#define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
+#define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -25,9 +30,17 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 //  printf("%u\n", csr[0x305]);
   csr[0x341] = epc;
   csr[0x342] = NO;
+
+  word_t new_pie = (get_mie(csr[MSTATUS_IDX]) << 7);
+  csr[MSTATUS_IDX] = csr[MSTATUS_IDX] | new_pie;
+
   return csr[0x305];
 }
 
 word_t isa_query_intr() {
+  if (get_mie(csr[MSTATUS_IDX]) == 1 && cpu.INTR) {
+    cpu.INTR = false;
+    return IRQ_TIMER;
+  }
   return INTR_EMPTY;
 }
