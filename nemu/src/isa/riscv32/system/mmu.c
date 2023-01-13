@@ -45,8 +45,13 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   PTE leaf_pte = paddr_read(leaf_pte_addr, 4);
   assert(leaf_pte & PTE_V);
 
+  paddr_write(leaf_pte_addr, 4, leaf_pte | PTE_A);
+  if (type == 1) {
+    paddr_write(leaf_pte_addr, 4, leaf_pte | PTE_D);
+  }
+
   paddr_t pa = (PTE_PPN(leaf_pte) << 12) + VA_VPO(vaddr);
-  assert(pa == vaddr);
+  //assert(pa == vaddr);
   return pa;
 }
 
