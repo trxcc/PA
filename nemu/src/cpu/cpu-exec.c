@@ -35,6 +35,7 @@
 #define MAX_INST_TO_PRINT 100
 
 CPU_state cpu = {};
+Mstatus_state Mstatus = {.m.val = 0x1800};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
