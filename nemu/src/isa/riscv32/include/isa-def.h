@@ -49,7 +49,7 @@ union {
     uint32_t sd: 1;
   }m_decode;
   uint32_t val;
-}mstatus;
+}mstatus_decode;
 
 // decode
 typedef struct {
