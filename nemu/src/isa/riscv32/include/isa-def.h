@@ -24,7 +24,7 @@ typedef struct {
   bool INTR;
 } riscv32_CPU_state;
 
-union {
+typedef union {
   struct {
     uint32_t wpri_0: 1;
     uint32_t sie: 1;

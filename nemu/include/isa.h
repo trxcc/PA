@@ -37,6 +37,7 @@ word_t get_csr_index(word_t index);
 
 // exec
 struct Decode;
+extern union mstatus_decode Mstatus;
 int isa_exec_once(struct Decode *s);
 
 // memory
