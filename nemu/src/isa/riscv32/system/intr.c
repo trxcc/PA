@@ -48,7 +48,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
 word_t isa_query_intr() {
 //  if (get_mie(csr[MSTATUS_IDX]) == 1 && cpu.INTR) {
-  printf("mie: %d, INTR: %d", mstatus_mie, (cpu.INTR ? 1 : 0));
+  printf("mie: %d, INTR: %d\n", mstatus_mie, (cpu.INTR ? 1 : 0));
   if (mstatus_mie == 1 && cpu.INTR) {
     cpu.INTR = false;
     return IRQ_TIMER;
