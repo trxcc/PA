@@ -39,7 +39,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 //  printf("In isa_mmu_translate\n");
   paddr_t pte_addr = (SATP_PPN(csr[satp]) << 12) + VA_VPN_1(vaddr) * 4;
   PTE pte = paddr_read(pte_addr, 4);
-  Assert(pte & PTE_V, "Invalid vaddr\n");
+  Assert(pte & PTE_V, "Invalid vaddr=0x%08x, pte_addr=0x%08x, pte=0x%08x\n", vaddr, pte_addr, pte);
   
   paddr_t leaf_pte_addr = (PTE_PPN(pte) << 12) + VA_VPN_0(vaddr) * 4;
   PTE leaf_pte = paddr_read(leaf_pte_addr, 4);
