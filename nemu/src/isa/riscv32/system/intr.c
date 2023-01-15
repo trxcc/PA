@@ -18,11 +18,11 @@
 #define MSTATUS_IDX 0x300
 #define IRQ_TIMER 0x80000007
 extern word_t csr[];
-
-#define set_mstatus() do { Mstatus.val = csr[0x300]; } while(0)
-#define mstatus_mie Mstatus.m_decode.mie
-#define mstatus_mpie Mstatus.m_decode.mpie
-#define write_back_mstatus() do { csr[0x300] = Mstatus.val; } while(0)
+//extern union Mstatus;
+#define set_mstatus() do { Mstatus.m.val = csr[0x300]; Mstatus.is_inited = true; } while(0)
+#define mstatus_mie Mstatus.m.m_decode.mie
+#define mstatus_mpie Mstatus.m.m_decode.mpie
+#define write_back_mstatus() do { csr[0x300] = Mstatus.m.val; } while(0)
 
 //#define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
 //#define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)

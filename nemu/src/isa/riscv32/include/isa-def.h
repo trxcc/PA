@@ -24,32 +24,35 @@ typedef struct {
   bool INTR;
 } riscv32_CPU_state;
 
-typedef union {
-  struct {
-    uint32_t wpri_0: 1;
-    uint32_t sie: 1;
-    uint32_t wpri_2: 1;
-    uint32_t mie: 1;
-    uint32_t wpri_4: 1;
-    uint32_t spie: 1;
-    uint32_t ube: 1;
-    uint32_t mpie: 1;
-    uint32_t spp: 1;
-    uint32_t wpri_9_10: 2;
-    uint32_t mpp: 2;
-    uint32_t fs: 2;
-    uint32_t xs: 2;
-    uint32_t mprv: 2;
-    uint32_t sum: 2;
-    uint32_t mxr: 2;
-    uint32_t tvm: 2;
-    uint32_t tw: 2;
-    uint32_t tsr: 2;
-    uint32_t wpri_23_30: 8;
-    uint32_t sd: 1;
-  }m_decode;
-  uint32_t val;
-}mstatus_decode;
+typedef struct {
+  union {
+    struct {
+      uint32_t wpri_0: 1;
+      uint32_t sie: 1;
+      uint32_t wpri_2: 1;
+      uint32_t mie: 1;
+      uint32_t wpri_4: 1;
+      uint32_t spie: 1;
+      uint32_t ube: 1;
+      uint32_t mpie: 1;
+      uint32_t spp: 1;
+      uint32_t wpri_9_10: 2;
+      uint32_t mpp: 2;
+      uint32_t fs: 2;
+      uint32_t xs: 2;
+      uint32_t mprv: 2;
+      uint32_t sum: 2;
+      uint32_t mxr: 2;
+      uint32_t tvm: 2;
+      uint32_t tw: 2;
+      uint32_t tsr: 2;
+      uint32_t wpri_23_30: 8;
+      uint32_t sd: 1;
+    }m_decode;
+    uint32_t val;
+  }m;
+  bool is_inited;
+} riscv32_Mstatus_state;
 
 // decode
 typedef struct {
