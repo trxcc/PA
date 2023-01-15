@@ -19,6 +19,8 @@
 #define IRQ_TIMER 0x80000007
 extern word_t csr[];
 
+#define set_mstatus() do{mstatus.val = csr[0x300];}while(0)
+
 #define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
 #define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
 

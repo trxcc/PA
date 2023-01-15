@@ -62,7 +62,7 @@ static void csr_init() {
   for (int i = 0; i < 4096; i++) {
     csr[i] = 0;
   }
-  csr[0x300] = 0x1800;
+  csr[0x300] = 0x1800; 
 }
 
 word_t get_csr_index(word_t index) {
