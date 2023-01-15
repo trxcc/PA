@@ -38,7 +38,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   set_mstatus();
   mstatus_mpie = mstatus_mie;
-  mstatus_mpie = 0;
+  mstatus_mie = 0;
   write_back_mstatus();
 //  word_t new_pie = (get_mie(csr[MSTATUS_IDX]) << 7);
 //  csr[MSTATUS_IDX] = csr[MSTATUS_IDX] | new_pie;
