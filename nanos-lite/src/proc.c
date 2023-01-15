@@ -52,7 +52,7 @@ int execve(const char *filename, char *const argv[], char *const envp[]) {
   //if (cnt_proc == 0) cnt_proc = (MAX_NR_PROC - 1);
   //printf("Hit here\n");
   switch_boot_pcb();
-  pcb[0].cp->pdir = NULL;
+  //pcb[0].cp->pdir = NULL;
   printf("I', here\n");
   yield();
   return 0;
@@ -60,7 +60,7 @@ int execve(const char *filename, char *const argv[], char *const envp[]) {
 
 Context* schedule(Context *prev) {
   current->cp = prev;
-  pcb[0].cp->pdir = NULL;
+  //pcb[0].cp->pdir = NULL;
   //current = &pcb[0];
   current = (current == &pcb[0] ? &pcb[cnt_proc] : &pcb[0]);
   //cnt_proc = (cnt_proc + 1) % (MAX_NR_PROC - 1);
