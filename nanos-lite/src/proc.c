@@ -35,7 +35,7 @@ void init_proc() {
   //context_uload(&pcb[0], "/bin/hello");
   char *argv[] = {"--skip", NULL};
   //char *argv[] = {"/bin/nterm", "23", "--skip", NULL};
-  context_uload(&pcb[1], "/bin/dummy", argv, NULL);
+  context_uload(&pcb[1], "/bin/pal", argv, NULL);
 //  assert(0);
 //  naive_uload(NULL, "/bin/pal");
   switch_boot_pcb();
