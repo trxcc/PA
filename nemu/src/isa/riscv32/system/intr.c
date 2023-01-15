@@ -19,10 +19,13 @@
 #define IRQ_TIMER 0x80000007
 extern word_t csr[];
 
-#define set_mstatus() do{ Mstatus.val = csr[0x300]; }while(0)
+#define set_mstatus() do { Mstatus.val = csr[0x300]; } while(0)
+#define mstatus_mie Mstatus.m_decode.mie
+#define mstatus_mpie Mstatus.m_decode.mpie
+#define write_back_mstatus() do { csr[0x300] = Mstatus.val; } while(0)
 
-#define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
-#define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
+//#define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
+//#define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -33,14 +36,19 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   csr[0x341] = epc;
   csr[0x342] = NO;
 
-  word_t new_pie = (get_mie(csr[MSTATUS_IDX]) << 7);
-  csr[MSTATUS_IDX] = csr[MSTATUS_IDX] | new_pie;
-
+  set_mstatus();
+  mstatus_mpie = mstatus_mie;
+  mstatus_mpie = 0;
+  write_back_mstatus();
+//  word_t new_pie = (get_mie(csr[MSTATUS_IDX]) << 7);
+//  csr[MSTATUS_IDX] = csr[MSTATUS_IDX] | new_pie;
+  
   return csr[0x305];
 }
 
 word_t isa_query_intr() {
-  if (get_mie(csr[MSTATUS_IDX]) == 1 && cpu.INTR) {
+//  if (get_mie(csr[MSTATUS_IDX]) == 1 && cpu.INTR) {
+  if (mstatus_mie == 1 && cpu.INTR) {
     cpu.INTR = false;
     return IRQ_TIMER;
   }

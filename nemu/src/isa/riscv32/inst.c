@@ -45,6 +45,7 @@ extern word_t get_csr_index(word_t);
                     } while(0)
 #define CSR(imm) csr[get_csr_index(imm)]
 #define MSTATUS CSR(0x300)
+
 #define get_mie(x) (((uint32_t)(x) & 0x8) >> 3)
 #define get_mpie(x) (((uint32_t)(x) & 0x80) >> 7)
 
