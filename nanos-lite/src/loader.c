@@ -107,9 +107,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_read(fd, (void *)(new_page_head + (phdr.p_vaddr & VPO_MASK)), phdr.p_filesz);
       memset((void *)(new_page_head + (phdr.p_vaddr & VPO_MASK) + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz); 
       //if (phdr.p_memsz > phdr.p_filesz) {
-        pcb->max_brk = max(pcb->max_brk, ROUNDUP(phdr.p_vaddr + phdr.p_memsz, PGSIZE)); 
       //}
     }
+        pcb->max_brk = max(pcb->max_brk, ROUNDUP(phdr.p_vaddr + phdr.p_memsz, PGSIZE)); 
   }
   printf("e_entry: %u\n", ehdr.e_entry);
   return ehdr.e_entry;
@@ -194,7 +194,7 @@ void context_uload(PCB *pcb, const char *filename, char *const argv[], char *con
   area.end = (void *)(pcb->stack + STACK_SIZE);
   pcb->cp = ucontext(&pcb->as, area, (void *)entry);
   pcb->cp->GPRx = (uintptr_t)addrptr;
-//  pcb->cp->GPRx = (uintptr_t)addrptr - (uintptr_t)now_page_head + (uintptr_t)pcb->as.area.end;
+  pcb->cp->GPRx = (uintptr_t)addrptr - (uintptr_t)now_page_head + (uintptr_t)pcb->as.area.end;
   Log("In uload, entry = %u, pcb->cp->mepc = %u, GPRx = %u", entry, pcb->cp->mepc, pcb->cp->GPRx);
 }
 
