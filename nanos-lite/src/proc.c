@@ -52,7 +52,6 @@ int execve(const char *filename, char *const argv[], char *const envp[]) {
   //if (cnt_proc == 0) cnt_proc = (MAX_NR_PROC - 1);
   //printf("Hit here\n");
   switch_boot_pcb();
-  pcb[0].cp->pdir = NULL;
   printf("I', here\n");
   yield();
   return 0;
