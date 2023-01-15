@@ -122,7 +122,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(11, s->pc));
 #endif
 //  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341), MSTATUS = MSTATUS | (get_mpie(MSTATUS) << 3), MSTATUS = MSTATUS | (1 << 7));
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341), Mstatus.m.val = CSR(0x300), Mstatus.is_inited = true, mstatus_mie = mstatus_mpie, mstatus_mpie = 1, csr[0x300] = Mstatus.m.val, printf("mpie: %d, mie: %d, val: 0x%08x, csr[0x300]: 0x%08x\n", mstatus_mpie, mstatus_mie, Mstatus.m.val, csr[0x300]));
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , I, s->dnpc = CSR(0x341), Mstatus.m.val = CSR(0x300), Mstatus.is_inited = true, mstatus_mie = mstatus_mpie, mstatus_mpie = 1, csr[0x300] = Mstatus.m.val/*, printf("mpie: %d, mie: %d, val: 0x%08x, csr[0x300]: 0x%08x\n", mstatus_mpie, mstatus_mie, Mstatus.m.val, csr[0x300])*/);
  
   INSTPAT("??????? ????? ????? 010 ????? 01000 11", sw     , S, Mw(src1 + imm, 4, src2));
   INSTPAT("??????? ????? ????? 001 ????? 01000 11", sh     , S, Mw(src1 + imm, 2, (src2 & 0xffff)));
