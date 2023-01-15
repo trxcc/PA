@@ -17,7 +17,7 @@ void switch_boot_pcb() {
 int flag = 1;
 
 void hello_fun(void *arg) {
-  Log("Into hello_fun");
+  //Log("Into hello_fun");
   int j = 1;
   //printf("Into hello for %d time", flag++);
   while (1) {
